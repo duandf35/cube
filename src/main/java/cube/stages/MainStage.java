@@ -17,10 +17,9 @@ public class MainStage extends Stage {
     private KeyboardListener keyboardListener;
     private Integer xBoundary, yBoundary;
 
-    public MainStage(Cube cube, KeyboardListener keyboardListener) {
+    public MainStage(KeyboardListener keyboardListener) {
         config = StageConfig.getInstance();
 
-        this.cube = cube;
         this.keyboardListener = keyboardListener;
 
         xBoundary = config.getXBoundary();
@@ -36,7 +35,9 @@ public class MainStage extends Stage {
         // Clear the trail
         super.paint(g);
 
-        cube.paint(g);
+        if (cube != null) {
+            cube.paint(g);
+        }
     }
 
     @Override
@@ -52,6 +53,21 @@ public class MainStage extends Stage {
     @Override
     public Integer getYBoundary() {
         return yBoundary;
+    }
+
+    @Override
+    public Cube getCube() {
+        return cube;
+    }
+
+    @Override
+    public void setCube(Cube cube) {
+        this.cube = cube;
+    }
+
+    @Override
+    public void digestCube(Cube cube) {
+        cube = null;
     }
 
     private void initStage() {

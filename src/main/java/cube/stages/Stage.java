@@ -1,5 +1,7 @@
 package cube.stages;
 
+import cube.models.Cube;
+
 import javax.swing.*;
 
 /**
@@ -18,5 +20,17 @@ public abstract class Stage extends JPanel {
 
     public Integer[] getKeyboardAction() {
         return null;
+    }
+
+    public Cube getCube() {
+        return null;
+    }
+
+    public void setCube(Cube cube) {
+
+    }
+
+    public void digestCube(Cube cube) {
+
     }
 }

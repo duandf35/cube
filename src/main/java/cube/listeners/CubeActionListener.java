@@ -1,6 +1,7 @@
 package cube.listeners;
 
 import cube.models.Cube;
+import cube.services.Factory;
 import cube.stages.Stage;
 
 import java.awt.event.ActionEvent;
@@ -11,12 +12,12 @@ import java.awt.event.ActionListener;
  * @since 10/22/15
  */
 public class CubeActionListener implements ActionListener {
-    private Cube cube;
     private Stage stage;
+    private Factory factory;
 
-    public CubeActionListener(Cube cube, Stage stage) {
-        this.cube = cube;
+    public CubeActionListener(Stage stage, Factory factory) {
         this.stage = stage;
+        this.factory = factory;
     }
 
     /**
@@ -24,6 +25,10 @@ public class CubeActionListener implements ActionListener {
      * @param e the keyboard action
      */
     public void actionPerformed(ActionEvent e) {
+        monitorStage();
+
+        Cube cube = stage.getCube();
+
         Integer x = cube.getX();
         Integer y = cube.getY();
 
@@ -62,6 +67,16 @@ public class CubeActionListener implements ActionListener {
 
         if (y <= 0 && c[1] < 0) {
             c[1] = 0;
+        }
+    }
+
+    /**
+     * Monitor stage, if cube in the stage is digested, add a new one.
+     */
+    private void monitorStage() {
+        if (stage.getCube() == null) {
+            System.out.println("Cube is digested, add new on to stage.");
+            stage.setCube((Cube) factory.build());
         }
     }
 }

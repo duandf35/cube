@@ -5,8 +5,8 @@ import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
 import cube.listeners.CubeActionListener;
 import cube.listeners.KeyboardListener;
-import cube.models.BasicCube;
-import cube.models.Cube;
+import cube.services.CubeFactory;
+import cube.services.Factory;
 import cube.stages.MainStage;
 import cube.stages.Stage;
 
@@ -21,18 +21,17 @@ import java.util.Objects;
 public class App extends JFrame {
     private final FrameConfig config;
 
-    private Cube cube;
     private Stage stage;
+    private Factory factory;
     private CubeActionListener cubeActionListener;
 
-    // Inject services
     public App() {
         config = FrameConfig.getInstance();
 
         try {
             bootstrap();
             initFrame();
-            registerCubes();
+            registerCubeFactory();
             registerStages();
             registerActionListeners();
             activateActionListeners();
@@ -63,24 +62,21 @@ public class App extends JFrame {
         pack();
     }
 
-    private void registerCubes() {
-        cube = new BasicCube(0, 0);
+    private void registerCubeFactory() {
+        factory = new CubeFactory();
     }
 
     private void registerStages() {
-        Objects.requireNonNull(cube, "Cube has not been registered yet !");
-
         KeyboardListener keyboardListener = new KeyboardListener();
-        stage = new MainStage(cube, keyboardListener);
+        stage = new MainStage(keyboardListener);
         add(stage);
     }
 
     private void registerActionListeners() {
-        Objects.requireNonNull(cube, "Cube has not been registered yet !");
         Objects.requireNonNull(stage, "Stage has not been registered yet !");
+        Objects.requireNonNull(factory, "Cube has not been registered yet !");
 
-
-        cubeActionListener = new CubeActionListener(cube, stage);
+        cubeActionListener = new CubeActionListener(stage, factory);
     }
 
     private void activateActionListeners() {
