@@ -3,8 +3,12 @@ package cube.stages;
 import cube.configs.StageConfig;
 import cube.listeners.KeyboardListener;
 import cube.models.Cube;
+import cube.models.Position;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author wenyu
@@ -13,7 +17,16 @@ import java.awt.*;
 public class MainStage extends Stage {
     private final StageConfig config;
 
+    /**
+     * Current active cube which will response keyboard action
+     */
     private Cube cube;
+
+    /**
+     * All digested cubes in the stage
+     */
+    private Map<Position, Cube> cubes;
+
     private KeyboardListener keyboardListener;
     private Integer xBoundary, yBoundary;
 
@@ -24,6 +37,8 @@ public class MainStage extends Stage {
 
         xBoundary = config.getXBoundary();
         yBoundary = config.getYBoundary();
+
+        cubes = new HashMap<>();
 
         addKeyListener(keyboardListener);
         initStage();
@@ -62,12 +77,15 @@ public class MainStage extends Stage {
 
     @Override
     public void setCube(Cube cube) {
+        Objects.requireNonNull(cube, "cube must not be null.");
+
         this.cube = cube;
     }
 
     @Override
-    public void digestCube(Cube cube) {
-        cube = null;
+    public void digestCube() {
+        cube.digest();
+        cubes.put(cube.getPosition(), cube);
     }
 
     private void initStage() {

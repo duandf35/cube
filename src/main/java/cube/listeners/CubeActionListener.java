@@ -25,12 +25,12 @@ public class CubeActionListener implements ActionListener {
      * @param e the keyboard action
      */
     public void actionPerformed(ActionEvent e) {
-        monitorStage();
+        addCubeToStageIfDigested();
 
         Cube cube = stage.getCube();
 
-        Integer x = cube.getX();
-        Integer y = cube.getY();
+        Integer x = cube.getPosition().getX();
+        Integer y = cube.getPosition().getY();
 
         Integer[] newCoords = stage.getKeyboardAction();
         adjustBoundary(x, y, stage.getXBoundary(), stage.getYBoundary(), newCoords);
@@ -38,8 +38,7 @@ public class CubeActionListener implements ActionListener {
         x += newCoords[0];
         y += newCoords[1];
 
-        cube.setX(x);
-        cube.setY(y);
+        cube.setPosition(x, y);
 
         System.out.println("Update coordinate, x = " + x + ", y = " + y);
         stage.repaint();
@@ -73,7 +72,7 @@ public class CubeActionListener implements ActionListener {
     /**
      * Monitor stage, if cube in the stage is digested, add a new one.
      */
-    private void monitorStage() {
+    private void addCubeToStageIfDigested() {
         if (stage.getCube() == null) {
             System.out.println("Cube is digested, add new on to stage.");
             stage.setCube((Cube) factory.build());

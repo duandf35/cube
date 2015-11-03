@@ -12,44 +12,54 @@ import java.awt.geom.Rectangle2D;
 public class BasicCube implements Cube {
     private final CubeConfig config;
 
-    private Integer width, height, x, y;
     private Color color;
+    private Integer width, height;
+    private Boolean digested;
+    private Position position;
 
-    public BasicCube(Integer x, Integer y) {
+    public BasicCube(Position position) {
         config = CubeConfig.getInstance();
 
+        color  = config.getColor();
         width  = config.getWidth();
         height = config.getHeight();
-        color  = config.getColor();
 
-        this.x = x;
-        this.y = y;
+        digested = false;
+        this.position = position;
     }
 
+    @Override
     public Integer getWidth() {
         return width;
     }
 
+    @Override
     public Integer getHeight() {
         return height;
     }
 
-    public Integer getX() {
-        return x;
+    @Override
+    public Position getPosition() {
+        return position;
     }
 
-    public Integer getY() {
-        return y;
+    @Override
+    public void setPosition(Integer x, Integer y) {
+        position.setX(x);
+        position.setY(y);
     }
 
-    public void setX(Integer x) {
-        this.x = x;
+    @Override
+    public Boolean isDigested() {
+        return digested;
     }
 
-    public void setY(Integer y) {
-        this.y = y;
+    @Override
+    public void digest() {
+        digested = true;
     }
 
+    @Override
     public void paint(Graphics g) {
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -57,7 +67,7 @@ public class BasicCube implements Cube {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHints(hints);
 
-        Rectangle2D r2d = new Rectangle2D.Double(x, y, width, height);
+        Rectangle2D r2d = new Rectangle2D.Double(position.getX(), position.getY(), width, height);
 
         g2d.setStroke(new BasicStroke(config.getStrokeWidth()));
         g2d.setColor(color);

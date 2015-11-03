@@ -14,11 +14,14 @@ public interface Cube {
 
     Integer getHeight();
 
-    Integer getX();
+    Position getPosition();
 
-    Integer getY();
+    void setPosition(Integer x, Integer y);
 
-    void setX(Integer x);
+    /**
+     * If cube is digested, it no longer response keyboard action
+     */
+    void digest();
 
-    void setY(Integer y);
+    Boolean isDigested();
 }

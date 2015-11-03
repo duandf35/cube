@@ -74,7 +74,7 @@ public class App extends JFrame {
 
     private void registerActionListeners() {
         Objects.requireNonNull(stage, "Stage has not been registered yet !");
-        Objects.requireNonNull(factory, "Cube has not been registered yet !");
+        Objects.requireNonNull(factory, "Factory has not been registered yet !");
 
         cubeActionListener = new CubeActionListener(stage, factory);
     }
