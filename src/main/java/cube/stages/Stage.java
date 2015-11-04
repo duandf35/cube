@@ -1,8 +1,11 @@
 package cube.stages;
 
-import cube.models.Cube;
+import cube.models.ICube;
+import cube.models.ITetris;
+import cube.models.Position;
 
 import javax.swing.*;
+import java.util.Map;
 
 /**
  * @author wenyu
@@ -27,22 +30,6 @@ public abstract class Stage extends JPanel {
     }
 
     /**
-     * Get horizontal border of the stage.
-     * @return the horizontal border
-     */
-    public Integer getXBorder() {
-        return 0;
-    }
-
-    /**
-     * Get vertical border of the stage.
-     * @return the vertical border
-     */
-    public Integer getYBorder() {
-        return 0;
-    }
-
-    /**
      * Get keyboard action.
      * @return the keyboard action
      */
@@ -51,25 +38,49 @@ public abstract class Stage extends JPanel {
     }
 
     /**
-     * Get cube in the stage.
-     * @return the cube
+     * Get tetris in the stage.
+     * @return the tetris
      */
-    public Cube getCube() {
+    public ITetris getTetris() {
         return null;
     }
 
     /**
-     * Set cube to the stage.
-     * @param cube the cube
+     * Set tetris to the stage.
+     * @param tetris the tetris
      */
-    public void setCube(Cube cube) {
+    public void setTetris(ITetris tetris) {
 
     }
 
     /**
-     * Unset cube in the stage.
+     * Get position-cube map in the stage.
+     * @return the map
      */
-    public void digestCube() {
+    public Map<Position, ICube> getCubes() {
+        return null;
+    }
+
+    /**
+     * Digest current active tetris, convert it into cubes.
+     */
+    public void digestTetris() {
+
+    }
+
+    /**
+     * Judge if next position is movable.
+     * @param  position next position
+     * @return true if next position is movable
+     */
+    public boolean isMovable(Position position) {
+        return false;
+    }
+
+    /**
+     * Refresh stage if tetris are erased.
+     */
+    public void refresh() {
 
     }
 }

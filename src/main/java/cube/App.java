@@ -5,7 +5,7 @@ import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
 import cube.listeners.CubeActionListener;
 import cube.listeners.KeyboardListener;
-import cube.services.CubeFactory;
+import cube.services.TetrisFactory;
 import cube.services.Factory;
 import cube.stages.MainStage;
 import cube.stages.Stage;
@@ -63,7 +63,7 @@ public class App extends JFrame {
     }
 
     private void registerCubeFactory() {
-        factory = new CubeFactory();
+        factory = new TetrisFactory();
     }
 
     private void registerStages() {

@@ -1,11 +1,16 @@
 package cube.listeners;
 
-import cube.models.Cube;
+import cube.models.ICube;
+import cube.models.ITetris;
+import cube.models.Position;
 import cube.services.Factory;
 import cube.stages.Stage;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author wenyu
@@ -21,61 +26,58 @@ public class CubeActionListener implements ActionListener {
     }
 
     /**
-     * Listener to keyboard action and update the coordinate of cube.
+     * Listener to keyboard action and update the coordinate of tetris.
      * @param e the keyboard action
      */
     public void actionPerformed(ActionEvent e) {
-        addCubeToStageIfDigested();
+        if (stage.getTetris() == null) {
+            stage.setTetris((ITetris) factory.build());
+        }
 
-        Cube cube = stage.getCube();
+        Integer[] nextCoords = stage.getKeyboardAction();
 
-        Integer x = cube.getPosition().getX();
-        Integer y = cube.getPosition().getY();
+        ITetris tetris = stage.getTetris();
+        Map<Position, ICube> cubesInStage = stage.getCubes();
 
-        Integer[] newCoords = stage.getKeyboardAction();
-        adjustBoundary(x, y, stage.getXBoundary(), stage.getYBoundary(), newCoords);
+        List<Position> nextPositions = calculateNextPositions(nextCoords, tetris);
 
-        x += newCoords[0];
-        y += newCoords[1];
+        if (isMovable(nextPositions, cubesInStage)) {
+            moveTetris(nextPositions, tetris);
+        }
 
-        cube.setPosition(x, y);
-
-        System.out.println("Update coordinate, x = " + x + ", y = " + y);
         stage.repaint();
     }
 
-    /**
-     * Adjust position updating, reset updating if reach boundary.
-     * @param c the updated coordinate
-     */
-    private void adjustBoundary(Integer x, Integer y, Integer xb, Integer yb, Integer[] c) {
+    private List<Position> calculateNextPositions(Integer[] nextCoords, ITetris tetris) {
+        List<Position> positions = new ArrayList<>(tetris.getPosition());
 
-        if (x >= xb && c[0] >0) {
-            x = xb;
-            c[0] = 0;
+        for(Position p: positions) {
+            p.setX(p.getX() + nextCoords[0]);
+            p.setY(p.getY() + nextCoords[1]);
         }
 
-        if (x <= 0 && c[0] < 0) {
-            c[0] = 0;
-        }
-
-        if (y >= yb && c[1] > 0) {
-            y = yb;
-            c[1] = 0;
-        }
-
-        if (y <= 0 && c[1] < 0) {
-            c[1] = 0;
-        }
+        return positions;
     }
 
-    /**
-     * Monitor stage, if cube in the stage is digested, add a new one.
-     */
-    private void addCubeToStageIfDigested() {
-        if (stage.getCube() == null) {
-            System.out.println("Cube is digested, add new on to stage.");
-            stage.setCube((Cube) factory.build());
+    private boolean isMovable(List<Position> nextPositions, Map<Position, ICube> cubesInStage) {
+        boolean canMove = true;
+
+        for(Position p: nextPositions) {
+            canMove &= (cubesInStage.get(p) == null);
         }
+
+        return canMove;
+    }
+
+    private void moveTetris(List<Position> nextPositions, ITetris tetris) {
+        tetris.setPosition(nextPositions);
+    }
+
+    private boolean isReachYBoundary() {
+        return false;
+    }
+
+    private boolean isReachXBoundary() {
+        return false;
     }
 }

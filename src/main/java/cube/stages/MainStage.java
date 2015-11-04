@@ -2,13 +2,14 @@ package cube.stages;
 
 import cube.configs.StageConfig;
 import cube.listeners.KeyboardListener;
-import cube.models.Cube;
+import cube.models.ICube;
+import cube.models.ITetris;
 import cube.models.Position;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author wenyu
@@ -18,14 +19,14 @@ public class MainStage extends Stage {
     private final StageConfig config;
 
     /**
-     * Current active cube which will response keyboard action
+     * Current active tetris which will response keyboard action
      */
-    private Cube cube;
+    private ITetris tetris;
 
     /**
-     * All digested cubes in the stage
+     * All digested tetris in the stage
      */
-    private Map<Position, Cube> cubes;
+    private Map<Position, ICube> cubes;
 
     private KeyboardListener keyboardListener;
     private Integer xBoundary, yBoundary;
@@ -50,8 +51,8 @@ public class MainStage extends Stage {
         // Clear the trail
         super.paint(g);
 
-        if (cube != null) {
-            cube.paint(g);
+        if (tetris != null) {
+            tetris.paint(g);
         }
     }
 
@@ -71,21 +72,40 @@ public class MainStage extends Stage {
     }
 
     @Override
-    public Cube getCube() {
-        return cube;
+    public ITetris getTetris() {
+        return tetris;
     }
 
     @Override
-    public void setCube(Cube cube) {
-        Objects.requireNonNull(cube, "cube must not be null.");
-
-        this.cube = cube;
+    public void setTetris(ITetris tetris) {
+        this.tetris = tetris;
     }
 
     @Override
-    public void digestCube() {
-        cube.digest();
-        cubes.put(cube.getPosition(), cube);
+    public Map<Position, ICube> getCubes() {
+        return cubes;
+    }
+
+    @Override
+    public void digestTetris() {
+        tetris.digest();
+
+        Map<Position, ICube> cubesInTetris = tetris.getTetris();
+        Set<Position> positions = cubesInTetris.keySet();
+
+        for(Position p: positions) {
+            cubes.put(p, cubesInTetris.get(p));
+        }
+    }
+
+    @Override
+    public boolean isMovable(Position position) {
+        return false;
+    }
+
+    @Override
+    public void refresh() {
+
     }
 
     private void initStage() {
