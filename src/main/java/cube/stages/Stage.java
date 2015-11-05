@@ -69,15 +69,6 @@ public abstract class Stage extends JPanel {
     }
 
     /**
-     * Judge if next position is movable.
-     * @param  position next position
-     * @return true if next position is movable
-     */
-    public boolean isMovable(Position position) {
-        return false;
-    }
-
-    /**
      * Refresh stage if tetris are erased.
      */
     public void refresh() {

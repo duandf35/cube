@@ -9,7 +9,6 @@ import cube.models.Position;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author wenyu
@@ -90,17 +89,9 @@ public class MainStage extends Stage {
     public void digestTetris() {
         tetris.digest();
 
-        Map<Position, ICube> cubesInTetris = tetris.getTetris();
-        Set<Position> positions = cubesInTetris.keySet();
-
-        for(Position p: positions) {
-            cubes.put(p, cubesInTetris.get(p));
+        for(ICube c: tetris.getCubes()) {
+            cubes.put(c.getPosition(), c);
         }
-    }
-
-    @Override
-    public boolean isMovable(Position position) {
-        return false;
     }
 
     @Override

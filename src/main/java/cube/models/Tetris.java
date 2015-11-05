@@ -2,9 +2,10 @@ package cube.models;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author wenyu
@@ -13,44 +14,26 @@ import java.util.Map;
 public class Tetris implements ITetris {
     private boolean digested;
     private List<ICube> cubes;
-    private Map<Position, ICube> tetris;
 
     public Tetris(List<Position> positions) {
         digested = false;
         cubes = new ArrayList<>();
-        tetris = new HashMap<>();
 
-        for(Position p: positions) {
+        for (Position p: positions) {
             ICube cube = new Cube(p);
 
             cubes.add(cube);
-            tetris.put(p, cube);
         }
     }
 
     @Override
-    public Map<Position, ICube> getTetris() {
-        return tetris;
+    public List<ICube> getCubes() {
+        return cubes;
     }
 
     @Override
-    public List<Position> getPosition() {
-        return null;
-    }
-
-    @Override
-    public void setPosition(List<Position> positions) {
-
-    }
-
-    @Override
-    public void rotate() {
-
-    }
-
-    @Override
-    public void erase(Position position) {
-
+    public List<Position> getPositions() {
+        return cubes.stream().map(ICube::getPosition).collect(Collectors.toList());
     }
 
     @Override
@@ -64,9 +47,26 @@ public class Tetris implements ITetris {
     }
 
     @Override
+    public void erase(Position position) {
+
+    }
+
+    @Override
+    public void rotate() {
+
+    }
+
+    @Override
+    public void move(Integer[] d) {
+        for (ICube c: cubes) {
+            c.move(d);
+        }
+    }
+
+    @Override
     public void paint(Graphics g) {
-        for(ICube cube: cubes) {
-            cube.paint(g);
+        for (ICube c: cubes) {
+            c.paint(g);
         }
     }
 }

@@ -42,9 +42,20 @@ public class Cube implements ICube {
     }
 
     @Override
+    public void setPosition(Position position) {
+        setPosition(position.getX(), position.getY());
+    }
+
+    @Override
     public void setPosition(Integer x, Integer y) {
         position.setX(x);
         position.setY(y);
+    }
+
+    @Override
+    public void move(Integer[] d) {
+        position.moveX(d[0]);
+        position.moveY(d[1]);
     }
 
     @Override

@@ -24,12 +24,12 @@ public class KeyboardListener extends KeyAdapter {
     }
 
     public Integer[] getKeyboardAction() {
-        Integer[] newCoords = new Integer[2];
+        Integer[] d = new Integer[2];
 
-        newCoords[0] = dx;
-        newCoords[1] = dy;
+        d[0] = dx;
+        d[1] = dy;
 
-        return newCoords;
+        return d;
     }
 
     @Override

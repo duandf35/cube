@@ -1,7 +1,6 @@
 package cube.models;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
 
 /**
@@ -10,19 +9,19 @@ import java.util.List;
  */
 public interface ITetris {
 
-    Map<Position, ICube> getTetris();
+    List<ICube> getCubes();
 
-    List<Position> getPosition();
-
-    void setPosition(List<Position> nextPositions);
-
-    void rotate();
-
-    void erase(Position position);
+    List<Position> getPositions();
 
     void digest();
 
     boolean isDigested();
+
+    void erase(Position position);
+
+    void rotate();
+
+    void move(Integer[] d);
 
     void paint(Graphics g);
 }

@@ -3,7 +3,7 @@ package cube;
 import cube.configs.ConfigLoader;
 import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
-import cube.listeners.CubeActionListener;
+import cube.listeners.TetrisActionListener;
 import cube.listeners.KeyboardListener;
 import cube.services.TetrisFactory;
 import cube.services.Factory;
@@ -23,7 +23,7 @@ public class App extends JFrame {
 
     private Stage stage;
     private Factory factory;
-    private CubeActionListener cubeActionListener;
+    private TetrisActionListener tetrisActionListener;
 
     public App() {
         config = FrameConfig.getInstance();
@@ -76,11 +76,11 @@ public class App extends JFrame {
         Objects.requireNonNull(stage, "Stage has not been registered yet !");
         Objects.requireNonNull(factory, "Factory has not been registered yet !");
 
-        cubeActionListener = new CubeActionListener(stage, factory);
+        tetrisActionListener = new TetrisActionListener(stage, factory);
     }
 
     private void activateActionListeners() {
-        new Timer(config.getDelay(), cubeActionListener).start();
+        new Timer(config.getDelay(), tetrisActionListener).start();
     }
 
     public static void main(String[] args) {

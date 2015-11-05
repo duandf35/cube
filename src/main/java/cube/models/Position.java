@@ -9,6 +9,11 @@ import org.codehaus.groovy.util.HashCodeHelper;
 public class Position {
     private Integer x, y;
 
+    public Position(Position position) {
+        x = position.getX();
+        y = position.getY();
+    }
+
     public Position(Integer x, Integer y) {
         this.x = x;
         this.y = y;
@@ -20,6 +25,14 @@ public class Position {
 
     public void setY(Integer y) {
         this.y = y;
+    }
+
+    public void moveX(Integer dx) {
+        x = x + dx;
+    }
+
+    public void moveY(Integer dy) {
+        y = y + dy;
     }
 
     public Integer getX() {
