@@ -5,9 +5,10 @@ import cube.models.Cube;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Position;
+import cube.models.Rotator;
 import cube.models.Tetris;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,25 +24,37 @@ public class TetrisFactory implements Factory<ITetris> {
 
     @Override
     public ITetris build() {
-        return new Tetris(build01());
+        return buildS();
     }
 
-    private List<Position> build01() {
-        List<Position> positions = new LinkedList<>();
+    private Tetris buildS() {
+        List<ICube> cubes = new ArrayList<>(4);
+        List<ICube> center = new ArrayList<>(1);
+        List<ICube> rim = new ArrayList<>(3);
 
-        positions.add(new Position(config.getWidth(), 0));
-        positions.add(new Position(0, config.getHeight()));
-        positions.add(new Position(config.getWidth(), config.getWidth()));
-        positions.add(new Position(0, 2 * config.getHeight()));
+        ICube cube1 = new Cube(new Position(config.getWidth(), 0));
+        ICube cube2 = new Cube(new Position(0, config.getHeight()));
+        ICube cube3 = new Cube(new Position(config.getWidth(), config.getWidth()));
+        ICube cube4 = new Cube(new Position(0, 2 * config.getHeight()));
 
-        return positions;
+        cubes.add(cube1);
+        cubes.add(cube2);
+        cubes.add(cube3);
+        cubes.add(cube4);
+
+        center.add(cube2);
+        rim.add(cube1);
+        rim.add(cube3);
+        rim.add(cube4);
+
+        return new Tetris(cubes, new Rotator(Rotator.DIAMETER_3, rim, center));
     }
 
-//    private List<Position> build02() {
+//    private List<Position> build2() {
 //
 //    }
 //
-//    private List<Position> build03() {
+//    private List<Position> build3() {
 //
 //    }
 }

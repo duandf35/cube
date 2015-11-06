@@ -19,9 +19,9 @@ public interface ITetris {
 
     void erase(Position position);
 
-    void rotate();
-
     void move(Integer[] d);
+
+    void rotate();
 
     void paint(Graphics g);
 }

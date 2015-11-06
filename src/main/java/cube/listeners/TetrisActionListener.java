@@ -119,10 +119,11 @@ public class TetrisActionListener implements ActionListener {
     }
 
     private void printTetrisPositon(ITetris tetris) {
-        String tetrisPosition = tetris.getPositions()
-                .stream()
-                .map(p -> "x = " + p.getX() + ", y = " + p.getY())
-                .collect(Collectors.joining("\n"));
+        String tetrisPosition =
+                tetris.getPositions()
+                      .stream()
+                      .map(p -> "x = " + p.getX() + ", y = " + p.getY())
+                      .collect(Collectors.joining("\n"));
 
         System.out.println("\nTetris at:\n" + tetrisPosition + "\n");
     }

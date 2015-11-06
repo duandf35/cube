@@ -57,9 +57,11 @@ public class App extends JFrame {
 
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
 
         pack();
+        setVisible(true);
+        // Let JFrame appear in the center of the monitor, must set to null after pack() is called
+        setLocationRelativeTo(null);
     }
 
     private void registerCubeFactory() {
@@ -88,7 +90,7 @@ public class App extends JFrame {
 
             @Override
             public void run() {
-                new App().setVisible(true);
+                new App();
             }
         });
     }
