@@ -6,6 +6,7 @@ import cube.configs.CubeConfig;
 import java.awt.*;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -15,14 +16,12 @@ import java.awt.geom.Rectangle2D;
 public class Cube implements ICube {
     private final CubeConfig config;
 
-    private Color color;
     private Integer width, height;
     private Position position;
 
     public Cube(Position position) {
         config = CubeConfig.getInstance();
 
-        color  = config.getColor();
         width  = config.getWidth();
         height = config.getHeight();
 
@@ -69,11 +68,19 @@ public class Cube implements ICube {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHints(hints);
 
-        Rectangle2D r2d = new Rectangle2D.Double(position.getX(), position.getY(), width, height);
+        Rectangle2D oR2d = new Rectangle2D.Double(position.getX(), position.getY(), width, height);
+        Rectangle2D iR2d = new Rectangle2D.Double(position.getX() + config.getBorder(),
+                                                  position.getY() + config.getBorder(),
+                                                  width  - 2 * config.getBorder(),
+                                                  height - 2 * config.getBorder());
 
         g2d.setStroke(new BasicStroke(config.getStrokeWidth()));
-        g2d.setColor(color);
-        g2d.fill(r2d);
-        g2d.draw(r2d);
+        g2d.setColor(config.getColor());
+        g2d.fill(oR2d);
+        g2d.draw(oR2d);
+
+        g2d.setColor(config.getBorderColor());
+        g2d.fill(iR2d);
+        g2d.draw(iR2d);
     }
 }

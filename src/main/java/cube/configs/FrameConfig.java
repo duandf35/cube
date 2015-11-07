@@ -18,7 +18,7 @@ public class FrameConfig implements Config {
     // Default settings
     private static final Integer DEF_W  = 600;
     private static final Integer DEF_H  = 600;
-    private static final Integer DEF_DELAY  = 75;
+    private static final Integer DEF_DELAY  = 100;
     private static final String  DEF_TITLE  = "CUBE MAIN CONSOLE";
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();

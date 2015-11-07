@@ -5,6 +5,8 @@ import cube.configs.CubeConfig;
 import java.util.List;
 
 /**
+ * Provide rotating mechanism.
+ *
  * @author wenyu
  * @since 11/5/15
  */
@@ -24,18 +26,33 @@ public class Rotator {
         this.diameter = diameter;
     }
 
+    /**
+     * Set rim cubes whose position shall be changed during rotating.
+     * @param rim the cubes in the rim
+     */
     public void setRim(List<ICube> rim) {
         this.rim = rim;
     }
 
+    /**
+     * Set center cubes.
+     * @param center the cubes in the center
+     */
     public void setCenter(List<ICube> center) {
         this.center = center;
     }
 
+    /**
+     * Apply rotating action.
+     */
     public void rotate() {
         doRotate(null);
     }
 
+    /**
+     * Apply rotating action begin from the given position.
+     * @param p the start position
+     */
     public void rotate(Position p) {
         if (diameter.equals(DIAMETER_3) && isCenter(p)) {
             doRotate(p);
@@ -59,15 +76,11 @@ public class Rotator {
     }
 
     private void doRotateD3() {
-        for (ICube r: rim) {
-            doRotateD3(r.getPosition());
-        }
+        rim.stream().forEach(r -> doRotateD3(r.getPosition()));
     }
 
     private void doRotateD4() {
-        for (ICube r: rim) {
-            doRotateD4(r.getPosition());
-        }
+
     }
 
     private void doRotateD3(Position rp) {

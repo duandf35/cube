@@ -72,6 +72,15 @@ public class TetrisActionListener implements ActionListener {
         tetris.move(d);
     }
 
+    /**
+     * Adjust position change based on the position to the boundary.
+     *
+     * Can move if tetris is at the boundary but next position is away from it
+     * Can NOT move tetris is at the boundary and next position is approach to it
+     *
+     * @param d      the position change
+     * @param tetris the tetris
+     */
     private void adjustBoundary(Integer[] d, ITetris tetris) {
         boolean reachEBoundary = false,
                 reachWBoundary = false,
@@ -103,13 +112,25 @@ public class TetrisActionListener implements ActionListener {
         }
     }
 
+    /**
+     * Can rotate if center is NOT at the boundary and next position is away from it.
+     * @param d      the will rotate flag
+     * @param tetris the tetris
+     * @return true if can rotate
+     */
     private boolean isRotatable(Integer[] d, ITetris tetris) {
         boolean canRotate = true;
 
         if (d[2] == 1) {
-            for (ICube cube: tetris.getCubes()) {
-                Position nextPosition = tetris.getNextRotatePosition(cube);
-                canRotate &= (isMovable(nextPosition, stage.getCubes()) && !isReachBoundary(nextPosition));
+            for (ICube c: tetris.getCenter()) {
+                canRotate &= !(isReachBoundary(c.getPosition()));
+            }
+
+            if (canRotate) {
+                for (ICube c: tetris.getCubes()) {
+                    Position np = tetris.getNextRotatePosition(c);
+                    canRotate &= isMovable(np, stage.getCubes());
+                }
             }
         } else {
             canRotate = false;
@@ -119,7 +140,12 @@ public class TetrisActionListener implements ActionListener {
     }
 
     private boolean isReachBoundary(Position p) {
-        return (0 >= p.getX() || stage.getXBoundary() <= p.getX() || 0 >= p.getY() || stage.getYBoundary() <= p.getY());
+        return (0 >= p.getX() || stage.getXBoundary() <= p.getX() ||
+                0 >= p.getY() || stage.getYBoundary() <= p.getY());
+    }
+
+    private boolean isReachButton(Position p) {
+        return false;
     }
 
     private void rotateTetris(ITetris tetris) {

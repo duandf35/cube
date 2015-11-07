@@ -1,4 +1,4 @@
-package cube.models;
+ package cube.models;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,13 +11,15 @@ import java.util.stream.Collectors;
  */
 public class Tetris implements ITetris {
     private boolean digested;
-    private List<ICube> cubes;
+    private List<ICube> cubes, rim, center;
     private Rotator rotator;
 
     public Tetris(List<ICube> rim, List<ICube> center, Rotator rotator) {
         digested = false;
 
         this.rotator = rotator;
+        this.rim = rim;
+        this.center = center;
 
         cubes = new ArrayList<>();
         cubes.addAll(rim);
@@ -30,6 +32,16 @@ public class Tetris implements ITetris {
     @Override
     public List<ICube> getCubes() {
         return cubes;
+    }
+
+    @Override
+    public List<ICube> getRim() {
+        return rim;
+    }
+
+    @Override
+    public List<ICube> getCenter() {
+        return center;
     }
 
     @Override
@@ -54,9 +66,7 @@ public class Tetris implements ITetris {
 
     @Override
     public void move(Integer[] d) {
-        for (ICube c: cubes) {
-            c.move(d);
-        }
+        cubes.stream().forEach(c -> c.move(d));
     }
 
     @Override
@@ -84,8 +94,6 @@ public class Tetris implements ITetris {
 
     @Override
     public void paint(Graphics g) {
-        for (ICube c: cubes) {
-            c.paint(g);
-        }
+        cubes.stream().forEach(c -> c.paint(g));
     }
 }
