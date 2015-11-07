@@ -10,7 +10,7 @@ import java.util.List;
  * @author wenyu
  * @since 11/5/15
  */
-public class Rotator {
+public class Rotator implements Rotatable {
     public static final Integer DIAMETER_3 = 3;
     public static final Integer DIAMETER_4 = 4;
 
@@ -26,33 +26,22 @@ public class Rotator {
         this.diameter = diameter;
     }
 
-    /**
-     * Set rim cubes whose position shall be changed during rotating.
-     * @param rim the cubes in the rim
-     */
+    @Override
     public void setRim(List<ICube> rim) {
         this.rim = rim;
     }
 
-    /**
-     * Set center cubes.
-     * @param center the cubes in the center
-     */
+    @Override
     public void setCenter(List<ICube> center) {
         this.center = center;
     }
 
-    /**
-     * Apply rotating action.
-     */
+    @Override
     public void rotate() {
         doRotate(null);
     }
 
-    /**
-     * Apply rotating action begin from the given position.
-     * @param p the start position
-     */
+    @Override
     public void rotate(Position p) {
         if (diameter.equals(DIAMETER_3) && isCenter(p)) {
             doRotate(p);

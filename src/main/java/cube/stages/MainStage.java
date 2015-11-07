@@ -4,6 +4,7 @@ import cube.configs.StageConfig;
 import cube.listeners.KeyboardListener;
 import cube.models.ICube;
 import cube.models.ITetris;
+import cube.models.Monitor;
 import cube.models.Position;
 
 import java.awt.*;
@@ -26,13 +27,15 @@ public class MainStage extends Stage {
      * All digested tetris in the stage
      */
     private Map<Position, ICube> cubes;
+    private Monitor monitor;
 
     private KeyboardListener keyboardListener;
     private Integer xBoundary, yBoundary;
 
-    public MainStage(KeyboardListener keyboardListener) {
+    public MainStage(KeyboardListener keyboardListener, Monitor monitor) {
         config = StageConfig.getInstance();
 
+        this.monitor = monitor;
         this.keyboardListener = keyboardListener;
 
         xBoundary = config.getXBoundary();
@@ -88,10 +91,7 @@ public class MainStage extends Stage {
     @Override
     public void digestTetris() {
         tetris.digest();
-
-        for(ICube c: tetris.getCubes()) {
-            cubes.put(c.getPosition(), c);
-        }
+        tetris.getCubes().stream().forEach(c -> cubes.put(c.getPosition(), c));
     }
 
     @Override

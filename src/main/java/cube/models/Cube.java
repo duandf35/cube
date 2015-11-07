@@ -6,7 +6,6 @@ import cube.configs.CubeConfig;
 import java.awt.*;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -16,6 +15,7 @@ import java.awt.geom.Rectangle2D;
 public class Cube implements ICube {
     private final CubeConfig config;
 
+    private Color color;
     private Integer width, height;
     private Position position;
 
@@ -24,6 +24,7 @@ public class Cube implements ICube {
 
         width  = config.getWidth();
         height = config.getHeight();
+        color = config.getColor();
 
         this.position = position;
     }
@@ -55,6 +56,11 @@ public class Cube implements ICube {
     }
 
     @Override
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    @Override
     public void move(Integer[] d) {
         position.moveX(d[0]);
         position.moveY(d[1]);
@@ -75,7 +81,7 @@ public class Cube implements ICube {
                                                   height - 2 * config.getBorder());
 
         g2d.setStroke(new BasicStroke(config.getStrokeWidth()));
-        g2d.setColor(config.getColor());
+        g2d.setColor(color);
         g2d.fill(oR2d);
         g2d.draw(oR2d);
 

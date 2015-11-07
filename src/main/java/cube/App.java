@@ -4,10 +4,9 @@ import cube.configs.ConfigLoader;
 import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
 import cube.listeners.TetrisActionListener;
-import cube.listeners.KeyboardListener;
+import cube.services.StageFactory;
 import cube.services.TetrisFactory;
 import cube.services.Factory;
-import cube.stages.MainStage;
 import cube.stages.Stage;
 
 import javax.swing.*;
@@ -22,7 +21,7 @@ public class App extends JFrame {
     private final FrameConfig config;
 
     private Stage stage;
-    private Factory factory;
+    private Factory tetrisFactory, stageFactory;
     private TetrisActionListener tetrisActionListener;
 
     public App() {
@@ -31,7 +30,7 @@ public class App extends JFrame {
         try {
             bootstrap();
             initFrame();
-            registerCubeFactory();
+            registerFactories();
             registerStages();
             registerActionListeners();
             activateActionListeners();
@@ -64,34 +63,30 @@ public class App extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void registerCubeFactory() {
-        factory = new TetrisFactory();
+    private void registerFactories() {
+        tetrisFactory = new TetrisFactory();
+        stageFactory = new StageFactory();
     }
 
     private void registerStages() {
-        KeyboardListener keyboardListener = new KeyboardListener();
-        stage = new MainStage(keyboardListener);
+        Objects.requireNonNull(stageFactory, "stageFactory has not been registered yet !");
+
+        stage = (Stage) stageFactory.build();
         add(stage);
     }
 
     private void registerActionListeners() {
         Objects.requireNonNull(stage, "Stage has not been registered yet !");
-        Objects.requireNonNull(factory, "Factory has not been registered yet !");
+        Objects.requireNonNull(tetrisFactory, "tetrisFactory has not been registered yet !");
 
-        tetrisActionListener = new TetrisActionListener(stage, factory);
+        tetrisActionListener = new TetrisActionListener(stage, tetrisFactory);
     }
 
     private void activateActionListeners() {
         new Timer(config.getDelay(), tetrisActionListener).start();
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                new App();
-            }
-        });
+    public static void main(String... args) {
+        EventQueue.invokeLater(() -> new App());
     }
 }

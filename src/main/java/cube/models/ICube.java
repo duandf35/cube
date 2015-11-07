@@ -18,6 +18,8 @@ public interface ICube {
 
     void setPosition(Integer x, Integer y);
 
+    void setColor(Color color);
+
     void move(Integer[] d);
 
     void paint(Graphics g);

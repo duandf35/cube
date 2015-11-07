@@ -2,6 +2,7 @@ package cube.stages;
 
 import cube.models.ICube;
 import cube.models.ITetris;
+import cube.models.Monitor;
 import cube.models.Position;
 
 import javax.swing.*;
@@ -69,7 +70,7 @@ public abstract class Stage extends JPanel {
     }
 
     /**
-     * Refresh stage if tetris are erased.
+     * Refresh stage after erasing happened.
      */
     public void refresh() {
 
