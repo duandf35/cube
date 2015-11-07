@@ -36,6 +36,10 @@ public class TetrisActionListener implements ActionListener {
         Integer[] d = stage.getKeyboardAction();
         ITetris tetris = stage.getTetris();
 
+        if (isRotatable(d, tetris)) {
+            rotateTetris(tetris);
+        }
+
         if (isMovable(d, tetris)) {
             adjustBoundary(d, tetris);
             moveTetris(d, tetris);
@@ -45,26 +49,15 @@ public class TetrisActionListener implements ActionListener {
         stage.repaint();
     }
 
-    private Position calculateNextPositions(Integer[] d, ICube cube) {
-        Position p = new Position(cube.getPosition());
-
-        p.moveX(d[0]);
-        p.moveX(d[1]);
-
-        return p;
-    }
-
     private boolean isMovable(Integer[] d, ITetris tetris) {
         boolean canMove = true;
 
         if (d[0] == 0 && d[1] == 0) {
             canMove = false;
         } else {
-            Map<Position, ICube> cubesInStage = stage.getCubes();
-
             for (ICube cube: tetris.getCubes()) {
-                Position nextPosition = calculateNextPositions(d, cube);
-                canMove &= isMovable(nextPosition, cubesInStage);
+                Position nextPosition = tetris.getNextMovePosition(d, cube);
+                canMove &= isMovable(nextPosition, stage.getCubes());
             }
         }
 
@@ -77,14 +70,6 @@ public class TetrisActionListener implements ActionListener {
 
     private void moveTetris(Integer[] d, ITetris tetris) {
         tetris.move(d);
-    }
-
-    private boolean isRotatable(ITetris tetris) {
-        return false;
-    }
-
-    private void rotateTetris() {
-
     }
 
     private void adjustBoundary(Integer[] d, ITetris tetris) {
@@ -116,6 +101,29 @@ public class TetrisActionListener implements ActionListener {
         if (reachSBoundary && d[1] > 0) {
             d[1] = 0;
         }
+    }
+
+    private boolean isRotatable(Integer[] d, ITetris tetris) {
+        boolean canRotate = true;
+
+        if (d[2] == 1) {
+            for (ICube cube: tetris.getCubes()) {
+                Position nextPosition = tetris.getNextRotatePosition(cube);
+                canRotate &= (isMovable(nextPosition, stage.getCubes()) && !isReachBoundary(nextPosition));
+            }
+        } else {
+            canRotate = false;
+        }
+
+        return canRotate;
+    }
+
+    private boolean isReachBoundary(Position p) {
+        return (0 >= p.getX() || stage.getXBoundary() <= p.getX() || 0 >= p.getY() || stage.getYBoundary() <= p.getY());
+    }
+
+    private void rotateTetris(ITetris tetris) {
+        tetris.rotate();
     }
 
     private void printTetrisPositon(ITetris tetris) {

@@ -1,6 +1,7 @@
 package cube.models;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,10 +14,17 @@ public class Tetris implements ITetris {
     private List<ICube> cubes;
     private Rotator rotator;
 
-    public Tetris(List<ICube> cubes, Rotator rotator) {
+    public Tetris(List<ICube> rim, List<ICube> center, Rotator rotator) {
         digested = false;
-        this.cubes = cubes;
+
         this.rotator = rotator;
+
+        cubes = new ArrayList<>();
+        cubes.addAll(rim);
+        cubes.addAll(center);
+
+        rotator.setRim(rim);
+        rotator.setCenter(center);
     }
 
     @Override
@@ -54,6 +62,24 @@ public class Tetris implements ITetris {
     @Override
     public void rotate() {
         rotator.rotate();
+    }
+
+    @Override
+    public Position getNextMovePosition(Integer[] d, ICube cube) {
+        Position p = new Position(cube.getPosition());
+
+        p.moveX(d[0]);
+        p.moveX(d[1]);
+
+        return p;
+    }
+
+    @Override
+    public Position getNextRotatePosition(ICube cube) {
+        Position p = new Position(cube.getPosition());
+        rotator.rotate(p);
+
+        return p;
     }
 
     @Override

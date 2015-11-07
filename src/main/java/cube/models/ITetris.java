@@ -23,5 +23,9 @@ public interface ITetris {
 
     void rotate();
 
+    Position getNextMovePosition(Integer[] d, ICube cube);
+
+    Position getNextRotatePosition(ICube cube);
+
     void paint(Graphics g);
 }

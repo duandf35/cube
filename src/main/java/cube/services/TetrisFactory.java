@@ -28,7 +28,6 @@ public class TetrisFactory implements Factory<ITetris> {
     }
 
     private Tetris buildS() {
-        List<ICube> cubes = new ArrayList<>(4);
         List<ICube> center = new ArrayList<>(1);
         List<ICube> rim = new ArrayList<>(3);
 
@@ -37,17 +36,12 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube cube3 = new Cube(new Position(config.getWidth(), config.getWidth()));
         ICube cube4 = new Cube(new Position(0, 2 * config.getHeight()));
 
-        cubes.add(cube1);
-        cubes.add(cube2);
-        cubes.add(cube3);
-        cubes.add(cube4);
-
-        center.add(cube2);
+        center.add(cube3);
         rim.add(cube1);
-        rim.add(cube3);
+        rim.add(cube2);
         rim.add(cube4);
 
-        return new Tetris(cubes, new Rotator(Rotator.DIAMETER_3, rim, center));
+        return new Tetris(rim, center, new Rotator(Rotator.DIAMETER_3));
     }
 
 //    private List<Position> build2() {

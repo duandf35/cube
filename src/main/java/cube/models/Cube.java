@@ -1,8 +1,11 @@
 package cube.models;
 
+import com.sun.prism.*;
 import cube.configs.CubeConfig;
 
 import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 
 /**

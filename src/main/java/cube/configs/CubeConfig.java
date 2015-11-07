@@ -20,7 +20,7 @@ public class CubeConfig implements Config {
     private static final Integer DEF_W  = 40;
     private static final Integer DEF_H  = 40;
     private static final Color   DEF_COLOR = new Color(230, 154, 221);
-    private static final Float   DEF_STROKE = 1f;
+    private static final Float   DEF_STROKE = 3f;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();
 
