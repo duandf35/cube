@@ -1,10 +1,14 @@
 package cube.listeners;
 
+import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Position;
 import cube.services.Factory;
 import cube.stages.Stage;
+
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +20,9 @@ import java.util.stream.Collectors;
  * @since 10/22/15
  */
 public class TetrisActionListener implements ActionListener {
+    private static final Logger A_LOG = LogManager.getLogger("ActionLogger");
+    private static final Logger P_LOG = LogManager.getLogger("PositionLogger");
+
     private Stage stage;
     private Factory factory;
 
@@ -33,14 +40,17 @@ public class TetrisActionListener implements ActionListener {
             stage.setTetris((ITetris) factory.build());
         }
 
-        Integer[] d = stage.getKeyboardAction();
+        Command command = stage.getKeyboardAction();
+        Integer[] d = command.getPositionChange();
         ITetris tetris = stage.getTetris();
 
-        if (isRotatable(d, tetris)) {
+        if (isRotatable(command.getDoRotateFlag(), tetris)) {
+            A_LOG.debug("Attempt to rotate.\n");
             rotateTetris(tetris);
         }
 
         if (isMovable(d, tetris)) {
+            A_LOG.debug("Attempt to move.\n");
             adjustBoundary(d, tetris);
             moveTetris(d, tetris);
         }
@@ -114,14 +124,14 @@ public class TetrisActionListener implements ActionListener {
 
     /**
      * Can rotate if center is NOT at the boundary and next position is away from it.
-     * @param d      the will rotate flag
+     * @param dr     the will rotate flag
      * @param tetris the tetris
      * @return true if can rotate
      */
-    private boolean isRotatable(Integer[] d, ITetris tetris) {
+    private boolean isRotatable(Integer dr, ITetris tetris) {
         boolean canRotate = true;
 
-        if (d[2] == 1) {
+        if (Command.DO_ROTATE.equals(dr)) {
             for (ICube c: tetris.getCenter()) {
                 canRotate &= !(isReachBoundary(c.getPosition()));
             }
@@ -159,6 +169,6 @@ public class TetrisActionListener implements ActionListener {
                       .map(p -> "x = " + p.getX() + ", y = " + p.getY())
                       .collect(Collectors.joining("\n"));
 
-        System.out.println("\nTetris at:\n" + tetrisPosition + "\n");
+        P_LOG.debug("\nTetris at:\n" + tetrisPosition + "\n");
     }
 }

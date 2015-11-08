@@ -1,6 +1,8 @@
 package cube.listeners;
 
 import cube.configs.ListenerConfig;
+import cube.models.Command;
+import cube.models.TetrisCommand;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -24,14 +26,10 @@ public class KeyboardListener extends KeyAdapter {
         dyu = config.getUpdateY();
     }
 
-    public Integer[] getKeyboardAction() {
-        Integer[] d = new Integer[3];
+    public Command getKeyboardAction() {
+        Integer[] d = { dx, dy };
 
-        d[0] = dx;
-        d[1] = dy;
-        d[2] = dr;
-
-        return d;
+        return new TetrisCommand(d, dr);
     }
 
     @Override

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug" strict="true" name="XMLConfigTest">
+    <Properties>
+        <Property name="trace_action_file">./tmp/logs/cube_action.log</Property>
+        <Property name="trace_position_file">./tmp/logs/cube_position.log</Property>
+    </Properties>
+
+    <Appenders>
+        <Appender type="Console" name="STDOUT">
+            <!-- class and line number -->
+            <Layout type="PatternLayout" pattern="%C{1}.%M %m %ex%n"/>
+        </Appender>
+        <Appender type="File" name="TraceAction" fileName="${trace_action_file}">
+            <Layout type="PatternLayout" pattern="%d %p %C{1.} [%t] %m%n"/>
+        </Appender>
+        <Appender type="File" name="TracePosition" fileName="${trace_position_file}">
+            <Layout type="PatternLayout" pattern="%d %p %C{1.} [%t] %m%n"/>
+        </Appender>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="ActionLogger" level="debug" additivity="false">
+            <AppenderRef ref="TraceAction"/>
+        </Logger>
+        <Logger name="PositionLogger" level="debug" additivity="false">
+            <AppenderRef ref="TracePosition"/>
+        </Logger>
+
+        <Root level="trace">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

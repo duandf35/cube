@@ -2,6 +2,7 @@ package cube.stages;
 
 import cube.configs.StageConfig;
 import cube.listeners.KeyboardListener;
+import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Monitor;
@@ -59,7 +60,7 @@ public class MainStage extends Stage {
     }
 
     @Override
-    public Integer[] getKeyboardAction() {
+    public Command getKeyboardAction() {
         return keyboardListener.getKeyboardAction();
     }
 

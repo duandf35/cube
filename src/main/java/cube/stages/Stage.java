@@ -1,8 +1,8 @@
 package cube.stages;
 
+import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
-import cube.models.Monitor;
 import cube.models.Position;
 
 import javax.swing.*;
@@ -34,7 +34,7 @@ public abstract class Stage extends JPanel {
      * Get keyboard action.
      * @return the keyboard action
      */
-    public Integer[] getKeyboardAction() {
+    public Command getKeyboardAction() {
         return null;
     }
 

@@ -38,6 +38,7 @@ public class FrameConfig implements Config {
         return CONF;
     }
 
+    @Override
     public void load(Map<String, Object> override) {
         if (override.get(WIDTH) instanceof Integer) {
             CONF_MAP.replace(WIDTH, override.get(WIDTH));

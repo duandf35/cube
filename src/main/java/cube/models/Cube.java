@@ -1,6 +1,5 @@
 package cube.models;
 
-import com.sun.prism.*;
 import cube.configs.CubeConfig;
 
 import java.awt.*;

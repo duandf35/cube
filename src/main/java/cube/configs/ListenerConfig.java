@@ -29,6 +29,7 @@ public class ListenerConfig implements Config {
         return CONF;
     }
 
+    @Override
     public void load(Map<String, Object> override) {
         if (override.get(X_UPDATE) instanceof Integer) {
             CONF_MAP.replace(X_UPDATE, override.get(X_UPDATE));
