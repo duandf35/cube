@@ -36,6 +36,7 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube cube3 = new Cube(new Position(config.getWidth(), config.getWidth()));
         ICube cube4 = new Cube(new Position(0, 2 * config.getHeight()));
 
+        cube3.setColor(config.getCenterColor());
         center.add(cube3);
         rim.add(cube1);
         rim.add(cube2);

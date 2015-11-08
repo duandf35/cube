@@ -5,6 +5,8 @@ package cube.models;
  * @since 11/7/15
  */
 public class TetrisCommand implements Command {
+    private static final Integer DO_ROTATE = 1;
+
     private Integer[] d;
     private Integer r;
 
@@ -14,12 +16,12 @@ public class TetrisCommand implements Command {
     }
 
     @Override
-    public Integer[] getPositionChange() {
+    public Integer[] doMove() {
         return d;
     }
 
     @Override
-    public Integer getDoRotateFlag() {
-        return r;
+    public boolean doRotate() {
+        return (DO_ROTATE.equals(r));
     }
 }

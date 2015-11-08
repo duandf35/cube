@@ -16,6 +16,7 @@ public class CubeConfig implements Config {
     private static final String BORDER = "BORDER";
     private static final String COLOR  = "COLOR";
     private static final String COLOR_BORDER  = "COLOR_BORDER";
+    private static final String COLOR_CENTER  = "COLOR_CENTER";
     private static final String STROKE_WIDTH = "STROKE_WIDTH";
 
     // Default settings
@@ -24,6 +25,7 @@ public class CubeConfig implements Config {
     private static final Integer DEF_B  = 5;
     private static final Color   DEF_COLOR = new Color(230, 154, 221);
     private static final Color   DEF_COLOR_B = new Color(7, 6, 8);
+    private static final Color   DEF_COLOR_C = new Color(233, 216, 90);
     private static final Float   DEF_STROKE = 3f;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();
@@ -40,6 +42,7 @@ public class CubeConfig implements Config {
         CONF_MAP.put(BORDER, DEF_B);
         CONF_MAP.put(COLOR, DEF_COLOR);
         CONF_MAP.put(COLOR_BORDER, DEF_COLOR_B);
+        CONF_MAP.put(COLOR_CENTER, DEF_COLOR_C);
         CONF_MAP.put(STROKE_WIDTH, DEF_STROKE);
 
         return CONF;
@@ -67,6 +70,10 @@ public class CubeConfig implements Config {
             CONF_MAP.replace(COLOR_BORDER, override.get(COLOR_BORDER));
         }
 
+        if (override.get(COLOR_CENTER) instanceof Color) {
+            CONF_MAP.replace(COLOR_CENTER, override.get(COLOR_CENTER));
+        }
+
         if (override.get(STROKE_WIDTH) instanceof Float) {
             CONF_MAP.replace(STROKE_WIDTH, override.get(STROKE_WIDTH));
         }
@@ -90,6 +97,10 @@ public class CubeConfig implements Config {
 
     public Color getBorderColor() {
         return (Color) CONF_MAP.get(COLOR_BORDER);
+    }
+
+    public Color getCenterColor() {
+        return (Color) CONF_MAP.get(COLOR_CENTER);
     }
 
     public Float getStrokeWidth() {

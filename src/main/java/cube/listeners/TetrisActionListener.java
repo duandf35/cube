@@ -41,26 +41,26 @@ public class TetrisActionListener implements ActionListener {
         }
 
         Command command = stage.getKeyboardAction();
-        Integer[] d = command.getPositionChange();
         ITetris tetris = stage.getTetris();
 
-        if (isRotatable(command.getDoRotateFlag(), tetris)) {
+        if (isRotatable(command, tetris)) {
             A_LOG.debug("Attempt to rotate.\n");
             rotateTetris(tetris);
         }
 
-        if (isMovable(d, tetris)) {
+        if (isMovable(command, tetris)) {
             A_LOG.debug("Attempt to move.\n");
-            adjustBoundary(d, tetris);
-            moveTetris(d, tetris);
+            adjustBoundary(command, tetris);
+            moveTetris(command, tetris);
         }
 
         printTetrisPositon(tetris);
         stage.repaint();
     }
 
-    private boolean isMovable(Integer[] d, ITetris tetris) {
+    private boolean isMovable(Command command, ITetris tetris) {
         boolean canMove = true;
+        Integer[] d = command.doMove();
 
         if (d[0] == 0 && d[1] == 0) {
             canMove = false;
@@ -78,7 +78,8 @@ public class TetrisActionListener implements ActionListener {
         return (cubesInStage.get(nextPosition) == null);
     }
 
-    private void moveTetris(Integer[] d, ITetris tetris) {
+    private void moveTetris(Command command, ITetris tetris) {
+        Integer[] d = command.doMove();
         tetris.move(d);
     }
 
@@ -88,15 +89,16 @@ public class TetrisActionListener implements ActionListener {
      * Can move if tetris is at the boundary but next position is away from it
      * Can NOT move tetris is at the boundary and next position is approach to it
      *
-     * @param d      the position change
-     * @param tetris the tetris
+     * @param command the command
+     * @param tetris  the tetris
      */
-    private void adjustBoundary(Integer[] d, ITetris tetris) {
+    private void adjustBoundary(Command command, ITetris tetris) {
         boolean reachEBoundary = false,
                 reachWBoundary = false,
                 reachNBoundary = false,
                 reachSBoundary = false;
 
+        Integer[] d = command.doMove();
         for (ICube cube: tetris.getCubes()) {
             Position p = cube.getPosition();
             reachWBoundary |= (p.getX() <= 0);
@@ -124,14 +126,14 @@ public class TetrisActionListener implements ActionListener {
 
     /**
      * Can rotate if center is NOT at the boundary and next position is away from it.
-     * @param dr     the will rotate flag
-     * @param tetris the tetris
+     * @param command the command
+     * @param tetris  the tetris
      * @return true if can rotate
      */
-    private boolean isRotatable(Integer dr, ITetris tetris) {
+    private boolean isRotatable(Command command, ITetris tetris) {
         boolean canRotate = true;
 
-        if (Command.DO_ROTATE.equals(dr)) {
+        if (command.doRotate()) {
             for (ICube c: tetris.getCenter()) {
                 canRotate &= !(isReachBoundary(c.getPosition()));
             }
