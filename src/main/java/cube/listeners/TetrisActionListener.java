@@ -44,17 +44,18 @@ public class TetrisActionListener implements ActionListener {
         ITetris tetris = stage.getTetris();
 
         if (isRotatable(command, tetris)) {
-            A_LOG.debug("Attempt to rotate.\n");
+            P_LOG.debug("[ROTATING] [FROM] {}", tetris.toString());
             rotateTetris(tetris);
+            P_LOG.debug("[ROTATING] [TO] {}\n", tetris.toString());
         }
 
         if (isMovable(command, tetris)) {
-            A_LOG.debug("Attempt to move.\n");
+            P_LOG.debug("[MOVING] [FROM] {}", tetris.toString());
             adjustBoundary(command, tetris);
             moveTetris(command, tetris);
+            P_LOG.debug("[MOVING] [TO] {}\n", tetris.toString());
         }
 
-        printTetrisPositon(tetris);
         stage.repaint();
     }
 
@@ -162,15 +163,5 @@ public class TetrisActionListener implements ActionListener {
 
     private void rotateTetris(ITetris tetris) {
         tetris.rotate();
-    }
-
-    private void printTetrisPositon(ITetris tetris) {
-        String tetrisPosition =
-                tetris.getPositions()
-                      .stream()
-                      .map(p -> "x = " + p.getX() + ", y = " + p.getY())
-                      .collect(Collectors.joining("\n"));
-
-        P_LOG.debug("\nTetris at:\n" + tetrisPosition + "\n");
     }
 }

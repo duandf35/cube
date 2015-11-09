@@ -1,33 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="debug" strict="true" name="XMLConfigTest">
     <Properties>
-        <Property name="trace_action_file">./tmp/logs/cube_action.log</Property>
-        <Property name="trace_position_file">./tmp/logs/cube_position.log</Property>
+        <Property name="log_path">./tmp/logs</Property>
+        <Property name="trace_action_file">cube_action</Property>
+        <Property name="trace_position_file">cube_position</Property>
+        <!-- TimeBasedTriggeringPolicy require pattern contains date: %d{MM-dd-yyyy}-%i -->
+        <Property name="rolling_prefix">%d{MM-dd-yyyy}-%i</Property>
+        <Property name="rolling_path">./tmp/logs/history</Property>
+        <Property name="output_pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5.5p | %-10.10t | %-20.20C:%-5.5L | %msg%n</Property>
     </Properties>
 
     <Appenders>
         <Appender type="Console" name="STDOUT">
-            <!-- class and line number -->
-            <Layout type="PatternLayout" pattern="%C{1}.%M %m %ex%n"/>
+            <PatternLayout pattern="${output_pattern}" />
         </Appender>
-        <Appender type="File" name="TraceAction" fileName="${trace_action_file}">
-            <Layout type="PatternLayout" pattern="%d %p %C{1.} [%t] %m%n"/>
-        </Appender>
-        <Appender type="File" name="TracePosition" fileName="${trace_position_file}">
-            <Layout type="PatternLayout" pattern="%d %p %C{1.} [%t] %m%n"/>
-        </Appender>
+
+        <RollingFile name="ta_rolling_file"
+                     fileName="${log_path}/${trace_action_file}.log"
+                     filePattern="${rolling_path}/${rolling_prefix}-${trace_action_file}.log.gz">
+            <PatternLayout pattern="${output_pattern}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+        <RollingFile name="tp_rolling_file"
+                     fileName="${log_path}/${trace_position_file}.log"
+                     filePattern="${rolling_path}/${rolling_prefix}-${trace_position_file}.log.gz">
+            <PatternLayout pattern="${output_pattern}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
         <Logger name="ActionLogger" level="debug" additivity="false">
-            <AppenderRef ref="TraceAction"/>
+            <AppenderRef ref="ta_rolling_file"/>
         </Logger>
         <Logger name="PositionLogger" level="debug" additivity="false">
-            <AppenderRef ref="TracePosition"/>
+            <AppenderRef ref="tp_rolling_file"/>
         </Logger>
 
         <Root level="trace">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="STDOUT"/>
         </Root>
     </Loggers>
 </Configuration>

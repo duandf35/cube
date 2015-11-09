@@ -10,6 +10,12 @@ import java.util.List;
 public interface ITetris {
 
     /**
+     * Get UUID of tetris.
+     * @return the UUID string
+     */
+    String getId();
+
+    /**
      * Get composed cubes.
      * @return the cubes
      */

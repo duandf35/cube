@@ -3,6 +3,7 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -10,6 +11,8 @@ import java.util.stream.Collectors;
  * @since 11/3/15
  */
 public class Tetris implements ITetris {
+    private String id = UUID.randomUUID().toString().replace("-", "");
+
     private boolean digested;
     private List<ICube> cubes, rim, center;
     private Rotator rotator;
@@ -27,6 +30,11 @@ public class Tetris implements ITetris {
 
         rotator.setRim(rim);
         rotator.setCenter(center);
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     @Override
@@ -95,5 +103,15 @@ public class Tetris implements ITetris {
     @Override
     public void paint(Graphics g) {
         cubes.stream().forEach(c -> c.paint(g));
+    }
+
+    @Override
+    public String toString() {
+        String info =
+                getPositions().stream()
+                              .map(p -> "x = " + p.getX() + ", y = " + p.getY())
+                              .collect(Collectors.joining("\n"));
+
+        return "Tetris " + getId() + " position:\n" + info;
     }
 }
