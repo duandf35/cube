@@ -1,5 +1,6 @@
 package cube.listeners;
 
+import cube.aop.TracePosition;
 import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
@@ -13,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author wenyu
@@ -44,16 +44,12 @@ public class TetrisActionListener implements ActionListener {
         ITetris tetris = stage.getTetris();
 
         if (isRotatable(command, tetris)) {
-            P_LOG.debug("[ROTATING] [FROM] {}", tetris.toString());
             rotateTetris(tetris);
-            P_LOG.debug("[ROTATING] [TO] {}\n", tetris.toString());
         }
 
         if (isMovable(command, tetris)) {
-            P_LOG.debug("[MOVING] [FROM] {}", tetris.toString());
             adjustBoundary(command, tetris);
             moveTetris(command, tetris);
-            P_LOG.debug("[MOVING] [TO] {}\n", tetris.toString());
         }
 
         stage.repaint();
@@ -79,6 +75,7 @@ public class TetrisActionListener implements ActionListener {
         return (cubesInStage.get(nextPosition) == null);
     }
 
+    @TracePosition(label = "MOVING")
     private void moveTetris(Command command, ITetris tetris) {
         Integer[] d = command.doMove();
         tetris.move(d);
@@ -161,6 +158,7 @@ public class TetrisActionListener implements ActionListener {
         return false;
     }
 
+    @TracePosition(label = "ROTATING")
     private void rotateTetris(ITetris tetris) {
         tetris.rotate();
     }

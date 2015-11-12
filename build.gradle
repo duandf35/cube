@@ -4,7 +4,7 @@ apply plugin: 'application'
 
 mainClassName = 'cube.App'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
 version = '1.0'
 
 repositories {
@@ -16,4 +16,27 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-api:2.4.+'
     compile 'org.apache.logging.log4j:log4j-core:2.4.+'
     testCompile 'junit:junit:4.11'
+}
+
+// gradle-aspectj plugin configs
+buildscript {
+    repositories {
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+    }
+
+    dependencies {
+        classpath "nl.eveoh:gradle-aspectj:1.+"
+    }
+}
+
+project.ext {
+    aspectjVersion = '1.8.+'
+}
+
+apply plugin: 'aspectj'
+
+compileAspect {
+    xlint = 'warning'
 }
