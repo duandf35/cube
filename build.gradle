@@ -18,7 +18,8 @@ dependencies {
     testCompile 'junit:junit:4.11'
 }
 
-// gradle-aspectj plugin configs
+// Gradle Aspectj plugin
+// See also: https://github.com/eveoh/gradle-aspectj
 buildscript {
     repositories {
         maven {

@@ -2,7 +2,8 @@ package cube.models;
 
 import cube.configs.StageConfig;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author wenyu
@@ -10,16 +11,32 @@ import java.util.ArrayList;
  */
 public class StageMonitor implements Monitor {
     private StageConfig config;
-    private ArrayList<ArrayList<Position>> monitor;
+    private Map<Position, ICube> cubes;
 
     public StageMonitor() {
         config = StageConfig.getInstance();
-        monitor = new ArrayList<>(config.getYMonitorSize());
+        cubes = new HashMap<>();
     }
 
     @Override
-    public boolean isErasable() {
-        return false;
+    public Map<Position, ICube> getCubes() {
+        return cubes;
+    }
+
+    @Override
+    public void add(ICube cube) {
+        cubes.put(cube.getPosition(), cube);
+    }
+
+    @Override
+    public void remove(Position position) {
+        ICube cube = cubes.get(position);
+
+        if (null != cube) {
+            cube.dispose();
+            cubes.remove(position);
+            cube = null;
+        }
     }
 
     @Override
@@ -28,12 +45,12 @@ public class StageMonitor implements Monitor {
     }
 
     @Override
-    public void eraseLine() {
+    public void erase(Integer line) {
 
     }
 
     @Override
-    public void moveLine() {
+    public void refresh() {
 
     }
 }

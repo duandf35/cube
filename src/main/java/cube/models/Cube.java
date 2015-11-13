@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
+import java.util.Objects;
 
 /**
  * @author wenyu
@@ -17,6 +18,7 @@ public class Cube implements ICube {
     private Color color;
     private Integer width, height;
     private Position position;
+    private Graphics2D g2d;
 
     public Cube(Position position) {
         config = CubeConfig.getInstance();
@@ -70,7 +72,7 @@ public class Cube implements ICube {
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
-        Graphics2D g2d = (Graphics2D) g;
+        g2d = (Graphics2D) g;
         g2d.setRenderingHints(hints);
 
         Rectangle2D oR2d = new Rectangle2D.Double(position.getX(), position.getY(), width, height);
@@ -87,5 +89,10 @@ public class Cube implements ICube {
         g2d.setColor(config.getBorderColor());
         g2d.fill(iR2d);
         g2d.draw(iR2d);
+    }
+
+    @Override
+    public void dispose() {
+        g2d.dispose();
     }
 }

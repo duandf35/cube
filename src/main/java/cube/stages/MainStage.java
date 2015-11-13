@@ -9,7 +9,6 @@ import cube.models.Monitor;
 import cube.models.Position;
 
 import java.awt.*;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,11 +22,6 @@ public class MainStage extends Stage {
      * Current active tetris which will response keyboard action
      */
     private ITetris tetris;
-
-    /**
-     * All digested tetris in the stage
-     */
-    private Map<Position, ICube> cubes;
     private Monitor monitor;
 
     private KeyboardListener keyboardListener;
@@ -41,8 +35,6 @@ public class MainStage extends Stage {
 
         xBoundary = config.getXBoundary();
         yBoundary = config.getYBoundary();
-
-        cubes = new HashMap<>();
 
         addKeyListener(keyboardListener);
         initStage();
@@ -86,13 +78,15 @@ public class MainStage extends Stage {
 
     @Override
     public Map<Position, ICube> getCubes() {
-        return cubes;
+        return monitor.getCubes();
     }
 
     @Override
     public void digestTetris() {
         tetris.digest();
-        tetris.getCubes().stream().forEach(c -> cubes.put(c.getPosition(), c));
+        tetris.getCubes().stream().forEach(c -> {
+
+        });
     }
 
     @Override
