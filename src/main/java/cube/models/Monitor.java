@@ -21,26 +21,7 @@ public interface Monitor {
     void add(ICube cube);
 
     /**
-     * Remove cube in the position.
-     * @param position the position
-     */
-    void remove(Position position);
-
-    /**
-     * Check if one line can be erased.
-     * @param  line the line
-     * @return true if the line can be erased
-     */
-    boolean isErasable(Integer line);
-
-    /**
-     * Erase cubes of the line.
-     * @param line the line
-     */
-    void erase(Integer line);
-
-    /**
-     * Refresh monitor after erasing.
+     * Check each line and erase cubes if necessary.
      */
     void refresh();
 }

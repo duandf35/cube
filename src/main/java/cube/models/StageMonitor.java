@@ -2,6 +2,7 @@ package cube.models;
 
 import cube.configs.StageConfig;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,10 +13,13 @@ import java.util.Map;
 public class StageMonitor implements Monitor {
     private StageConfig config;
     private Map<Position, ICube> cubes;
+    // Matrix to trace each position
+    private HashMap<Integer, ArrayList<Position>> monitor;
 
     public StageMonitor() {
         config = StageConfig.getInstance();
         cubes = new HashMap<>();
+        monitor = new HashMap<>();
     }
 
     @Override
@@ -29,28 +33,22 @@ public class StageMonitor implements Monitor {
     }
 
     @Override
-    public void remove(Position position) {
+    public void refresh() {
+        monitor.entrySet().stream().forEach(line -> {
+            line.getValue().stream().forEach(p -> remove(p));
+            line.getValue().clear();
+        });
+    }
+
+    private boolean isErasable(Integer line) {
+        return config.getXMonitorSize() == monitor.get(line).size();
+    }
+
+    private void remove(Position position) {
         ICube cube = cubes.get(position);
 
-        if (null != cube) {
-            cube.dispose();
-            cubes.remove(position);
-            cube = null;
-        }
-    }
-
-    @Override
-    public boolean isErasable(Integer line) {
-        return false;
-    }
-
-    @Override
-    public void erase(Integer line) {
-
-    }
-
-    @Override
-    public void refresh() {
-
+        cube.dispose();
+        cubes.remove(position);
+        cube = null;
     }
 }

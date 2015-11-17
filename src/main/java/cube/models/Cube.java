@@ -18,6 +18,8 @@ public class Cube implements ICube {
     private Color color;
     private Integer width, height;
     private Position position;
+
+    // Hold graphic reference for disposing
     private Graphics2D g2d;
 
     public Cube(Position position) {

@@ -8,9 +8,6 @@ import cube.models.Position;
 import cube.services.Factory;
 import cube.stages.Stage;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
@@ -20,11 +17,9 @@ import java.util.Map;
  * @since 10/22/15
  */
 public class TetrisActionListener implements ActionListener {
-    private static final Logger A_LOG = LogManager.getLogger("ActionLogger");
-    private static final Logger P_LOG = LogManager.getLogger("PositionLogger");
-
     private Stage stage;
     private Factory factory;
+    private Thread countDownToDigest;
 
     public TetrisActionListener(Stage stage, Factory factory) {
         this.stage = stage;
@@ -50,6 +45,10 @@ public class TetrisActionListener implements ActionListener {
         if (isMovable(command, tetris)) {
             adjustBoundary(command, tetris);
             moveTetris(command, tetris);
+        }
+
+        if (isReachButton(tetris)) {
+            // TODO: use CountDownLatch
         }
 
         stage.repaint();
@@ -154,8 +153,14 @@ public class TetrisActionListener implements ActionListener {
                 0 >= p.getY() || stage.getYBoundary() <= p.getY());
     }
 
-    private boolean isReachButton(Position p) {
-        return false;
+    private boolean isReachButton(ITetris tetris) {
+        boolean reachButton = false;
+
+        for (Position p : tetris.getPositions()) {
+            reachButton |= stage.getYBoundary() <= p.getY();
+        }
+
+        return reachButton;
     }
 
     @TracePosition(label = "ROTATING")

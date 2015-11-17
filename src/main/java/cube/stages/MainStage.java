@@ -84,14 +84,13 @@ public class MainStage extends Stage {
     @Override
     public void digestTetris() {
         tetris.digest();
-        tetris.getCubes().stream().forEach(c -> {
-
-        });
+        tetris.getCubes().stream().forEach(c -> monitor.add(c));
+        tetris = null;
     }
 
     @Override
     public void refresh() {
-
+        monitor.refresh();
     }
 
     private void initStage() {
