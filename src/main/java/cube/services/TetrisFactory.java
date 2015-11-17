@@ -24,7 +24,7 @@ public class TetrisFactory implements Factory<ITetris> {
 
     @Override
     public ITetris build() {
-        return buildS();
+        return buildO();
     }
 
     private Tetris buildS() {
@@ -45,11 +45,20 @@ public class TetrisFactory implements Factory<ITetris> {
         return new Tetris(rim, center, new Rotator(Rotator.DIAMETER_3));
     }
 
-//    private List<Position> build2() {
-//
-//    }
-//
-//    private List<Position> build3() {
-//
-//    }
+    private Tetris buildO() {
+        List<ICube> rim = new ArrayList<>(4);
+        List<ICube> center = new ArrayList<>();
+
+        ICube cube1 = new Cube(new Position(0, 0));
+        ICube cube2 = new Cube(new Position(config.getWidth(), 0));
+        ICube cube3 = new Cube(new Position(0, config.getHeight()));
+        ICube cube4 = new Cube(new Position(config.getWidth(), config.getWidth()));
+
+        rim.add(cube1);
+        rim.add(cube2);
+        rim.add(cube3);
+        rim.add(cube4);
+
+        return new Tetris(rim, center, new Rotator(Rotator.NON_ROTATABLE));
+    }
 }

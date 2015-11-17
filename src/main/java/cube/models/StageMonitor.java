@@ -35,13 +35,11 @@ public class StageMonitor implements Monitor {
     @Override
     public void refresh() {
         monitor.entrySet().stream().forEach(line -> {
-            line.getValue().stream().forEach(p -> remove(p));
-            line.getValue().clear();
+            if (config.getXMonitorSize() == line.getValue().size()) {
+                line.getValue().stream().forEach(p -> remove(p));
+                line.getValue().clear();
+            }
         });
-    }
-
-    private boolean isErasable(Integer line) {
-        return config.getXMonitorSize() == monitor.get(line).size();
     }
 
     private void remove(Position position) {

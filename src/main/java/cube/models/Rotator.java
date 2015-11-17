@@ -11,6 +11,7 @@ import java.util.List;
  * @since 11/5/15
  */
 public class Rotator implements Rotatable {
+    public static final Integer NON_ROTATABLE = 0;
     public static final Integer DIAMETER_3 = 3;
     public static final Integer DIAMETER_4 = 4;
 
