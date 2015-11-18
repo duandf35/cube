@@ -49,6 +49,8 @@ public class MainStage extends Stage {
         if (tetris != null) {
             tetris.paint(g);
         }
+
+        monitor.refresh(g);
     }
 
     @Override
@@ -86,11 +88,6 @@ public class MainStage extends Stage {
         tetris.digest();
         tetris.getCubes().stream().forEach(c -> monitor.add(c));
         tetris = null;
-    }
-
-    @Override
-    public void refresh() {
-        monitor.refresh();
     }
 
     private void initStage() {

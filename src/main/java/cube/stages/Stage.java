@@ -68,11 +68,4 @@ public abstract class Stage extends JPanel {
     public void digestTetris() {
 
     }
-
-    /**
-     * Refresh stage after erasing happened.
-     */
-    public void refresh() {
-
-    }
 }

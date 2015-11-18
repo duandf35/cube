@@ -66,6 +66,7 @@ privileged aspect TraceMonitor {
         ITetris tetris = null;
         Object[] args = joinPoint.getArgs();
 
+        // If tetris is the argument of the joinPoint
         if (null != args) {
             for (Object arg : args) {
                 if (arg instanceof ITetris) {
@@ -75,7 +76,8 @@ privileged aspect TraceMonitor {
             }
         }
 
-        if (null == tetris) {
+        // If joinPoint is in the tetris
+        if (null == tetris && joinPoint.getThis() instanceof ITetris) {
             tetris = (ITetris) joinPoint.getThis();
         }
 

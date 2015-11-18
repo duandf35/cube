@@ -1,5 +1,6 @@
 package cube.models;
 
+import java.awt.*;
 import java.util.Map;
 
 /**
@@ -23,5 +24,5 @@ public interface Monitor {
     /**
      * Check each line and erase cubes if necessary.
      */
-    void refresh();
+    void refresh(Graphics g);
 }

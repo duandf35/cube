@@ -2,6 +2,7 @@ package cube.models;
 
 import cube.configs.StageConfig;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,12 +34,16 @@ public class StageMonitor implements Monitor {
     }
 
     @Override
-    public void refresh() {
+    public void refresh(Graphics g) {
         monitor.entrySet().stream().forEach(line -> {
             if (config.getXMonitorSize() == line.getValue().size()) {
                 line.getValue().stream().forEach(p -> remove(p));
                 line.getValue().clear();
             }
+        });
+
+        cubes.entrySet().stream().forEach(e -> {
+            e.getValue().paint(g);
         });
     }
 
