@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * @author wenyu
- * @since 11/9/15
+ * @since 11/17/15
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface TracePosition {
+public @interface TraceAction {
 
     TraceUtils.Actions action();
 }

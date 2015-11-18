@@ -1,5 +1,8 @@
  package cube.models;
 
+import cube.aop.TraceAction;
+import cube.aop.TraceUtils;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +61,7 @@ public class Tetris implements ITetris {
     }
 
     @Override
+    @TraceAction(action = TraceUtils.Actions.DIGESTING)
     public void digest() {
         digested = true;
     }

@@ -1,12 +1,17 @@
 package cube.listeners;
 
+import cube.aop.TraceAction;
 import cube.aop.TracePosition;
+import cube.aop.TraceUtils;
 import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Position;
 import cube.services.Factory;
 import cube.stages.Stage;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,9 +22,10 @@ import java.util.Map;
  * @since 10/22/15
  */
 public class TetrisActionListener implements ActionListener {
+    private static final Logger LOG = LogManager.getLogger(TetrisActionListener.class.getName());
+
     private Stage stage;
     private Factory factory;
-    private Thread countDownToDigest;
 
     public TetrisActionListener(Stage stage, Factory factory) {
         this.stage = stage;
@@ -28,30 +34,36 @@ public class TetrisActionListener implements ActionListener {
 
     /**
      * Listener to keyboard action and update the coordinate of tetris.
-     * @param e the keyboard action
+     * @param event the keyboard action
      */
-    public void actionPerformed(ActionEvent e) {
-        if (stage.getTetris() == null) {
-            stage.setTetris((ITetris) factory.build());
+    public void actionPerformed(ActionEvent event) {
+        try {
+            Command command = stage.getKeyboardAction();
+            ITetris tetris = stage.getTetris();
+
+            if (isReachButton(tetris)) {
+                // TODO: use CountDownLatch
+                stage.digestTetris();
+                Thread.sleep(1000);
+            }
+
+            if (stage.getTetris() == null) {
+                stage.setTetris((ITetris) factory.build());
+            }
+
+            if (isRotatable(command, tetris)) {
+                rotateTetris(tetris);
+            }
+
+            if (isMovable(command, tetris)) {
+                adjustBoundary(command, tetris);
+                moveTetris(command, tetris);
+            }
+
+            stage.repaint();
+        } catch (InterruptedException e) {
+            LOG.error("Error happened during action performing", e);
         }
-
-        Command command = stage.getKeyboardAction();
-        ITetris tetris = stage.getTetris();
-
-        if (isRotatable(command, tetris)) {
-            rotateTetris(tetris);
-        }
-
-        if (isMovable(command, tetris)) {
-            adjustBoundary(command, tetris);
-            moveTetris(command, tetris);
-        }
-
-        if (isReachButton(tetris)) {
-            // TODO: use CountDownLatch
-        }
-
-        stage.repaint();
     }
 
     private boolean isMovable(Command command, ITetris tetris) {
@@ -74,7 +86,7 @@ public class TetrisActionListener implements ActionListener {
         return (cubesInStage.get(nextPosition) == null);
     }
 
-    @TracePosition(label = "MOVING")
+    @TracePosition(action = TraceUtils.Actions.MOVING)
     private void moveTetris(Command command, ITetris tetris) {
         Integer[] d = command.doMove();
         tetris.move(d);
@@ -156,14 +168,16 @@ public class TetrisActionListener implements ActionListener {
     private boolean isReachButton(ITetris tetris) {
         boolean reachButton = false;
 
-        for (Position p : tetris.getPositions()) {
-            reachButton |= stage.getYBoundary() <= p.getY();
+        if (null != tetris) {
+            for (Position p : tetris.getPositions()) {
+                reachButton |= stage.getYBoundary() <= p.getY();
+            }
         }
 
         return reachButton;
     }
 
-    @TracePosition(label = "ROTATING")
+    @TracePosition(action = TraceUtils.Actions.ROTATING)
     private void rotateTetris(ITetris tetris) {
         tetris.rotate();
     }
