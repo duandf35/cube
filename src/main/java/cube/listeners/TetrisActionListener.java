@@ -1,6 +1,5 @@
 package cube.listeners;
 
-import cube.aop.TraceAction;
 import cube.aop.TracePosition;
 import cube.aop.TraceUtils;
 import cube.models.Command;
@@ -41,12 +40,6 @@ public class TetrisActionListener implements ActionListener {
             Command command = stage.getKeyboardAction();
             ITetris tetris = stage.getTetris();
 
-            if (isReachButton(tetris)) {
-                // TODO: use CountDownLatch
-                stage.digestTetris();
-                Thread.sleep(1000);
-            }
-
             if (stage.getTetris() == null) {
                 stage.setTetris((ITetris) factory.build());
             }
@@ -58,6 +51,10 @@ public class TetrisActionListener implements ActionListener {
             if (isMovable(command, tetris)) {
                 adjustBoundary(command, tetris);
                 moveTetris(command, tetris);
+            } else {
+                // TODO: use CountDownLatch
+                stage.digestTetris();
+                Thread.sleep(1000);
             }
 
             stage.repaint();
@@ -163,18 +160,6 @@ public class TetrisActionListener implements ActionListener {
     private boolean isReachBoundary(Position p) {
         return (0 >= p.getX() || stage.getXBoundary() <= p.getX() ||
                 0 >= p.getY() || stage.getYBoundary() <= p.getY());
-    }
-
-    private boolean isReachButton(ITetris tetris) {
-        boolean reachButton = false;
-
-        if (null != tetris) {
-            for (Position p : tetris.getPositions()) {
-                reachButton |= stage.getYBoundary() <= p.getY();
-            }
-        }
-
-        return reachButton;
     }
 
     @TracePosition(action = TraceUtils.Actions.ROTATING)

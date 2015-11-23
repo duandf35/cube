@@ -76,7 +76,7 @@ privileged aspect TraceMonitor {
             }
         }
 
-        // If joinPoint is in the tetris
+        // If joinPoint is the tetris
         if (null == tetris && joinPoint.getThis() instanceof ITetris) {
             tetris = (ITetris) joinPoint.getThis();
         }
