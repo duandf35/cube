@@ -1,12 +1,12 @@
 package cube.models;
 
+import java.util.Map;
+
 /**
  * @author wenyu
  * @since 11/7/15
  */
 public interface Command {
 
-    Integer[] doMove();
-
-    boolean doRotate();
+    Map<String, Object> get();
 }

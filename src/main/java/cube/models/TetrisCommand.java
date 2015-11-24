@@ -1,27 +1,29 @@
 package cube.models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author wenyu
  * @since 11/7/15
  */
 public class TetrisCommand implements Command {
-    private static final Integer DO_ROTATE = 1;
+    public static final String DO_MOVE_X = "DO_MOVE_X";
+    public static final String DO_MOVE_Y = "DO_MOVE_Y";
+    public static final String DO_ROTATE = "DO_ROTATE";
 
-    private Integer[] d;
-    private Integer r;
+    private Map<String, Object> commands;
 
-    public TetrisCommand(Integer[] d, Integer r) {
-        this.d = d;
-        this.r = r;
+    public TetrisCommand(Integer dx, Integer dy, boolean dr) {
+        commands = new HashMap<>();
+
+        commands.put(DO_MOVE_X, dx);
+        commands.put(DO_MOVE_Y, dy);
+        commands.put(DO_ROTATE, dr);
     }
 
     @Override
-    public Integer[] doMove() {
-        return d;
-    }
-
-    @Override
-    public boolean doRotate() {
-        return (DO_ROTATE.equals(r));
+    public Map<String, Object> get() {
+        return commands;
     }
 }

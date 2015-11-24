@@ -6,6 +6,7 @@ import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Position;
+import cube.models.TetrisCommand;
 import cube.services.Factory;
 import cube.stages.Stage;
 
@@ -38,23 +39,24 @@ public class TetrisActionListener implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         try {
             Command command = stage.getKeyboardAction();
-            ITetris tetris = stage.getTetris();
 
             if (stage.getTetris() == null) {
                 stage.setTetris((ITetris) factory.build());
             }
 
+            ITetris tetris = stage.getTetris();
+
             if (isRotatable(command, tetris)) {
                 rotateTetris(tetris);
             }
 
-            if (isMovable(command, tetris)) {
-                adjustBoundary(command, tetris);
-                moveTetris(command, tetris);
-            } else {
-                // TODO: use CountDownLatch
-                stage.digestTetris();
-                Thread.sleep(1000);
+            if (hasMovingCommand(command)) {
+                if (!isBlockedByOtherTetris(command, tetris) && !isBlockedByEWBoundary(command, tetris) && !isBlockedByNSBoundary(command, tetris)) {
+                    moveTetris(command, tetris);
+                } else if (0 < (Integer) command.get().get(TetrisCommand.DO_MOVE_Y)){
+                    stage.digestTetris();
+                    Thread.sleep(1000);
+                }
             }
 
             stage.repaint();
@@ -63,71 +65,72 @@ public class TetrisActionListener implements ActionListener {
         }
     }
 
-    private boolean isMovable(Command command, ITetris tetris) {
-        boolean canMove = true;
-        Integer[] d = command.doMove();
+    private boolean hasMovingCommand(Command command) {
+        Map<String, Object> change = command.get();
 
-        if (d[0] == 0 && d[1] == 0) {
-            canMove = false;
-        } else {
-            for (ICube cube: tetris.getCubes()) {
-                Position nextPosition = tetris.getNextMovePosition(d, cube);
-                canMove &= isMovable(nextPosition, stage.getCubes());
-            }
+        return (Integer) 0 != change.get(TetrisCommand.DO_MOVE_X) || (Integer) 0 != change.get(TetrisCommand.DO_MOVE_Y);
+    }
+
+    private boolean isBlockedByOtherTetris(Command command, ITetris tetris) {
+        boolean blocked = false;
+
+        for (ICube cube: tetris.getCubes()) {
+            Position nextPosition = tetris.getNextMovePosition(command, cube);
+            blocked |= isBlockedByOtherCubes(nextPosition, stage.getCubes());
         }
 
-        return canMove;
+        return blocked;
     }
 
-    private boolean isMovable(Position nextPosition, Map<Position, ICube> cubesInStage) {
-        return (cubesInStage.get(nextPosition) == null);
+    private boolean isBlockedByOtherCubes(Position nextPosition, Map<Position, ICube> cubesInStage) {
+        return null != cubesInStage.get(nextPosition);
     }
 
-    @TracePosition(action = TraceUtils.Actions.MOVING)
-    private void moveTetris(Command command, ITetris tetris) {
-        Integer[] d = command.doMove();
-        tetris.move(d);
-    }
-
-    /**
-     * Adjust position change based on the position to the boundary.
-     *
-     * Can move if tetris is at the boundary but next position is away from it
-     * Can NOT move tetris is at the boundary and next position is approach to it
-     *
-     * @param command the command
-     * @param tetris  the tetris
-     */
-    private void adjustBoundary(Command command, ITetris tetris) {
+    private boolean isBlockedByEWBoundary(Command command, ITetris tetris) {
         boolean reachEBoundary = false,
                 reachWBoundary = false,
-                reachNBoundary = false,
-                reachSBoundary = false;
+                blocked = false;
 
-        Integer[] d = command.doMove();
+        Map<String, Object> change = command.get();
         for (ICube cube: tetris.getCubes()) {
             Position p = cube.getPosition();
             reachWBoundary |= (p.getX() <= 0);
             reachEBoundary |= (p.getX() >= stage.getXBoundary());
+        }
+
+        if (reachWBoundary)  {
+            blocked = (Integer) change.get(TetrisCommand.DO_MOVE_X) < 0;
+        } else if (reachEBoundary) {
+            blocked = (Integer) change.get(TetrisCommand.DO_MOVE_X) > 0;
+        }
+
+        return blocked;
+    }
+
+    private boolean isBlockedByNSBoundary(Command command, ITetris tetris) {
+        boolean reachNBoundary = false,
+                reachSBoundary = false,
+                blocked = false;
+
+        Map<String, Object> change = command.get();
+        for (ICube cube: tetris.getCubes()) {
+            Position p = cube.getPosition();
             reachNBoundary |= (p.getY() <= 0);
             reachSBoundary |= (p.getY() >= stage.getYBoundary());
         }
 
-        if (reachWBoundary && d[0] < 0) {
-            d[0] = 0;
+        if (reachNBoundary) {
+            blocked = (Integer) change.get(TetrisCommand.DO_MOVE_Y) < 0;
+        } else if (reachSBoundary) {
+            blocked = (Integer) change.get(TetrisCommand.DO_MOVE_Y) > 0;
         }
 
-        if (reachEBoundary && d[0] > 0) {
-            d[0] = 0;
-        }
+        return blocked;
+    }
 
-        if (reachNBoundary && d[1] < 0) {
-            d[1] = 0;
-        }
-
-        if (reachSBoundary && d[1] > 0) {
-            d[1] = 0;
-        }
+    @TracePosition(action = TraceUtils.Actions.MOVING)
+    private void moveTetris(Command command, ITetris tetris) {
+        tetris.move(command);
     }
 
     /**
@@ -139,7 +142,7 @@ public class TetrisActionListener implements ActionListener {
     private boolean isRotatable(Command command, ITetris tetris) {
         boolean canRotate = true;
 
-        if (command.doRotate()) {
+        if ((Boolean) command.get().get(TetrisCommand.DO_ROTATE)) {
             for (ICube c: tetris.getCenter()) {
                 canRotate &= !(isReachBoundary(c.getPosition()));
             }
@@ -147,7 +150,7 @@ public class TetrisActionListener implements ActionListener {
             if (canRotate) {
                 for (ICube c: tetris.getCubes()) {
                     Position np = tetris.getNextRotatePosition(c);
-                    canRotate &= isMovable(np, stage.getCubes());
+                    canRotate &= !isBlockedByOtherCubes(np, stage.getCubes());
                 }
             }
         } else {

@@ -14,12 +14,13 @@ import java.awt.event.KeyEvent;
 public class KeyboardListener extends KeyAdapter {
     private final ListenerConfig config;
 
-    private Integer dr, dx, dy, dxu, dyu;
+    private Integer dx, dy, dxu, dyu;
+    private boolean dr;
 
     public KeyboardListener() {
         config = ListenerConfig.getInstance();
 
-        dr = 0;
+        dr = false;
         dx = 0;
         dy = 0;
         dxu = config.getUpdateX();
@@ -27,9 +28,7 @@ public class KeyboardListener extends KeyAdapter {
     }
 
     public Command getKeyboardAction() {
-        Integer[] d = { dx, dy };
-
-        return new TetrisCommand(d, dr);
+        return new TetrisCommand(dx, dy, dr);
     }
 
     @Override
@@ -41,7 +40,7 @@ public class KeyboardListener extends KeyAdapter {
             case KeyEvent.VK_RIGHT: dx =   dxu; break;
             case KeyEvent.VK_UP   : dy = - dyu; break;
             case KeyEvent.VK_DOWN : dy =   dyu; break;
-            case KeyEvent.VK_SPACE: dr =     1; break;
+            case KeyEvent.VK_SPACE: dr =  true; break;
         }
     }
 
@@ -56,7 +55,7 @@ public class KeyboardListener extends KeyAdapter {
             KeyEvent.VK_SPACE == key) {
             dx = 0;
             dy = 0;
-            dr = 0;
+            dr = false;
         }
     }
 }

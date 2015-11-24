@@ -58,9 +58,9 @@ public interface ITetris {
 
     /**
      * Move tetris based on the given position change.
-     * @param d the position change
+     * @param command the operation command
      */
-    void move(Integer[] d);
+    void move(Command command);
 
     /**
      * Rotate tetris.
@@ -69,11 +69,11 @@ public interface ITetris {
 
     /**
      * Get possible position of the given cube if apply the given position change.
-     * @param d    the position change
-     * @param cube the cube
+     * @param command the operation command
+     * @param cube    the cube
      * @return the position if the moving is applied
      */
-    Position getNextMovePosition(Integer[] d, ICube cube);
+    Position getNextMovePosition(Command command, ICube cube);
 
     /**
      * Get possible position of the given cube if rotate.

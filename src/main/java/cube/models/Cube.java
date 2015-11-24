@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.util.Objects;
 
 /**
  * @author wenyu
@@ -64,9 +63,13 @@ public class Cube implements ICube {
     }
 
     @Override
-    public void move(Integer[] d) {
-        position.moveX(d[0]);
-        position.moveY(d[1]);
+    public void moveX(Integer d) {
+        position.moveX(d);
+    }
+
+    @Override
+    public void moveY(Integer d) {
+        position.moveY(d);
     }
 
     @Override

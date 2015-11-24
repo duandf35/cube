@@ -46,10 +46,16 @@ public interface ICube {
     void setColor(Color color);
 
     /**
-     * Move cube.
+     * Cube horizontal moving.
      * @param d the position change
      */
-    void move(Integer[] d);
+    void moveX(Integer d);
+
+    /**
+     * Cube vertical moving.
+     * @param d the position change
+     */
+    void moveY(Integer d);
 
     /**
      * Paint cube.
