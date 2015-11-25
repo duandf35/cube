@@ -6,7 +6,6 @@ import cube.aop.TraceUtils;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -79,11 +78,9 @@ public class Tetris implements ITetris {
 
     @Override
     public void move(Command command) {
-        Map<String, Object> change = command.get();
-
         cubes.stream().forEach(cube -> {
-            cube.moveX((Integer) change.get(TetrisCommand.DO_MOVE_X));
-            cube.moveY((Integer) change.get(TetrisCommand.DO_MOVE_Y));
+            cube.moveX(command.moveX());
+            cube.moveY(command.moveY());
         });
     }
 
@@ -95,10 +92,9 @@ public class Tetris implements ITetris {
     @Override
     public Position getNextMovePosition(Command command, ICube cube) {
         Position p = new Position(cube.getPosition());
-        Map<String, Object> change = command.get();
 
-        p.moveX((Integer) change.get(TetrisCommand.DO_MOVE_X));
-        p.moveY((Integer) change.get(TetrisCommand.DO_MOVE_Y));
+        p.moveX(command.moveX());
+        p.moveY(command.moveY());
 
         return p;
     }

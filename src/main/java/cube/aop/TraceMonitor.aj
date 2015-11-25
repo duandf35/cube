@@ -18,6 +18,7 @@ privileged aspect TraceMonitor {
     // Add execution to avoid invoking advice twice
     pointcut methodWithTracePositionAnnotation() : execution(* *(..)) && @annotation(cube.aop.TracePosition);
 
+    // TODO: Refactor point cut evaluation to include annotation arguments
     pointcut methodWithTraceActionAnnotation() : execution(* *(..)) && @annotation(cube.aop.TraceAction);
 
     Object around() : methodWithTracePositionAnnotation() {

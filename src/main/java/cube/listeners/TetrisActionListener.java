@@ -6,7 +6,6 @@ import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Position;
-import cube.models.TetrisCommand;
 import cube.services.Factory;
 import cube.stages.Stage;
 
@@ -53,7 +52,7 @@ public class TetrisActionListener implements ActionListener {
             if (hasMovingCommand(command)) {
                 if (!isBlockedByOtherTetris(command, tetris) && !isBlockedByEWBoundary(command, tetris) && !isBlockedByNSBoundary(command, tetris)) {
                     moveTetris(command, tetris);
-                } else if (0 < (Integer) command.get().get(TetrisCommand.DO_MOVE_Y)){
+                } else if (0 < command.moveY()){
                     stage.digestTetris();
                     Thread.sleep(1000);
                 }
@@ -66,9 +65,7 @@ public class TetrisActionListener implements ActionListener {
     }
 
     private boolean hasMovingCommand(Command command) {
-        Map<String, Object> change = command.get();
-
-        return (Integer) 0 != change.get(TetrisCommand.DO_MOVE_X) || (Integer) 0 != change.get(TetrisCommand.DO_MOVE_Y);
+        return 0 != command.moveX() || 0 != command.moveY();
     }
 
     private boolean isBlockedByOtherTetris(Command command, ITetris tetris) {
@@ -91,7 +88,6 @@ public class TetrisActionListener implements ActionListener {
                 reachWBoundary = false,
                 blocked = false;
 
-        Map<String, Object> change = command.get();
         for (ICube cube: tetris.getCubes()) {
             Position p = cube.getPosition();
             reachWBoundary |= (p.getX() <= 0);
@@ -99,9 +95,9 @@ public class TetrisActionListener implements ActionListener {
         }
 
         if (reachWBoundary)  {
-            blocked = (Integer) change.get(TetrisCommand.DO_MOVE_X) < 0;
+            blocked = command.moveX() < 0;
         } else if (reachEBoundary) {
-            blocked = (Integer) change.get(TetrisCommand.DO_MOVE_X) > 0;
+            blocked = command.moveX() > 0;
         }
 
         return blocked;
@@ -112,7 +108,6 @@ public class TetrisActionListener implements ActionListener {
                 reachSBoundary = false,
                 blocked = false;
 
-        Map<String, Object> change = command.get();
         for (ICube cube: tetris.getCubes()) {
             Position p = cube.getPosition();
             reachNBoundary |= (p.getY() <= 0);
@@ -120,9 +115,9 @@ public class TetrisActionListener implements ActionListener {
         }
 
         if (reachNBoundary) {
-            blocked = (Integer) change.get(TetrisCommand.DO_MOVE_Y) < 0;
+            blocked = command.moveY() < 0;
         } else if (reachSBoundary) {
-            blocked = (Integer) change.get(TetrisCommand.DO_MOVE_Y) > 0;
+            blocked = command.moveY() > 0;
         }
 
         return blocked;
@@ -142,7 +137,7 @@ public class TetrisActionListener implements ActionListener {
     private boolean isRotatable(Command command, ITetris tetris) {
         boolean canRotate = true;
 
-        if ((Boolean) command.get().get(TetrisCommand.DO_ROTATE)) {
+        if (command.rotate()) {
             for (ICube c: tetris.getCenter()) {
                 canRotate &= !(isReachBoundary(c.getPosition()));
             }

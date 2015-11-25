@@ -20,8 +20,8 @@ public class CubeConfig implements Config {
     private static final String STROKE_WIDTH = "STROKE_WIDTH";
 
     // Default settings
-    private static final Integer DEF_W  = 40;
-    private static final Integer DEF_H  = 40;
+    private static final Integer DEF_W  = 50;
+    private static final Integer DEF_H  = 50;
     private static final Integer DEF_B  = 5;
     private static final Color   DEF_COLOR = new Color(230, 154, 221);
     private static final Color   DEF_COLOR_B = new Color(7, 6, 8);
