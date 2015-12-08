@@ -18,6 +18,8 @@ public class CubeConfig implements Config {
     private static final String COLOR_BORDER  = "COLOR_BORDER";
     private static final String COLOR_CENTER  = "COLOR_CENTER";
     private static final String STROKE_WIDTH = "STROKE_WIDTH";
+    private static final String TETRIS_ID_BOUND = "TETRIS_ID_BOUND";
+    private static final String TETRIS_ROLLING_SEED = "TETRIS_ROLLING_SEED";
 
     // Default settings
     private static final Integer DEF_W  = 50;
@@ -27,6 +29,8 @@ public class CubeConfig implements Config {
     private static final Color   DEF_COLOR_B = new Color(7, 6, 8);
     private static final Color   DEF_COLOR_C = new Color(233, 216, 90);
     private static final Float   DEF_STROKE = 3f;
+    private static final Integer DEF_TID_BOUND = 6;
+    private static final Integer DEF_TROLLING_SEED = 23;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();
 
@@ -44,6 +48,8 @@ public class CubeConfig implements Config {
         CONF_MAP.put(COLOR_BORDER, DEF_COLOR_B);
         CONF_MAP.put(COLOR_CENTER, DEF_COLOR_C);
         CONF_MAP.put(STROKE_WIDTH, DEF_STROKE);
+        CONF_MAP.put(TETRIS_ID_BOUND, DEF_TID_BOUND);
+        CONF_MAP.put(TETRIS_ROLLING_SEED, DEF_TROLLING_SEED);
 
         return CONF;
     }
@@ -77,6 +83,14 @@ public class CubeConfig implements Config {
         if (override.get(STROKE_WIDTH) instanceof Float) {
             CONF_MAP.replace(STROKE_WIDTH, override.get(STROKE_WIDTH));
         }
+
+        if (override.get(TETRIS_ID_BOUND) instanceof Integer) {
+            CONF_MAP.replace(TETRIS_ID_BOUND, override.get(TETRIS_ID_BOUND));
+        }
+
+        if (override.get(TETRIS_ROLLING_SEED) instanceof Integer) {
+            CONF_MAP.replace(TETRIS_ROLLING_SEED, override.get(TETRIS_ROLLING_SEED));
+        }
     }
 
     public Integer getWidth() {
@@ -105,5 +119,13 @@ public class CubeConfig implements Config {
 
     public Float getStrokeWidth() {
         return (Float) CONF_MAP.get(STROKE_WIDTH);
+    }
+
+    public Integer getTetrisIdBound() {
+        return (Integer) CONF_MAP.get(TETRIS_ID_BOUND);
+    }
+
+    public Integer getTetrisRollingSeed() {
+        return (Integer) CONF_MAP.get(TETRIS_ROLLING_SEED);
     }
 }

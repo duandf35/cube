@@ -64,8 +64,8 @@ public class App extends JFrame {
     }
 
     private void registerFactories() {
-        tetrisFactory = new TetrisFactory();
-        stageFactory = new StageFactory();
+        tetrisFactory = TetrisFactory.getInstance();
+        stageFactory = StageFactory.getInstance();
     }
 
     private void registerStages() {

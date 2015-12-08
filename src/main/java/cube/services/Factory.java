@@ -7,10 +7,4 @@ package cube.services;
 public interface Factory<T> {
 
     T build();
-//
-//    void getConfig();
-//
-//    void getService();
-//
-//    void getModel();
 }

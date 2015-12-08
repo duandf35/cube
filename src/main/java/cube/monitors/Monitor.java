@@ -1,4 +1,7 @@
-package cube.models;
+package cube.monitors;
+
+import cube.models.ICube;
+import cube.models.Position;
 
 import java.awt.*;
 import java.util.Map;

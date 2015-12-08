@@ -1,8 +1,10 @@
-package cube.models;
+package cube.monitors;
 
 import cube.aop.TraceAction;
 import cube.aop.TraceUtils;
 import cube.configs.StageConfig;
+import cube.models.ICube;
+import cube.models.Position;
 
 import java.awt.*;
 import java.util.*;

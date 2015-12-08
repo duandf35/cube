@@ -5,7 +5,7 @@ import cube.listeners.KeyboardListener;
 import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
-import cube.models.Monitor;
+import cube.monitors.Monitor;
 import cube.models.Position;
 
 import java.awt.*;
