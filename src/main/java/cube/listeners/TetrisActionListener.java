@@ -40,7 +40,13 @@ public class TetrisActionListener implements ActionListener {
             Command command = stage.getKeyboardAction();
 
             if (stage.getTetris() == null) {
-                stage.setTetris((ITetris) factory.build());
+                ITetris newTetris = (ITetris) factory.build();
+
+                if (isBlockedByOtherTetris(newTetris)) {
+                    // TODO: you lost ;)
+                } else {
+                    stage.setTetris((ITetris) factory.build());
+                }
             }
 
             ITetris tetris = stage.getTetris();
@@ -66,6 +72,16 @@ public class TetrisActionListener implements ActionListener {
 
     private boolean hasMovingCommand(Command command) {
         return 0 != command.moveX() || 0 != command.moveY();
+    }
+
+    private boolean isBlockedByOtherTetris(ITetris tetris) {
+        boolean blocked = false;
+
+        for (ICube cube: tetris.getCubes()) {
+            blocked |= isBlockedByOtherCubes(cube.getPosition(), stage.getCubes());
+        }
+
+        return blocked;
     }
 
     private boolean isBlockedByOtherTetris(Command command, ITetris tetris) {
