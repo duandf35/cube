@@ -54,9 +54,9 @@ public class StageMonitor implements Monitor {
             }
         });
 
-        cubes.entrySet().stream().forEach(e -> {
-            e.getValue().paint(g);
-        });
+        cubes.entrySet().stream().forEach(e ->
+            e.getValue().paint(g)
+        );
     }
 
     @TraceAction(action = TraceUtils.Actions.ERASING)

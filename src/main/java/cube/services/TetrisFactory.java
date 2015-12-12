@@ -34,11 +34,6 @@ public class TetrisFactory implements Factory<ITetris> {
         return FACTORY;
     }
 
-    @Override
-    public ITetris build() {
-        return getRandomTetirs(config.getTetrisIdBound());
-    }
-
     /**
      * Build random tetris.
      *
@@ -46,51 +41,114 @@ public class TetrisFactory implements Factory<ITetris> {
      *
      * @return the tetirs
      */
-    private ITetris getRandomTetirs(final int bound) {
+    @Override
+    public ITetris build() {
+        return build(config.getTetrisIdBound());
+    }
+
+    private ITetris build(final int bound) {
         ITetris tetris;
         int id = RAND.nextInt(bound);
 
         LOG.debug("Building tetirs id: {}.", id);
         switch (id) {
-            case 0: tetris = buildO(); break;
-            default: tetris = buildS();
+            case 0: tetris = O(); break;
+            case 1: tetris = S(); break;
+            case 2: tetris = Z(); break;
+            case 3: tetris = L(); break;
+            case 4: tetris = J(); break;
+            case 5: tetris = T(); break;
+            default: tetris = O();
         }
 
         return tetris;
     }
 
-    private ITetris buildS() {
-        List<ICube> center = new ArrayList<>(1);
-        List<ICube> rim = new ArrayList<>(3);
-
-        ICube cube1 = new Cube(new Position(config.getWidth(), 0));
-        ICube cube2 = new Cube(new Position(0, config.getHeight()));
-        ICube cube3 = new Cube(new Position(config.getWidth(), config.getWidth()));
-        ICube cube4 = new Cube(new Position(0, 2 * config.getHeight()));
-
-        cube3.setColor(config.getCenterColor());
-        center.add(cube3);
-        rim.add(cube1);
-        rim.add(cube2);
-        rim.add(cube4);
-
-        return new Tetris(rim, center, new Rotator(Rotator.DIAMETER_3));
-    }
-
-    private ITetris buildO() {
-        List<ICube> rim = new ArrayList<>(4);
+    private ITetris build(ICube[] rimCubes, ICube[] centerCubes, Rotator rotator) {
+        List<ICube> rim = new ArrayList<>();
         List<ICube> center = new ArrayList<>();
 
+        for (ICube r : rimCubes) {
+            rim.add(r);
+        }
+
+        for (ICube c : centerCubes) {
+            c.setColor(config.getCenterColor());
+            center.add(c);
+        }
+
+        return new Tetris(rim, center, rotator);
+    }
+
+    private ITetris O() {
         ICube cube1 = new Cube(new Position(0, 0));
         ICube cube2 = new Cube(new Position(config.getWidth(), 0));
         ICube cube3 = new Cube(new Position(0, config.getHeight()));
         ICube cube4 = new Cube(new Position(config.getWidth(), config.getWidth()));
 
-        rim.add(cube1);
-        rim.add(cube2);
-        rim.add(cube3);
-        rim.add(cube4);
+        ICube[] rim = { cube1, cube2, cube3, cube4 };
+        ICube[] center = {};
 
-        return new Tetris(rim, center, new Rotator(Rotator.NON_ROTATABLE));
+        return build(rim, center, new Rotator(Rotator.NON_ROTATABLE));
+    }
+
+    private ITetris S() {
+        ICube cube1 = new Cube(new Position(config.getWidth(), 0));
+        ICube cube2 = new Cube(new Position(0, config.getHeight()));
+        ICube cube3 = new Cube(new Position(config.getWidth(), config.getWidth()));
+        ICube cube4 = new Cube(new Position(0, 2 * config.getHeight()));
+
+        ICube[] rim = { cube1, cube2, cube4 };
+        ICube[] center = { cube3 };
+
+        return build(rim, center, new Rotator(Rotator.DIAMETER_3));
+    }
+
+    private ITetris Z() {
+        ICube cube1 = new Cube(new Position(0, 0));
+        ICube cube2 = new Cube(new Position(0, config.getHeight()));
+        ICube cube3 = new Cube(new Position(config.getWidth(), config.getWidth()));
+        ICube cube4 = new Cube(new Position(config.getWidth(), 2 * config.getHeight()));
+
+        ICube[] rim = { cube1, cube3, cube4 };
+        ICube[] center = { cube2 };
+
+        return build(rim, center, new Rotator(Rotator.DIAMETER_3));
+    }
+
+    private ITetris L() {
+        ICube cube1 = new Cube(new Position(0, 0));
+        ICube cube2 = new Cube(new Position(0, config.getHeight()));
+        ICube cube3 = new Cube(new Position(0, 2 * config.getWidth()));
+        ICube cube4 = new Cube(new Position(config.getWidth(), 2 * config.getHeight()));
+
+        ICube[] rim = { cube1, cube3, cube4 };
+        ICube[] center = { cube2 };
+
+        return build(rim, center, new Rotator(Rotator.DIAMETER_3));
+    }
+
+    private ITetris J() {
+        ICube cube1 = new Cube(new Position(config.getWidth(), 0));
+        ICube cube2 = new Cube(new Position(config.getWidth(), config.getHeight()));
+        ICube cube3 = new Cube(new Position(config.getWidth(), 2 * config.getWidth()));
+        ICube cube4 = new Cube(new Position(0, 2 * config.getHeight()));
+
+        ICube[] rim = { cube1, cube3, cube4 };
+        ICube[] center = { cube2 };
+
+        return build(rim, center, new Rotator(Rotator.DIAMETER_3));
+    }
+
+    private ITetris T() {
+        ICube cube1 = new Cube(new Position(config.getWidth(), 0));
+        ICube cube2 = new Cube(new Position(0, config.getHeight()));
+        ICube cube3 = new Cube(new Position(config.getWidth(), config.getWidth()));
+        ICube cube4 = new Cube(new Position(2 * config.getWidth(), config.getHeight()));
+
+        ICube[] rim = { cube1, cube2, cube4 };
+        ICube[] center = { cube3 };
+
+        return build(rim, center, new Rotator(Rotator.DIAMETER_3));
     }
 }

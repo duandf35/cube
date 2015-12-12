@@ -55,6 +55,7 @@ public class TetrisActionListener implements ActionListener {
                 rotateTetris(tetris);
             }
 
+            // TODO: Not good, has race condition!
             if (hasMovingCommand(command)) {
                 if (!isBlockedByOtherTetris(command, tetris) && !isBlockedByEWBoundary(command, tetris) && !isBlockedByNSBoundary(command, tetris)) {
                     moveTetris(command, tetris);
