@@ -59,7 +59,7 @@ public class TetrisActionListener implements ActionListener {
             if (hasMovingCommand(command)) {
                 if (!isBlockedByOtherTetris(command, tetris) && !isBlockedByEWBoundary(command, tetris) && !isBlockedByNSBoundary(command, tetris)) {
                     moveTetris(command, tetris);
-                } else if (0 < command.moveY()){
+                } else if (0 < command.moveY()) {
                     stage.digestTetris();
                     Thread.sleep(1000);
                 }

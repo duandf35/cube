@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class Rotator implements Rotatable {
     public static final Integer NON_ROTATABLE = 0;
-    public static final Integer DIAMETER_3 = 3;
-    public static final Integer DIAMETER_4 = 4;
+    public static final Integer SINGLE_CENTER = 3;
+    public static final Integer DUEL_CENTER = 4;
 
     private final CubeConfig config;
 
@@ -44,36 +44,34 @@ public class Rotator implements Rotatable {
 
     @Override
     public void rotate(Position p) {
-        if (diameter.equals(DIAMETER_3) && isCenter(p)) {
-            doRotate(p);
-        }
+        doRotate(p);
     }
 
     private void doRotate(Position p) {
-        if (diameter.equals(DIAMETER_3)) {
+        if (diameter.equals(SINGLE_CENTER)) {
             if (p != null) {
-                doRotateD3(p);
+                doRotateSC(p);
             } else {
-                doRotateD3();
+                doRotateSC();
             }
-        } else if (diameter.equals(DIAMETER_4)) {
+        } else if (diameter.equals(DUEL_CENTER)) {
             if (p != null) {
-                doRotateD4(p);
+                doRotateDC(p);
             } else {
-                doRotateD4();
+                doRotateDC();
             }
         }
     }
 
-    private void doRotateD3() {
-        rim.stream().forEach(r -> doRotateD3(r.getPosition()));
+    private void doRotateSC() {
+        rim.stream().forEach(r -> doRotateSC(r.getPosition()));
     }
 
-    private void doRotateD4() {
+    private void doRotateDC() {
 
     }
 
-    private void doRotateD3(Position rp) {
+    private void doRotateSC(Position rp) {
         Position cp = center.get(0).getPosition();
 
         if (inNW(rp, cp)) {
@@ -95,18 +93,8 @@ public class Rotator implements Rotatable {
         }
     }
 
-    private void doRotateD4(Position p) {
+    private void doRotateDC(Position p) {
 
-    }
-
-    private boolean isCenter(Position p) {
-        boolean isCenter = false;
-
-        for(ICube c: center) {
-            isCenter |= (p.equals(c.getPosition()));
-        }
-
-        return isCenter;
     }
 
     private boolean inNW(Position rp, Position cp) {

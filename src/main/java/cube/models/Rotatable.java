@@ -21,12 +21,12 @@ public interface Rotatable {
     void setCenter(List<ICube> center);
 
     /**
-     * Apply rotating action.
+     * Apply rotating action for all cubes of tetris.
      */
     void rotate();
 
     /**
-     * Apply rotating action begin from the given position.
+     * Apply rotating action for one cube of tetris.
      * @param p the start position
      */
     void rotate(Position p);

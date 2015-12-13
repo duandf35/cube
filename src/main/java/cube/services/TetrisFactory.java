@@ -22,6 +22,7 @@ import java.util.Random;
 public class TetrisFactory implements Factory<ITetris> {
     private final static TetrisFactory FACTORY = new TetrisFactory();
     private final static Logger LOG = LogManager.getLogger(TraceUtils.ACTION_LOGGER);
+
     private final CubeConfig config;
     private final Random RAND;
 
@@ -101,7 +102,7 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube[] rim = { cube1, cube2, cube4 };
         ICube[] center = { cube3 };
 
-        return build(rim, center, new Rotator(Rotator.DIAMETER_3));
+        return build(rim, center, new Rotator(Rotator.SINGLE_CENTER));
     }
 
     private ITetris Z() {
@@ -113,7 +114,7 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube[] rim = { cube1, cube3, cube4 };
         ICube[] center = { cube2 };
 
-        return build(rim, center, new Rotator(Rotator.DIAMETER_3));
+        return build(rim, center, new Rotator(Rotator.SINGLE_CENTER));
     }
 
     private ITetris L() {
@@ -125,7 +126,7 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube[] rim = { cube1, cube3, cube4 };
         ICube[] center = { cube2 };
 
-        return build(rim, center, new Rotator(Rotator.DIAMETER_3));
+        return build(rim, center, new Rotator(Rotator.SINGLE_CENTER));
     }
 
     private ITetris J() {
@@ -137,7 +138,7 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube[] rim = { cube1, cube3, cube4 };
         ICube[] center = { cube2 };
 
-        return build(rim, center, new Rotator(Rotator.DIAMETER_3));
+        return build(rim, center, new Rotator(Rotator.SINGLE_CENTER));
     }
 
     private ITetris T() {
@@ -149,6 +150,6 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube[] rim = { cube1, cube2, cube4 };
         ICube[] center = { cube3 };
 
-        return build(rim, center, new Rotator(Rotator.DIAMETER_3));
+        return build(rim, center, new Rotator(Rotator.SINGLE_CENTER));
     }
 }
