@@ -152,12 +152,11 @@ public class TetrisActionListener implements ActionListener {
      * @return true if can rotate
      */
     private boolean isRotatable(Command command, ITetris tetris) {
-        boolean canRotate = true;
+        boolean canRotate;
 
         if (command.rotate()) {
-            for (ICube c: tetris.getCenter()) {
-                canRotate &= !(isReachBoundary(c.getPosition()));
-            }
+            canRotate = null != tetris.getCenter()
+                     && !(isReachBoundary(tetris.getCenter().getPosition()));
 
             if (canRotate) {
                 for (ICube c: tetris.getCubes()) {

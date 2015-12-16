@@ -22,16 +22,16 @@ public interface ITetris {
     List<ICube> getCubes();
 
     /**
+     * Get center cube.
+     * @return the center cubes
+     */
+    ICube getCenter();
+
+    /**
      * Get cubes in the rim.
      * @return the rim cubes
      */
     List<ICube> getRim();
-
-    /**
-     * Get cubes in the center.
-     * @return the center cubes.
-     */
-    List<ICube> getCenter();
 
     /**
      * Get positions of the composed cubes.
@@ -84,7 +84,7 @@ public interface ITetris {
 
     /**
      * Paint tetris.
-     * @param g
+     * @param g the graphics
      */
     void paint(Graphics g);
 }

@@ -17,19 +17,24 @@ public class Tetris implements ITetris {
     private String id = UUID.randomUUID().toString().replace("-", "");
 
     private boolean digested;
-    private List<ICube> cubes, rim, center;
+    private ICube center;
+    private List<ICube> cubes, rim;
     private Rotator rotator;
 
-    public Tetris(List<ICube> rim, List<ICube> center, Rotator rotator) {
+    public Tetris(ICube center, List<ICube> rim, Rotator rotator) {
         digested = false;
 
-        this.rotator = rotator;
-        this.rim = rim;
         this.center = center;
+        this.rim = rim;
+        this.rotator = rotator;
 
         cubes = new ArrayList<>();
+
+        if (null != center) {
+            cubes.add(center);
+        }
+
         cubes.addAll(rim);
-        cubes.addAll(center);
 
         rotator.setRim(rim);
         rotator.setCenter(center);
@@ -51,7 +56,7 @@ public class Tetris implements ITetris {
     }
 
     @Override
-    public List<ICube> getCenter() {
+    public ICube getCenter() {
         return center;
     }
 

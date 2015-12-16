@@ -1,5 +1,6 @@
 package cube.services;
 
+import com.google.common.collect.ImmutableList;
 import cube.aop.TraceUtils;
 import cube.configs.CubeConfig;
 import cube.models.Cube;
@@ -11,7 +12,6 @@ import cube.models.Tetris;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -65,20 +65,12 @@ public class TetrisFactory implements Factory<ITetris> {
         return tetris;
     }
 
-    private ITetris build(ICube[] rimCubes, ICube[] centerCubes, Rotator rotator) {
-        List<ICube> rim = new ArrayList<>();
-        List<ICube> center = new ArrayList<>();
-
-        for (ICube r : rimCubes) {
-            rim.add(r);
+    private ITetris build(ICube center, List<ICube> rim, Rotator rotator) {
+        if (null != center) {
+            center.setColor(config.getCenterColor());
         }
 
-        for (ICube c : centerCubes) {
-            c.setColor(config.getCenterColor());
-            center.add(c);
-        }
-
-        return new Tetris(rim, center, rotator);
+        return new Tetris(center, rim, rotator);
     }
 
     private ITetris O() {
@@ -87,10 +79,9 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube cube3 = new Cube(new Position(0, config.getHeight()));
         ICube cube4 = new Cube(new Position(config.getWidth(), config.getWidth()));
 
-        ICube[] rim = { cube1, cube2, cube3, cube4 };
-        ICube[] center = {};
+        List<ICube> rim = ImmutableList.of(cube1, cube2, cube3, cube4);
 
-        return build(rim, center, new Rotator(Rotator.NON_ROTATABLE));
+        return build(null, rim, new Rotator());
     }
 
     private ITetris S() {
@@ -99,10 +90,9 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube cube3 = new Cube(new Position(config.getWidth(), config.getWidth()));
         ICube cube4 = new Cube(new Position(0, 2 * config.getHeight()));
 
-        ICube[] rim = { cube1, cube2, cube4 };
-        ICube[] center = { cube3 };
+        List<ICube> rim = ImmutableList.of(cube1, cube2, cube4);
 
-        return build(rim, center, new Rotator(Rotator.SINGLE_CENTER));
+        return build(cube3, rim, new Rotator());
     }
 
     private ITetris Z() {
@@ -111,10 +101,9 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube cube3 = new Cube(new Position(config.getWidth(), config.getWidth()));
         ICube cube4 = new Cube(new Position(config.getWidth(), 2 * config.getHeight()));
 
-        ICube[] rim = { cube1, cube3, cube4 };
-        ICube[] center = { cube2 };
+        List<ICube> rim = ImmutableList.of(cube1, cube3, cube4);
 
-        return build(rim, center, new Rotator(Rotator.SINGLE_CENTER));
+        return build(cube2, rim, new Rotator());
     }
 
     private ITetris L() {
@@ -123,10 +112,9 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube cube3 = new Cube(new Position(0, 2 * config.getWidth()));
         ICube cube4 = new Cube(new Position(config.getWidth(), 2 * config.getHeight()));
 
-        ICube[] rim = { cube1, cube3, cube4 };
-        ICube[] center = { cube2 };
+        List<ICube> rim = ImmutableList.of(cube1, cube3, cube4);
 
-        return build(rim, center, new Rotator(Rotator.SINGLE_CENTER));
+        return build(cube2, rim, new Rotator());
     }
 
     private ITetris J() {
@@ -135,10 +123,9 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube cube3 = new Cube(new Position(config.getWidth(), 2 * config.getWidth()));
         ICube cube4 = new Cube(new Position(0, 2 * config.getHeight()));
 
-        ICube[] rim = { cube1, cube3, cube4 };
-        ICube[] center = { cube2 };
+        List<ICube> rim = ImmutableList.of(cube1, cube3, cube4);
 
-        return build(rim, center, new Rotator(Rotator.SINGLE_CENTER));
+        return build(cube2, rim, new Rotator());
     }
 
     private ITetris T() {
@@ -147,9 +134,8 @@ public class TetrisFactory implements Factory<ITetris> {
         ICube cube3 = new Cube(new Position(config.getWidth(), config.getWidth()));
         ICube cube4 = new Cube(new Position(2 * config.getWidth(), config.getHeight()));
 
-        ICube[] rim = { cube1, cube2, cube4 };
-        ICube[] center = { cube3 };
+        List<ICube> rim = ImmutableList.of(cube1, cube2, cube4);
 
-        return build(rim, center, new Rotator(Rotator.SINGLE_CENTER));
+        return build(cube3, rim, new Rotator());
     }
 }

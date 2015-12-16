@@ -15,10 +15,10 @@ public interface Rotatable {
     void setRim(List<ICube> rim);
 
     /**
-     * Set center cubes.
-     * @param center the cubes in the center
+     * Set center cube.
+     * @param center the center cube
      */
-    void setCenter(List<ICube> center);
+    void setCenter(ICube center);
 
     /**
      * Apply rotating action for all cubes of tetris.

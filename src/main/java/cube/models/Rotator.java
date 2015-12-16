@@ -11,20 +11,15 @@ import java.util.List;
  * @since 11/5/15
  */
 public class Rotator implements Rotatable {
-    public static final Integer NON_ROTATABLE = 0;
-    public static final Integer SINGLE_CENTER = 3;
-    public static final Integer DUEL_CENTER = 4;
 
     private final CubeConfig config;
 
-    private Integer diameter;
+    private ICube center;
+    private Integer radius;
     private List<ICube> rim;
-    private List<ICube> center;
 
-    public Rotator(Integer diameter) {
+    public Rotator() {
         config = CubeConfig.getInstance();
-
-        this.diameter = diameter;
     }
 
     @Override
@@ -33,46 +28,34 @@ public class Rotator implements Rotatable {
     }
 
     @Override
-    public void setCenter(List<ICube> center) {
+    public void setCenter(ICube center) {
         this.center = center;
     }
 
     @Override
     public void rotate() {
-        doRotate(null);
+        doRotate();
     }
 
     @Override
     public void rotate(Position p) {
-        doRotate(p);
-    }
-
-    private void doRotate(Position p) {
-        if (diameter.equals(SINGLE_CENTER)) {
-            if (p != null) {
-                doRotateSC(p);
+        if (null != center) {
+            if (null != p) {
+                doRotate(p);
             } else {
-                doRotateSC();
+                doRotate();
             }
-        } else if (diameter.equals(DUEL_CENTER)) {
-            if (p != null) {
-                doRotateDC(p);
-            } else {
-                doRotateDC();
-            }
+        } else {
+            // Not rotatable
         }
     }
 
-    private void doRotateSC() {
-        rim.stream().forEach(r -> doRotateSC(r.getPosition()));
+    private void doRotate() {
+        rim.stream().forEach(r -> doRotate(r.getPosition()));
     }
 
-    private void doRotateDC() {
-
-    }
-
-    private void doRotateSC(Position rp) {
-        Position cp = center.get(0).getPosition();
+    private void doRotate(Position rp) {
+        Position cp = center.getPosition();
 
         if (inNW(rp, cp)) {
             fromNWtoNE(rp);
@@ -91,10 +74,6 @@ public class Rotator implements Rotatable {
         } else if (inW(rp, cp)) {
             fromWtoN(rp);
         }
-    }
-
-    private void doRotateDC(Position p) {
-
     }
 
     private boolean inNW(Position rp, Position cp) {
