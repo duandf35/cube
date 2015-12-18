@@ -15,7 +15,6 @@ public class Rotator implements Rotatable {
     private final CubeConfig config;
 
     private ICube center;
-    private Integer radius;
     private List<ICube> rim;
 
     public Rotator() {
@@ -54,93 +53,46 @@ public class Rotator implements Rotatable {
         rim.stream().forEach(r -> doRotate(r.getPosition()));
     }
 
+    /**
+     * given:
+     *      center: (Xc, Yc), start position: (X, Y)
+     * when:
+     *      doing clockwise rotation
+     *      next position is (X', Y')
+     * know:
+     *      dx = X - Xc
+     *      dy = Y - Yc
+     * and
+     *      dx' = X' - Xc
+     *      dy' = Y' - Yc
+     * and
+     *      dx' = - dy
+     *      dy' = dx
+     * so
+     *      X' - Xc = -dy = Yc - Y
+     *   =>
+     *      X' = Yc + Xc - Y
+     *
+     *      Y' - Yc = dx = X - Xc
+     *   =>
+     *      Y' = Yc - Xc + X
+     *
+     * so next position always be:
+     *
+     *      X' = Yc + Xc - Y
+     *      Y' = Yc - Xc + X
+     *
+     *      MATH IS AMAZING!!!
+     *
+     * @param rp the position of cube
+     */
     private void doRotate(Position rp) {
         Position cp = center.getPosition();
 
-        if (inNW(rp, cp)) {
-            fromNWtoNE(rp);
-        } else if (inN(rp, cp)) {
-            fromNtoE(rp);
-        } else if (inNE(rp, cp)) {
-            fromNEtoSE(rp);
-        } else if (inE(rp, cp)) {
-            fromEtoS(rp);
-        } else if (inSE(rp, cp)) {
-            fromSEtoSW(rp);
-        } else if (inS(rp, cp)) {
-            fromStoW(rp);
-        } else if (inSW(rp, cp)) {
-            fromSWtoNW(rp);
-        } else if (inW(rp, cp)) {
-            fromWtoN(rp);
-        }
-    }
+        Integer nx = cp.getY() + cp.getX() - rp.getY();
+        Integer ny = cp.getY() - cp.getX() + rp.getX();
 
-    private boolean inNW(Position rp, Position cp) {
-        return (cp.getX().equals(rp.getX() + config.getWidth()) && (cp.getY()).equals(rp.getY() + config.getHeight()));
-    }
-
-    private boolean inN(Position rp, Position cp) {
-        return (cp.getX().equals(rp.getX()) && (cp.getY()).equals(rp.getY() + config.getHeight()));
-    }
-
-    private boolean inNE(Position rp, Position cp) {
-        return (cp.getX().equals(rp.getX() - config.getWidth()) && (cp.getY()).equals(rp.getY() + config.getHeight()));
-    }
-
-    private boolean inE(Position rp, Position cp) {
-        return (cp.getY()).equals(rp.getY()) && (cp.getX().equals(rp.getX() - config.getWidth()));
-    }
-
-    private boolean inSE(Position rp, Position cp) {
-        return (cp.getX().equals(rp.getX() - config.getWidth()) && (cp.getY()).equals(rp.getY() - config.getHeight()));
-    }
-
-    private boolean inS(Position rp, Position cp) {
-        return (cp.getX()).equals(rp.getX()) && (cp.getY().equals(rp.getY() - config.getWidth()));
-    }
-
-    private boolean inSW(Position rp, Position cp) {
-        return (cp.getX().equals(rp.getX() + config.getWidth()) && (cp.getY()).equals(rp.getY() - config.getHeight()));
-    }
-
-    private boolean inW(Position rp, Position cp) {
-        return (cp.getY()).equals(rp.getY()) && (cp.getX().equals(rp.getX() + config.getWidth()));
-    }
-
-    private void fromNWtoNE(Position rp) {
-        rp.moveX(2 * config.getWidth());
-    }
-
-    private void fromWtoN(Position rp) {
-        rp.moveX(config.getWidth());
-        rp.moveY(- config.getHeight());
-    }
-
-    private void fromNEtoSE(Position rp) {
-        rp.moveY(2 * config.getHeight());
-    }
-
-    private void fromNtoE(Position rp) {
-        rp.moveX(config.getWidth());
-        rp.moveY(config.getHeight());
-    }
-
-    private void fromSEtoSW(Position rp) {
-        rp.moveX(- 2 * config.getWidth());
-    }
-
-    private void fromEtoS(Position rp) {
-        rp.moveX(- config.getWidth());
-        rp.moveY(config.getHeight());
-    }
-
-    private void fromSWtoNW(Position rp) {
-        rp.moveY(- 2 * config.getHeight());
-    }
-
-    private void fromStoW(Position rp) {
-        rp.moveX(- config.getWidth());
-        rp.moveY(- config.getHeight());
+        rp.setX(nx);
+        rp.setY(ny);
     }
 }
