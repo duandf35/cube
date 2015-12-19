@@ -1,6 +1,7 @@
 package cube.services
 
 import cube.models.ITetris
+import cube.models.TetrisType
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -35,14 +36,14 @@ class TetrisFactorySpec extends Specification {
         expect == checkResult(resultMap.get(tetrisId) / MAX_RUN)
 
         where:
-        tetrisId                           | expect
-        TetrisFactory.TetrisType.O.getId() | true
-        TetrisFactory.TetrisType.S.getId() | true
-        TetrisFactory.TetrisType.Z.getId() | true
-        TetrisFactory.TetrisType.L.getId() | true
-        TetrisFactory.TetrisType.J.getId() | true
-        TetrisFactory.TetrisType.T.getId() | true
-        TetrisFactory.TetrisType.I.getId() | true
+        tetrisId             | expect
+        TetrisType.O.getId() | true
+        TetrisType.S.getId() | true
+        TetrisType.Z.getId() | true
+        TetrisType.L.getId() | true
+        TetrisType.J.getId() | true
+        TetrisType.T.getId() | true
+        TetrisType.I.getId() | true
     }
 
     private void thousandsRun(Map<Integer, Integer> resultMap) {
