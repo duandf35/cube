@@ -1,7 +1,5 @@
 package cube.models;
 
-import cube.services.TetrisFactory;
-
 import java.awt.*;
 import java.util.List;
 
@@ -15,7 +13,7 @@ public interface ITetris {
      * Get tetris type.
      * @return the type of tetris
      */
-    TetrisFactory.TetrisType getType();
+    TetrisType getType();
 
     /**
      * Get UUID of tetris.

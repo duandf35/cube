@@ -1,11 +1,14 @@
 package cube.listeners;
 
+import com.google.common.base.Preconditions;
 import cube.aop.TracePosition;
 import cube.aop.TraceUtils;
+import cube.configs.ListenerConfig;
 import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Position;
+import cube.models.TetrisCommand;
 import cube.services.Factory;
 import cube.stages.Stage;
 
@@ -15,6 +18,8 @@ import org.apache.logging.log4j.Logger;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author wenyu
@@ -23,52 +28,124 @@ import java.util.Map;
 public class TetrisActionListener implements ActionListener {
     private static final Logger LOG = LogManager.getLogger(TetrisActionListener.class.getName());
 
+    private final ListenerConfig config;
+    private final Timer gravityTimer;
+
     private Stage stage;
     private Factory factory;
 
     public TetrisActionListener(Stage stage, Factory factory) {
+        config = ListenerConfig.getInstance();
+        gravityTimer = new Timer();
+
         this.stage = stage;
         this.factory = factory;
+
+        activateGravity();
     }
 
     /**
      * Listener to keyboard action and update the coordinate of tetris.
      * @param event the keyboard action
      */
+    @Override
     public void actionPerformed(ActionEvent event) {
         try {
             Command command = stage.getKeyboardAction();
 
-            if (stage.getTetris() == null) {
-                ITetris newTetris = (ITetris) factory.build();
-
-                if (isBlockedByOtherTetris(newTetris)) {
-                    // TODO: you lost ;)
-                } else {
-                    stage.setTetris((ITetris) factory.build());
-                }
+            if (isGameContinue()) {
+                applyAction(command, stage.getTetris());
+                stage.repaint();
+            } else {
+                LOG.info("Game Over!");
+                gravityTimer.cancel();
             }
-
-            ITetris tetris = stage.getTetris();
-
-            if (isRotatable(command, tetris)) {
-                rotateTetris(tetris);
-            }
-
-            // TODO: Not good, has race condition!
-            if (hasMovingCommand(command)) {
-                if (!isBlockedByOtherTetris(command, tetris) && !isBlockedByEWBoundary(command, tetris) && !isBlockedByNSBoundary(command, tetris)) {
-                    moveTetris(command, tetris);
-                } else if (0 < command.moveY()) {
-                    stage.digestTetris();
-                    Thread.sleep(1000);
-                }
-            }
-
-            stage.repaint();
         } catch (InterruptedException e) {
-            LOG.error("Error happened during action performing", e);
+            LOG.error("Error happened during action performing.", e);
         }
+    }
+
+    @TracePosition(action = TraceUtils.Actions.MOVING)
+    private void moveTetris(Command command, ITetris tetris) {
+        tetris.move(command);
+    }
+
+    @TracePosition(action = TraceUtils.Actions.ROTATING)
+    private void rotateTetris(ITetris tetris) {
+        tetris.rotate();
+    }
+
+    /**
+     * Check if new tetris can be generated.
+     * @return true if new tetris can be put on the state
+     */
+    private boolean isGameContinue() {
+        boolean canContinue = true;
+
+        if (null == stage.getTetris()) {
+            ITetris newTetris = (ITetris) factory.build();
+
+            if (isBlockedByOtherTetris(newTetris)) {
+                canContinue = false;
+            } else {
+                stage.setTetris(newTetris);
+            }
+        }
+
+        return canContinue;
+    }
+
+    /**
+     * Apply keyboard action.
+     * @param command the keyboard action
+     * @param tetris  the active tetris on the stage
+     * @throws InterruptedException
+     */
+    private synchronized void applyAction(Command command, ITetris tetris) throws InterruptedException {
+        if (isRotatable(command, tetris)) {
+            rotateTetris(tetris);
+        }
+
+        if (hasMovingCommand(command)) {
+            if (!isBlockedByOtherTetris(command, tetris) && !isBlockedByEWBoundary(command, tetris) && !isBlockedByNSBoundary(command, tetris)) {
+                moveTetris(command, tetris);
+            } else if (0 < command.moveY()) {
+                stage.digestTetris();
+                Thread.sleep(1000);
+            }
+        }
+    }
+
+    /**
+     * Apply gravity.
+     * @param tetris the active tetris on the stage
+     * @throws InterruptedException
+     */
+    private void applyGravity(ITetris tetris) throws InterruptedException {
+        Preconditions.checkNotNull(tetris, "Tetris must not be null.");
+
+        Command gravityCommand = new TetrisCommand(0, config.getGravity(), false);
+
+        applyAction(gravityCommand, tetris);
+    }
+
+    /**
+     * Activate gravity.
+     */
+    private void activateGravity() {
+        gravityTimer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                try {
+                    if (null != stage.getTetris()) {
+                        applyGravity(stage.getTetris());
+                    }
+                } catch (InterruptedException e) {
+                    LOG.error("Error happened during gravity performing.", e);
+                }
+            }
+        }, config.getGravityApplyDelay(), config.getGravityApplyPeriod());
     }
 
     private boolean hasMovingCommand(Command command) {
@@ -140,11 +217,6 @@ public class TetrisActionListener implements ActionListener {
         return blocked;
     }
 
-    @TracePosition(action = TraceUtils.Actions.MOVING)
-    private void moveTetris(Command command, ITetris tetris) {
-        tetris.move(command);
-    }
-
     /**
      * Can rotate if center is NOT at the boundary and next position is away from it.
      * @param command the command
@@ -179,10 +251,5 @@ public class TetrisActionListener implements ActionListener {
     private boolean isOutOfBoundary(Position p) {
         return (0 > p.getX() || stage.getXBoundary() < p.getX() ||
                 0 > p.getY() || stage.getYBoundary() < p.getY());
-    }
-
-    @TracePosition(action = TraceUtils.Actions.ROTATING)
-    private void rotateTetris(ITetris tetris) {
-        tetris.rotate();
     }
 }

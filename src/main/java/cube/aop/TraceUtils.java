@@ -10,9 +10,25 @@ public abstract class TraceUtils {
     public static final String ACTION_LOGGER = "ActionLogger";
 
     public enum Actions {
+
+        /**
+         * Tetris moving.
+         */
         MOVING("MOVING"),
+
+        /**
+         * Tetris rotating.
+         */
         ROTATING("ROTATING"),
+
+        /**
+         * Tetris digesting.
+         */
         DIGESTING("DIGESTING"),
+
+        /**
+         * Tetris erasing.
+         */
         ERASING("ERASING");
 
         private String name;

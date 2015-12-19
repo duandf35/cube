@@ -38,7 +38,7 @@ public class KeyboardListener extends KeyAdapter {
         switch (key) {
             case KeyEvent.VK_LEFT : dx = - dxu; break;
             case KeyEvent.VK_RIGHT: dx =   dxu; break;
-            case KeyEvent.VK_UP   : dy = - dyu; break;
+//            case KeyEvent.VK_UP   : dy = - dyu; break;
             case KeyEvent.VK_DOWN : dy =   dyu; break;
             case KeyEvent.VK_SPACE: dr =  true; break;
         }
