@@ -2,6 +2,7 @@
 
 import cube.aop.TraceAction;
 import cube.aop.TraceUtils;
+import cube.services.TetrisFactory;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,13 +21,15 @@ public class Tetris implements ITetris {
     private ICube center;
     private List<ICube> cubes, rim;
     private Rotator rotator;
+    private TetrisFactory.TetrisType type;
 
-    public Tetris(ICube center, List<ICube> rim, Rotator rotator) {
-        digested = false;
-
+    public Tetris(ICube center, List<ICube> rim, Rotator rotator, TetrisFactory.TetrisType type) {
         this.center = center;
         this.rim = rim;
         this.rotator = rotator;
+        this.type = type;
+
+        digested = false;
 
         cubes = new ArrayList<>();
 
@@ -38,6 +41,11 @@ public class Tetris implements ITetris {
 
         rotator.setRim(rim);
         rotator.setCenter(center);
+    }
+
+    @Override
+    public TetrisFactory.TetrisType getType() {
+        return type;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class CubeConfig implements Config {
     private static final Color   DEF_COLOR_B = new Color(7, 6, 8);
     private static final Color   DEF_COLOR_C = new Color(233, 216, 90);
     private static final Float   DEF_STROKE = 3f;
-    private static final Integer DEF_TID_BOUND = 6;
+    private static final Integer DEF_TID_BOUND = 7;
     private static final Integer DEF_TROLLING_SEED = 23;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();

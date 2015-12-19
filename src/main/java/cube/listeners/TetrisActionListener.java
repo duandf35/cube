@@ -161,7 +161,7 @@ public class TetrisActionListener implements ActionListener {
             if (canRotate) {
                 for (ICube c: tetris.getCubes()) {
                     Position np = tetris.getNextRotatePosition(c);
-                    canRotate &= !isBlockedByOtherCubes(np, stage.getCubes());
+                    canRotate &= !isBlockedByOtherCubes(np, stage.getCubes()) && !isOutOfBoundary(np);
                 }
             }
         } else {
@@ -174,6 +174,11 @@ public class TetrisActionListener implements ActionListener {
     private boolean isReachBoundary(Position p) {
         return (0 >= p.getX() || stage.getXBoundary() <= p.getX() ||
                 0 >= p.getY() || stage.getYBoundary() <= p.getY());
+    }
+
+    private boolean isOutOfBoundary(Position p) {
+        return (0 > p.getX() || stage.getXBoundary() < p.getX() ||
+                0 > p.getY() || stage.getYBoundary() < p.getY());
     }
 
     @TracePosition(action = TraceUtils.Actions.ROTATING)
