@@ -55,14 +55,14 @@ public class StageMonitor implements Monitor {
 
     @Override
     public void refresh(Graphics g) {
-        monitor.entrySet().stream().forEach(line -> {
+        monitor.entrySet().forEach(line -> {
             if (config.getXMonitorSize() == line.getValue().size()) {
                 removeLine(line);
                 scoreService.update();
             }
         });
 
-        cubes.entrySet().stream().forEach(e ->
+        cubes.entrySet().forEach(e ->
             e.getValue().paint(g)
         );
     }

@@ -2,6 +2,7 @@ package cube.services;
 
 import cube.aop.TraceUtils;
 import cube.configs.CubeConfig;
+import cube.configs.StageConfig;
 import cube.models.Cube;
 import cube.models.ICube;
 import cube.models.ITetris;
@@ -25,12 +26,23 @@ public class TetrisFactory implements Factory<ITetris> {
     private final static TetrisFactory FACTORY = new TetrisFactory();
     private final static Logger LOG = LogManager.getLogger(TraceUtils.ACTION_LOGGER);
 
-    private final CubeConfig config;
+    private final CubeConfig cubeConfig;
+    private final StageConfig stageConfig;
     private final Random rand;
 
+    /**
+     * The start point of tetris.
+     * start-point = cube.width * ( max # of cubes in row / 2 )
+     */
+    private final Integer startPoint;
+
     private TetrisFactory() {
-        config = CubeConfig.getInstance();
-        rand = new Random(config.getTetrisRollingSeed());
+        cubeConfig = CubeConfig.getInstance();
+        stageConfig = StageConfig.getInstance();
+
+        rand = new Random(cubeConfig.getTetrisRollingSeed());
+
+        startPoint = cubeConfig.getWidth() * stageConfig.getXMonitorSize() / 2;
     }
 
     public static TetrisFactory getInstance() {
@@ -46,7 +58,7 @@ public class TetrisFactory implements Factory<ITetris> {
      */
     @Override
     public ITetris build() {
-        return build(config.getTetrisIdBound());
+        return build(cubeConfig.getTetrisIdBound());
     }
 
     private ITetris build(final int bound) {
@@ -71,7 +83,7 @@ public class TetrisFactory implements Factory<ITetris> {
 
     private ITetris build(ICube center, List<ICube> rim, TetrisType type) {
         if (null != center) {
-            center.setColor(config.getCenterColor());
+            center.setColor(cubeConfig.getCenterColor());
         }
 
         Rotator rotator = new Rotator(center, rim);
@@ -80,10 +92,10 @@ public class TetrisFactory implements Factory<ITetris> {
     }
 
     private ITetris O() {
-        ICube cube1 = new Cube(new Position(0, 0));
-        ICube cube2 = new Cube(new Position(config.getWidth(), 0));
-        ICube cube3 = new Cube(new Position(0, config.getHeight()));
-        ICube cube4 = new Cube(new Position(config.getWidth(), config.getHeight()));
+        ICube cube1 = new Cube(new Position(startPoint, 0));
+        ICube cube2 = new Cube(new Position(startPoint + cubeConfig.getWidth(), 0));
+        ICube cube3 = new Cube(new Position(startPoint, cubeConfig.getHeight()));
+        ICube cube4 = new Cube(new Position(startPoint + cubeConfig.getWidth(), cubeConfig.getHeight()));
 
         List<ICube> rim = ImmutableList.of(cube1, cube2, cube3, cube4);
 
@@ -91,10 +103,10 @@ public class TetrisFactory implements Factory<ITetris> {
     }
 
     private ITetris S() {
-        ICube cube1 = new Cube(new Position(config.getWidth(), 0));
-        ICube cube2 = new Cube(new Position(0, config.getHeight()));
-        ICube cube3 = new Cube(new Position(config.getWidth(), config.getHeight()));
-        ICube cube4 = new Cube(new Position(0, 2 * config.getHeight()));
+        ICube cube1 = new Cube(new Position(startPoint + cubeConfig.getWidth(), 0));
+        ICube cube2 = new Cube(new Position(startPoint, cubeConfig.getHeight()));
+        ICube cube3 = new Cube(new Position(startPoint + cubeConfig.getWidth(), cubeConfig.getHeight()));
+        ICube cube4 = new Cube(new Position(startPoint, 2 * cubeConfig.getHeight()));
 
         List<ICube> rim = ImmutableList.of(cube1, cube2, cube4);
 
@@ -102,10 +114,10 @@ public class TetrisFactory implements Factory<ITetris> {
     }
 
     private ITetris Z() {
-        ICube cube1 = new Cube(new Position(0, 0));
-        ICube cube2 = new Cube(new Position(0, config.getHeight()));
-        ICube cube3 = new Cube(new Position(config.getWidth(), config.getHeight()));
-        ICube cube4 = new Cube(new Position(config.getWidth(), 2 * config.getHeight()));
+        ICube cube1 = new Cube(new Position(startPoint, 0));
+        ICube cube2 = new Cube(new Position(startPoint, cubeConfig.getHeight()));
+        ICube cube3 = new Cube(new Position(startPoint + cubeConfig.getWidth(), cubeConfig.getHeight()));
+        ICube cube4 = new Cube(new Position(startPoint + cubeConfig.getWidth(), 2 * cubeConfig.getHeight()));
 
         List<ICube> rim = ImmutableList.of(cube1, cube3, cube4);
 
@@ -113,10 +125,10 @@ public class TetrisFactory implements Factory<ITetris> {
     }
 
     private ITetris L() {
-        ICube cube1 = new Cube(new Position(0, 0));
-        ICube cube2 = new Cube(new Position(0, config.getHeight()));
-        ICube cube3 = new Cube(new Position(0, 2 * config.getHeight()));
-        ICube cube4 = new Cube(new Position(config.getWidth(), 2 * config.getHeight()));
+        ICube cube1 = new Cube(new Position(startPoint, 0));
+        ICube cube2 = new Cube(new Position(startPoint, cubeConfig.getHeight()));
+        ICube cube3 = new Cube(new Position(startPoint, 2 * cubeConfig.getHeight()));
+        ICube cube4 = new Cube(new Position(startPoint + cubeConfig.getWidth(), 2 * cubeConfig.getHeight()));
 
         List<ICube> rim = ImmutableList.of(cube1, cube3, cube4);
 
@@ -124,10 +136,10 @@ public class TetrisFactory implements Factory<ITetris> {
     }
 
     private ITetris J() {
-        ICube cube1 = new Cube(new Position(config.getWidth(), 0));
-        ICube cube2 = new Cube(new Position(config.getWidth(), config.getHeight()));
-        ICube cube3 = new Cube(new Position(config.getWidth(), 2 * config.getHeight()));
-        ICube cube4 = new Cube(new Position(0, 2 * config.getHeight()));
+        ICube cube1 = new Cube(new Position(startPoint + cubeConfig.getWidth(), 0));
+        ICube cube2 = new Cube(new Position(startPoint + cubeConfig.getWidth(), cubeConfig.getHeight()));
+        ICube cube3 = new Cube(new Position(startPoint + cubeConfig.getWidth(), 2 * cubeConfig.getHeight()));
+        ICube cube4 = new Cube(new Position(startPoint, 2 * cubeConfig.getHeight()));
 
         List<ICube> rim = ImmutableList.of(cube1, cube3, cube4);
 
@@ -135,10 +147,10 @@ public class TetrisFactory implements Factory<ITetris> {
     }
 
     private ITetris T() {
-        ICube cube1 = new Cube(new Position(config.getWidth(), 0));
-        ICube cube2 = new Cube(new Position(0, config.getHeight()));
-        ICube cube3 = new Cube(new Position(config.getWidth(), config.getHeight()));
-        ICube cube4 = new Cube(new Position(2 * config.getWidth(), config.getHeight()));
+        ICube cube1 = new Cube(new Position(startPoint + cubeConfig.getWidth(), 0));
+        ICube cube2 = new Cube(new Position(startPoint, cubeConfig.getHeight()));
+        ICube cube3 = new Cube(new Position(startPoint + cubeConfig.getWidth(), cubeConfig.getHeight()));
+        ICube cube4 = new Cube(new Position(startPoint + 2 * cubeConfig.getWidth(), cubeConfig.getHeight()));
 
         List<ICube> rim = ImmutableList.of(cube1, cube2, cube4);
 
@@ -146,10 +158,10 @@ public class TetrisFactory implements Factory<ITetris> {
     }
 
     private ITetris I() {
-        ICube cube1 = new Cube(new Position(0, 0));
-        ICube cube2 = new Cube(new Position(0, config.getHeight()));
-        ICube cube3 = new Cube(new Position(0, 2 * config.getHeight()));
-        ICube cube4 = new Cube(new Position(0, 3 * config.getHeight()));
+        ICube cube1 = new Cube(new Position(startPoint, 0));
+        ICube cube2 = new Cube(new Position(startPoint, cubeConfig.getHeight()));
+        ICube cube3 = new Cube(new Position(startPoint, 2 * cubeConfig.getHeight()));
+        ICube cube4 = new Cube(new Position(startPoint, 3 * cubeConfig.getHeight()));
 
         List<ICube> rim = ImmutableList.of(cube1, cube2, cube4);
 

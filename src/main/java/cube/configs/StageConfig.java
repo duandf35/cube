@@ -10,12 +10,43 @@ import java.util.Map;
  */
 public class StageConfig implements Config {
 
+    /**
+     * The actual width of stage.
+     */
     private static final String WIDTH  = "WIDTH";
+
+    /**
+     * The actual height of stage.
+     */
     private static final String HEIGHT = "HEIGHT";
+
+    /**
+     * The background color of stage.
+     */
     private static final String BACKGROUND = "BACKGROUND";
+
+    /**
+     * The x-axis boundary position.
+     * x-boundary = stage.width - cube.width
+     */
     private static final String X_BOUNDARY = "X_BOUNDARY";
+
+    /**
+     * The y-axis boundary position.
+     * y-boundary = stage.height - cube.height
+     */
     private static final String Y_BOUNDARY = "Y_BOUNDARY";
+
+    /**
+     * The maximum number of cubes one row can contain.
+     * x-size = stage.width / cube.width
+     */
     private static final String X_MONITOR_SIZE = "X_MONITOR_SIZE";
+
+    /**
+     * The maximum number of cubes one column can contain.
+     * y-size = stage.height / cube.height
+     */
     private static final String Y_MONITOR_SIZE = "Y_MONITOR_SIZE";
 
     private static final Integer DEF_W  = 600;

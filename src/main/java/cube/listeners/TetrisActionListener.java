@@ -47,8 +47,6 @@ public class TetrisActionListener implements ActionListener {
     /**
      * Listener to keyboard action and update the coordinate of tetris.
      *
-     * TODO: Resolve racing condition!
-     *
      * @param event the keyboard action
      */
     @Override

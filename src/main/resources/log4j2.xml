@@ -33,6 +33,8 @@
         </RollingFile>
     </Appenders>
 
+    <!-- Note: Only the logs from ActionLogger and PositionLogger go to file. -->
+
     <Loggers>
         <Logger name="ActionLogger" level="debug" additivity="false">
             <AppenderRef ref="ta_rolling_file"/>

@@ -9,6 +9,7 @@ import cube.models.Score;
 import cube.monitors.Monitor;
 import cube.models.Position;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class MainStage extends Stage {
      */
     private ITetris tetris;
     private Monitor monitor;
+    private JLabel scoreDisplay;
 
     private KeyboardListener keyboardListener;
     private Integer xBoundary, yBoundary;
@@ -53,6 +55,7 @@ public class MainStage extends Stage {
         }
 
         monitor.refresh(g);
+        updateScore();
     }
 
     @Override
@@ -93,6 +96,12 @@ public class MainStage extends Stage {
     }
 
     @Override
+    public void updateScore() {
+        String score = String.valueOf(monitor.getScore());
+        scoreDisplay.setText("Score: " + score);
+    }
+
+    @Override
     public Integer getScore() {
         return monitor.getScore();
     }
@@ -110,5 +119,10 @@ public class MainStage extends Stage {
         setFocusable(true);
         setDoubleBuffered(true);
         setBackground(config.getBackground());
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        scoreDisplay = new JLabel();
+        scoreDisplay.setForeground(Color.GREEN);
+        add(scoreDisplay);
     }
 }

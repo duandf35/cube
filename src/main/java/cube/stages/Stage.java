@@ -72,6 +72,13 @@ public abstract class Stage extends JPanel {
     }
 
     /**
+     * Refresh displayed score on the screen.
+     */
+    public void updateScore() {
+
+    }
+
+    /**
      * Return score of current game.
      * @return the score.
      */
