@@ -4,8 +4,10 @@ import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Position;
+import cube.models.Score;
 
 import javax.swing.*;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,5 +69,21 @@ public abstract class Stage extends JPanel {
      */
     public void digestTetris() {
 
+    }
+
+    /**
+     * Return score of current game.
+     * @return the score.
+     */
+    public Integer getScore() {
+        return null;
+    }
+
+    /**
+     * Get all historical score records.
+     * @return the list of all score records.
+     */
+    public List<Score> getAllScores() {
+        return null;
     }
 }

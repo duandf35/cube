@@ -1,6 +1,5 @@
 package cube.services;
 
-import com.google.common.collect.ImmutableList;
 import cube.aop.TraceUtils;
 import cube.configs.CubeConfig;
 import cube.models.Cube;
@@ -10,6 +9,8 @@ import cube.models.Position;
 import cube.models.Rotator;
 import cube.models.Tetris;
 import cube.models.TetrisType;
+
+import com.google.common.collect.ImmutableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -68,10 +69,12 @@ public class TetrisFactory implements Factory<ITetris> {
         return tetris;
     }
 
-    private ITetris build(ICube center, List<ICube> rim, Rotator rotator, TetrisType type) {
+    private ITetris build(ICube center, List<ICube> rim, TetrisType type) {
         if (null != center) {
             center.setColor(config.getCenterColor());
         }
+
+        Rotator rotator = new Rotator(center, rim);
 
         return new Tetris(center, rim, rotator, type);
     }
@@ -84,7 +87,7 @@ public class TetrisFactory implements Factory<ITetris> {
 
         List<ICube> rim = ImmutableList.of(cube1, cube2, cube3, cube4);
 
-        return build(null, rim, new Rotator(), TetrisType.O);
+        return build(null, rim, TetrisType.O);
     }
 
     private ITetris S() {
@@ -95,7 +98,7 @@ public class TetrisFactory implements Factory<ITetris> {
 
         List<ICube> rim = ImmutableList.of(cube1, cube2, cube4);
 
-        return build(cube3, rim, new Rotator(), TetrisType.S);
+        return build(cube3, rim, TetrisType.S);
     }
 
     private ITetris Z() {
@@ -106,7 +109,7 @@ public class TetrisFactory implements Factory<ITetris> {
 
         List<ICube> rim = ImmutableList.of(cube1, cube3, cube4);
 
-        return build(cube2, rim, new Rotator(), TetrisType.Z);
+        return build(cube2, rim, TetrisType.Z);
     }
 
     private ITetris L() {
@@ -117,7 +120,7 @@ public class TetrisFactory implements Factory<ITetris> {
 
         List<ICube> rim = ImmutableList.of(cube1, cube3, cube4);
 
-        return build(cube2, rim, new Rotator(), TetrisType.L);
+        return build(cube2, rim, TetrisType.L);
     }
 
     private ITetris J() {
@@ -128,7 +131,7 @@ public class TetrisFactory implements Factory<ITetris> {
 
         List<ICube> rim = ImmutableList.of(cube1, cube3, cube4);
 
-        return build(cube2, rim, new Rotator(), TetrisType.J);
+        return build(cube2, rim, TetrisType.J);
     }
 
     private ITetris T() {
@@ -139,7 +142,7 @@ public class TetrisFactory implements Factory<ITetris> {
 
         List<ICube> rim = ImmutableList.of(cube1, cube2, cube4);
 
-        return build(cube3, rim, new Rotator(), TetrisType.T);
+        return build(cube3, rim, TetrisType.T);
     }
 
     private ITetris I() {
@@ -150,6 +153,6 @@ public class TetrisFactory implements Factory<ITetris> {
 
         List<ICube> rim = ImmutableList.of(cube1, cube2, cube4);
 
-        return build(cube3, rim, new Rotator(), TetrisType.I);
+        return build(cube3, rim, TetrisType.I);
     }
 }

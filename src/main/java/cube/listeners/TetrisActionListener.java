@@ -26,7 +26,7 @@ import java.util.TimerTask;
  * @since 10/22/15
  */
 public class TetrisActionListener implements ActionListener {
-    private static final Logger LOG = LogManager.getLogger(TetrisActionListener.class.getName());
+    private static final Logger LOG = LogManager.getLogger(TetrisActionListener.class);
 
     private final ListenerConfig config;
     private final Timer gravityTimer;
@@ -46,6 +46,9 @@ public class TetrisActionListener implements ActionListener {
 
     /**
      * Listener to keyboard action and update the coordinate of tetris.
+     *
+     * TODO: Resolve racing condition!
+     *
      * @param event the keyboard action
      */
     @Override
@@ -57,7 +60,7 @@ public class TetrisActionListener implements ActionListener {
                 applyAction(command, stage.getTetris());
                 stage.repaint();
             } else {
-                LOG.info("Game Over!");
+                LOG.info("Game Over! Score: {}", stage.getScore());
                 gravityTimer.cancel();
             }
         } catch (InterruptedException e) {
@@ -111,7 +114,7 @@ public class TetrisActionListener implements ActionListener {
                 moveTetris(command, tetris);
             } else if (0 < command.moveY()) {
                 stage.digestTetris();
-                Thread.sleep(1000);
+                Thread.sleep(config.getDigestDelay());
             }
         }
     }

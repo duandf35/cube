@@ -1,6 +1,7 @@
 package cube.services;
 
 import cube.listeners.KeyboardListener;
+import cube.models.Score;
 import cube.monitors.Monitor;
 import cube.monitors.StageMonitor;
 import cube.stages.MainStage;
@@ -22,9 +23,14 @@ public class StageFactory implements Factory<Stage> {
     }
 
     public Stage build() {
-        Monitor monitor = new StageMonitor();
         KeyboardListener keyboardListener = new KeyboardListener();
 
-        return new MainStage(keyboardListener, monitor);
+        return new MainStage(keyboardListener, buildMonitor());
+    }
+
+    private Monitor buildMonitor() {
+        RecordService<Score> scoreService = new ScoreService();
+
+        return new StageMonitor(scoreService);
     }
 }

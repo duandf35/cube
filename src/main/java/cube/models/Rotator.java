@@ -17,8 +17,11 @@ public class Rotator implements Rotatable {
     private ICube center;
     private List<ICube> rim;
 
-    public Rotator() {
+    public Rotator(ICube center, List<ICube> rim) {
         config = CubeConfig.getInstance();
+
+        this.center = center;
+        this.rim = rim;
     }
 
     @Override

@@ -2,8 +2,10 @@ package cube.monitors;
 
 import cube.models.ICube;
 import cube.models.Position;
+import cube.models.Score;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,4 +30,16 @@ public interface Monitor {
      * Check each line and erase cubes if necessary.
      */
     void refresh(Graphics g);
+
+    /**
+     * Get score of current game.
+     * @return the score.
+     */
+    Integer getScore();
+
+    /**
+     * Get all historical score records.
+     * @return the list of scores.
+     */
+    List<Score> getAllScores();
 }

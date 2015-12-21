@@ -86,6 +86,10 @@ public class App extends JFrame {
         new Timer(config.getDelay(), tetrisActionListener).start();
     }
 
+    /**
+     * Entrance of the application.
+     * @param args the args.
+     */
     public static void main(String... args) {
         EventQueue.invokeLater(() -> new App());
     }

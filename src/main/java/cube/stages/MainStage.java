@@ -5,10 +5,12 @@ import cube.listeners.KeyboardListener;
 import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
+import cube.models.Score;
 import cube.monitors.Monitor;
 import cube.models.Position;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +21,7 @@ public class MainStage extends Stage {
     private final StageConfig config;
 
     /**
-     * Current active tetris which will response keyboard action
+     * Current active tetris which will response keyboard action.
      */
     private ITetris tetris;
     private Monitor monitor;
@@ -88,6 +90,16 @@ public class MainStage extends Stage {
         tetris.digest();
         tetris.getCubes().stream().forEach(c -> monitor.add(c));
         tetris = null;
+    }
+
+    @Override
+    public Integer getScore() {
+        return monitor.getScore();
+    }
+
+    @Override
+    public List<Score> getAllScores() {
+        return monitor.getAllScores();
     }
 
     private void initStage() {

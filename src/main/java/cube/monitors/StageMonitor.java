@@ -5,6 +5,8 @@ import cube.aop.TraceUtils;
 import cube.configs.StageConfig;
 import cube.models.ICube;
 import cube.models.Position;
+import cube.models.Score;
+import cube.services.RecordService;
 
 import java.awt.*;
 import java.util.*;
@@ -16,14 +18,19 @@ import java.util.List;
  */
 public class StageMonitor implements Monitor {
     private StageConfig config;
+
     private Map<Position, ICube> cubes;
     // Matrix to trace each position
     private HashMap<Integer, List<Position>> monitor;
 
-    public StageMonitor() {
+    private RecordService<Score> scoreService;
+
+    public StageMonitor(RecordService<Score> scoreService) {
         config = StageConfig.getInstance();
         cubes = new HashMap<>();
         monitor = new HashMap<>();
+
+        this.scoreService = scoreService;
     }
 
     @Override
@@ -51,12 +58,23 @@ public class StageMonitor implements Monitor {
         monitor.entrySet().stream().forEach(line -> {
             if (config.getXMonitorSize() == line.getValue().size()) {
                 removeLine(line);
+                scoreService.update();
             }
         });
 
         cubes.entrySet().stream().forEach(e ->
             e.getValue().paint(g)
         );
+    }
+
+    @Override
+    public Integer getScore() {
+        return scoreService.get().getValue();
+    }
+
+    @Override
+    public List<Score> getAllScores() {
+        return scoreService.getAll();
     }
 
     @TraceAction(action = TraceUtils.Actions.ERASING)
@@ -70,6 +88,5 @@ public class StageMonitor implements Monitor {
 
         cube.dispose();
         cubes.remove(position);
-        cube = null;
     }
 }
