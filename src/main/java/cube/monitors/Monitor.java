@@ -1,7 +1,6 @@
 package cube.monitors;
 
 import cube.models.ICube;
-import cube.models.Position;
 import cube.models.Score;
 
 import java.awt.*;
@@ -15,10 +14,22 @@ import java.util.Map;
 public interface Monitor {
 
     /**
+     * Get score of current game.
+     * @return the score.
+     */
+    Integer getScore();
+
+    /**
+     * Get all historical score records.
+     * @return the list of scores.
+     */
+    List<Score> getAllScores();
+
+    /**
      * Return cubes along with their position.
      * @return cubes with positions.
      */
-    Map<Position, ICube> getCubes();
+    Map<Integer, Map<Integer, ICube>> getCubes();
 
     /**
      * Add cube into monitor.
@@ -30,16 +41,4 @@ public interface Monitor {
      * Check each line and erase cubes if necessary.
      */
     void refresh(Graphics g);
-
-    /**
-     * Get score of current game.
-     * @return the score.
-     */
-    Integer getScore();
-
-    /**
-     * Get all historical score records.
-     * @return the list of scores.
-     */
-    List<Score> getAllScores();
 }

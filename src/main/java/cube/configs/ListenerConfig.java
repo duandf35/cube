@@ -19,7 +19,7 @@ public class ListenerConfig implements Config {
 
     private static final Integer DEF_GRAVITY_APP_PER = 1000;
     private static final Integer DEF_GRAVITY_APP_DEL = 1000;
-    private static final Integer DEF_DIGEST_DEL = 1000;
+    private static final Integer DEF_DIGEST_DEL = 750;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();
 
@@ -35,7 +35,7 @@ public class ListenerConfig implements Config {
         CONF_MAP.put(GRAVITY, cubeConfig.getHeight());
         CONF_MAP.put(GRAVITY_APPLY_DELAY, DEF_GRAVITY_APP_DEL);
         CONF_MAP.put(GRAVITY_APPLY_PERIOD, DEF_GRAVITY_APP_PER);
-        CONF_MAP.put(DIGEST_DELAY, DEF_GRAVITY_APP_DEL);
+        CONF_MAP.put(DIGEST_DELAY, DEF_DIGEST_DEL);
 
         CONF_MAP.put(X_UPDATE, cubeConfig.getWidth());
         CONF_MAP.put(Y_UPDATE, cubeConfig.getHeight());

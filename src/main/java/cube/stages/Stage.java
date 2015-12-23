@@ -3,7 +3,6 @@ package cube.stages;
 import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
-import cube.models.Position;
 import cube.models.Score;
 
 import javax.swing.*;
@@ -60,7 +59,7 @@ public abstract class Stage extends JPanel {
      * Get position-cube map in the stage.
      * @return the map
      */
-    public Map<Position, ICube> getCubes() {
+    public Map<Integer, Map<Integer, ICube>> getCubes() {
         return null;
     }
 

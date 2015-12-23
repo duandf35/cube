@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -50,10 +49,11 @@ public class TetrisActionListener implements ActionListener {
      * @param event the keyboard action
      */
     @Override
-    public void actionPerformed(ActionEvent event) {
+    public synchronized void actionPerformed(ActionEvent event) {
         try {
             Command command = stage.getKeyboardAction();
 
+            // TODO: Still have racing condition
             if (isGameContinue()) {
                 applyAction(command, stage.getTetris());
                 stage.repaint();
@@ -157,7 +157,7 @@ public class TetrisActionListener implements ActionListener {
         boolean blocked = false;
 
         for (ICube cube: tetris.getCubes()) {
-            blocked |= isBlockedByOtherCubes(cube.getPosition(), stage.getCubes());
+            blocked |= isBlockedByOtherCubes(cube.getPosition());
         }
 
         return blocked;
@@ -168,14 +168,15 @@ public class TetrisActionListener implements ActionListener {
 
         for (ICube cube: tetris.getCubes()) {
             Position nextPosition = tetris.getNextMovePosition(command, cube);
-            blocked |= isBlockedByOtherCubes(nextPosition, stage.getCubes());
+            blocked |= isBlockedByOtherCubes(nextPosition);
         }
 
         return blocked;
     }
 
-    private boolean isBlockedByOtherCubes(Position nextPosition, Map<Position, ICube> cubesInStage) {
-        return null != cubesInStage.get(nextPosition);
+    private boolean isBlockedByOtherCubes(Position nextPosition) {
+        return null != stage.getCubes().get(nextPosition.getY())
+            && null != stage.getCubes().get(nextPosition.getY()).get(nextPosition.getX());
     }
 
     private boolean isBlockedByEWBoundary(Command command, ITetris tetris) {
@@ -234,7 +235,7 @@ public class TetrisActionListener implements ActionListener {
             if (canRotate) {
                 for (ICube c: tetris.getCubes()) {
                     Position np = tetris.getNextRotatePosition(c);
-                    canRotate &= !isBlockedByOtherCubes(np, stage.getCubes()) && !isOutOfBoundary(np);
+                    canRotate &= !isBlockedByOtherCubes(np) && !isOutOfBoundary(np);
                 }
             }
         } else {

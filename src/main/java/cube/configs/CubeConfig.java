@@ -10,18 +10,51 @@ import java.util.Map;
  */
 public class CubeConfig implements Config {
 
-    // Config names
+    /**
+     * The width of cube.
+     */
     private static final String WIDTH  = "WIDTH";
+
+    /**
+     * The height of cube.
+     */
     private static final String HEIGHT = "HEIGHT";
+
+    /**
+     * The border of cube.
+     */
     private static final String BORDER = "BORDER";
+
+    /**
+     * The color of rim cube.
+     */
     private static final String COLOR  = "COLOR";
+
+    /**
+     * The color of cube border.
+     */
     private static final String COLOR_BORDER  = "COLOR_BORDER";
+
+    /**
+     * The color of center cube.
+     */
     private static final String COLOR_CENTER  = "COLOR_CENTER";
+
+    /**
+     * The stroke width when drawing cube.
+     */
     private static final String STROKE_WIDTH = "STROKE_WIDTH";
+
+    /**
+     * The maximum id used to set upper bound of Random.nextInt() when selecting tetris.
+     */
     private static final String TETRIS_ID_BOUND = "TETRIS_ID_BOUND";
+
+    /**
+     * The random seed.
+     */
     private static final String TETRIS_ROLLING_SEED = "TETRIS_ROLLING_SEED";
 
-    // Default settings
     private static final Integer DEF_W  = 50;
     private static final Integer DEF_H  = 50;
     private static final Integer DEF_B  = 5;

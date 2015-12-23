@@ -7,7 +7,6 @@ import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Score;
 import cube.monitors.Monitor;
-import cube.models.Position;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,7 +83,7 @@ public class MainStage extends Stage {
     }
 
     @Override
-    public Map<Position, ICube> getCubes() {
+    public Map<Integer, Map<Integer, ICube>> getCubes() {
         return monitor.getCubes();
     }
 
