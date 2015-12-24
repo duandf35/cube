@@ -1,101 +1,33 @@
 package cube.models;
 
-import cube.configs.CubeConfig;
-
 import java.util.List;
 
 /**
- * Provide rotating mechanism.
- *
  * @author wenyu
- * @since 11/5/15
+ * @since 11/7/15
  */
-public class Rotator implements Rotatable {
-
-    private final CubeConfig config;
-
-    private ICube center;
-    private List<ICube> rim;
-
-    public Rotator(ICube center, List<ICube> rim) {
-        config = CubeConfig.getInstance();
-
-        this.center = center;
-        this.rim = rim;
-    }
-
-    @Override
-    public void setRim(List<ICube> rim) {
-        this.rim = rim;
-    }
-
-    @Override
-    public void setCenter(ICube center) {
-        this.center = center;
-    }
-
-    @Override
-    public void rotate() {
-        doRotate();
-    }
-
-    @Override
-    public void rotate(Position p) {
-        if (null != center) {
-            if (null != p) {
-                doRotate(p);
-            } else {
-                doRotate();
-            }
-        } else {
-            // Not rotatable
-        }
-    }
-
-    private void doRotate() {
-        rim.stream().forEach(r -> doRotate(r.getPosition()));
-    }
+public interface Rotator {
 
     /**
-     * given:
-     *      center: (Xc, Yc), start position: (X, Y)
-     * when:
-     *      doing clockwise rotation
-     *      next position is (X', Y')
-     * know:
-     *      dx = X - Xc
-     *      dy = Y - Yc
-     * and
-     *      dx' = X' - Xc
-     *      dy' = Y' - Yc
-     * and
-     *      dx' = - dy
-     *      dy' = dx
-     * so
-     *      X' - Xc = -dy = Yc - Y
-     *   =>
-     *      X' = Yc + Xc - Y
-     *
-     *      Y' - Yc = dx = X - Xc
-     *   =>
-     *      Y' = Yc - Xc + X
-     *
-     * so next position always be:
-     *
-     *      X' = Yc + Xc - Y
-     *      Y' = Yc - Xc + X
-     *
-     *      MATH IS AMAZING!!!
-     *
-     * @param rp the position of cube
+     * Set rim cubes whose position shall be changed during rotating.
+     * @param rim the cubes in the rim
      */
-    private void doRotate(Position rp) {
-        Position cp = center.getPosition();
+    void setRim(List<ICube> rim);
 
-        Integer nx = cp.getY() + cp.getX() - rp.getY();
-        Integer ny = cp.getY() - cp.getX() + rp.getX();
+    /**
+     * Set center cube.
+     * @param center the center cube
+     */
+    void setCenter(ICube center);
 
-        rp.setX(nx);
-        rp.setY(ny);
-    }
+    /**
+     * Apply rotating action for all cubes of tetris.
+     */
+    void rotate();
+
+    /**
+     * Apply rotating action for one cube of tetris.
+     * @param p the start position
+     */
+    void rotate(Position p);
 }

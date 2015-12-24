@@ -57,12 +57,6 @@ public interface ITetris {
     boolean isDigested();
 
     /**
-     * Erase cubes based on the given position.
-     * @param position the position
-     */
-    void erase(Position position);
-
-    /**
      * Move tetris based on the given position change.
      * @param command the operation command
      */

@@ -83,11 +83,6 @@ public class Tetris implements ITetris {
     }
 
     @Override
-    public void erase(Position position) {
-
-    }
-
-    @Override
     public void move(Command command) {
         cubes.stream().forEach(cube -> {
             cube.moveX(command.moveX());

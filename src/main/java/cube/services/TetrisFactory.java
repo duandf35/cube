@@ -8,6 +8,7 @@ import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Position;
 import cube.models.Rotator;
+import cube.models.TetrisRotator;
 import cube.models.Tetris;
 import cube.models.TetrisType;
 
@@ -86,7 +87,7 @@ public class TetrisFactory implements Factory<ITetris> {
             center.setColor(cubeConfig.getCenterColor());
         }
 
-        Rotator rotator = new Rotator(center, rim);
+        Rotator rotator = new TetrisRotator(center, rim);
 
         return new Tetris(center, rim, rotator, type);
     }

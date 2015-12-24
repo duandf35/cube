@@ -33,6 +33,11 @@ public class TetrisActionListener implements ActionListener {
     private Stage stage;
     private Factory factory;
 
+    /**
+     * A flag to indicate whether the current game is over to avoid calling boundary checking method multiple times.
+     */
+    private static boolean isGameContinue = true;
+
     public TetrisActionListener(Stage stage, Factory factory) {
         config = ListenerConfig.getInstance();
         gravityTimer = new Timer();
@@ -53,13 +58,13 @@ public class TetrisActionListener implements ActionListener {
         try {
             Command command = stage.getKeyboardAction();
 
-            // TODO: Still have racing condition
             if (isGameContinue()) {
                 applyAction(command, stage.getTetris());
                 stage.repaint();
             } else {
                 LOG.info("Game Over! Score: {}", stage.getScore());
                 gravityTimer.cancel();
+                // TODO: How to 'suspend' all threads?
             }
         } catch (InterruptedException e) {
             LOG.error("Error happened during action performing.", e);
@@ -81,19 +86,18 @@ public class TetrisActionListener implements ActionListener {
      * @return true if new tetris can be put on the state
      */
     private boolean isGameContinue() {
-        boolean canContinue = true;
 
-        if (null == stage.getTetris()) {
+        if (isGameContinue && null == stage.getTetris()) {
             ITetris newTetris = (ITetris) factory.build();
 
             if (isBlockedByOtherTetris(newTetris)) {
-                canContinue = false;
+                isGameContinue = false;
             } else {
                 stage.setTetris(newTetris);
             }
         }
 
-        return canContinue;
+        return isGameContinue;
     }
 
     /**
@@ -112,7 +116,6 @@ public class TetrisActionListener implements ActionListener {
                 moveTetris(command, tetris);
             } else if (0 < command.moveY()) {
                 stage.digestTetris();
-                Thread.sleep(config.getDigestDelay());
             }
         }
     }

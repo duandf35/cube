@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -37,7 +38,8 @@ public class StageMonitor implements Monitor {
         cubeConfig = CubeConfig.getInstance();
         stageConfig = StageConfig.getInstance();
 
-        cubes = new HashMap<>();
+        // Operate HashMap in nested loop may cause ConcurrentModificationException be thrown
+        cubes = new ConcurrentHashMap<>();
 
         this.scoreService = scoreService;
     }
@@ -90,8 +92,10 @@ public class StageMonitor implements Monitor {
 
         // Repaint cubes
         cubes.entrySet()
+             .stream()
              .forEach(lineEntry -> lineEntry.getValue()
                                             .entrySet()
+                                            .stream()
                                             .forEach(cubeEntry -> cubeEntry.getValue()
                                                                            .paint(g))
         );
