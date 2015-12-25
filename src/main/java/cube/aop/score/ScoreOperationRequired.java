@@ -1,4 +1,4 @@
-package cube.aop;
+package cube.aop.score;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * @author wenyu
- * @since 11/9/15
+ * @since 12/24/15
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface TracePosition {
+public @interface ScoreOperationRequired {
 
-    TraceUtils.Actions action();
+    ScoreOperation operation();
 }

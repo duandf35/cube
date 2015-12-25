@@ -12,12 +12,31 @@ repositories {
 }
 
 dependencies {
+    // h2
+    compile 'com.h2database:h2:1.+'
+
+    // hibernate
+    compile 'org.hibernate:hibernate-core:5.+'
+    compile 'org.hibernate:hibernate-entitymanager:5.+'
+    compile 'org.jboss.spec.javax.transaction:jboss-transaction-api_1.1_spec:1.0.1.Final'
+
+    // joda time
     compile 'joda-time:joda-time:2.9.+'
+
+    // guava
     compile 'com.google.guava:guava:19.+'
+
+    // groovy
     compile 'org.codehaus.groovy:groovy-all:2.4.+'
+
+    // log4j
     compile 'org.apache.logging.log4j:log4j-api:2.4.+'
     compile 'org.apache.logging.log4j:log4j-core:2.4.+'
+
+    // junit
     testCompile 'junit:junit:4.11'
+
+    // groovy spock
     testCompile 'org.spockframework:spock-maven:0.7-groovy-2.0'
 }
 
@@ -31,7 +50,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "nl.eveoh:gradle-aspectj:1.+"
+        classpath 'nl.eveoh:gradle-aspectj:1.+'
     }
 }
 

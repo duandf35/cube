@@ -1,6 +1,6 @@
 package cube.services;
 
-import cube.aop.TraceUtils;
+import cube.aop.trace.TraceUtils;
 import cube.configs.CubeConfig;
 import cube.configs.StageConfig;
 import cube.models.Cube;

@@ -1,8 +1,10 @@
 package cube.listeners;
 
 import com.google.common.base.Preconditions;
-import cube.aop.TracePosition;
-import cube.aop.TraceUtils;
+import cube.aop.score.ScoreOperation;
+import cube.aop.score.ScoreOperationRequired;
+import cube.aop.trace.TracePosition;
+import cube.aop.trace.TraceUtils;
 import cube.configs.ListenerConfig;
 import cube.models.Command;
 import cube.models.ICube;
@@ -34,6 +36,7 @@ public class TetrisActionListener implements ActionListener {
     private Factory factory;
 
     /**
+     * TODO: Check by main thread for stopping event queue ?
      * A flag to indicate whether the current game is over to avoid calling boundary checking method multiple times.
      */
     private static boolean isGameContinue = true;
@@ -61,10 +64,6 @@ public class TetrisActionListener implements ActionListener {
             if (isGameContinue()) {
                 applyAction(command, stage.getTetris());
                 stage.repaint();
-            } else {
-                LOG.info("Game Over! Score: {}", stage.getScore());
-                gravityTimer.cancel();
-                // TODO: How to 'suspend' all threads?
             }
         } catch (InterruptedException e) {
             LOG.error("Error happened during action performing.", e);
@@ -92,12 +91,19 @@ public class TetrisActionListener implements ActionListener {
 
             if (isBlockedByOtherTetris(newTetris)) {
                 isGameContinue = false;
+                gameOver();
             } else {
                 stage.setTetris(newTetris);
             }
         }
 
         return isGameContinue;
+    }
+
+    @ScoreOperationRequired(operation = ScoreOperation.SAVE)
+    private void gameOver() {
+        LOG.info("Game Over! Score: {}", stage.getScore());
+        gravityTimer.cancel();
     }
 
     /**

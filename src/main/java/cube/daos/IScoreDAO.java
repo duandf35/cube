@@ -1,8 +1,16 @@
 package cube.daos;
 
+import cube.models.Score;
+
 /**
  * @author wenyu
- * @date 12/23/15
+ * @since 12/23/15
  */
 public interface IScoreDAO {
+
+    /**
+     * Save score to database.
+     * @param score the score
+     */
+    void save(final Score score);
 }

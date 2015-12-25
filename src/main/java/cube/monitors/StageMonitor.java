@@ -1,13 +1,13 @@
 package cube.monitors;
 
-import cube.aop.TraceAction;
-import cube.aop.TraceUtils;
+import cube.aop.score.ScoreOperation;
+import cube.aop.score.ScoreOperationRequired;
+import cube.aop.trace.TraceAction;
+import cube.aop.trace.TraceUtils;
 import cube.configs.CubeConfig;
 import cube.configs.StageConfig;
 import cube.models.ICube;
 import cube.models.Position;
-import cube.models.Score;
-import cube.services.RecordService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,26 +32,12 @@ public class StageMonitor implements Monitor {
      */
     private Map<Integer, Map<Integer, ICube>> cubes;
 
-    private RecordService<Score> scoreService;
-
-    public StageMonitor(final RecordService<Score> scoreService) {
+    public StageMonitor() {
         cubeConfig = CubeConfig.getInstance();
         stageConfig = StageConfig.getInstance();
 
         // Operate HashMap in nested loop may cause ConcurrentModificationException be thrown
         cubes = new ConcurrentHashMap<>();
-
-        this.scoreService = scoreService;
-    }
-
-    @Override
-    public Integer getScore() {
-        return scoreService.get().getValue();
-    }
-
-    @Override
-    public List<Score> getAllScores() {
-        return scoreService.getAll();
     }
 
     @Override
@@ -82,7 +68,6 @@ public class StageMonitor implements Monitor {
         cubes.entrySet().stream().forEach(lineEntry -> {
             if (stageConfig.getXMonitorSize() == lineEntry.getValue().size()) {
                 removedLines.add(lineEntry.getKey());
-                scoreService.update();
             }
         });
 
@@ -144,6 +129,7 @@ public class StageMonitor implements Monitor {
                                            .setY(newLineNum));
     }
 
+    @ScoreOperationRequired(operation = ScoreOperation.UPDATE)
     @TraceAction(action = TraceUtils.Actions.ERASING)
     private void removeLine(final Integer lineNum) {
         cubes.get(lineNum)

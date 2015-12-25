@@ -1,4 +1,4 @@
-package cube.aop;
+package cube.aop.trace;
 
 import cube.models.ITetris;
 
@@ -16,15 +16,14 @@ privileged aspect TraceMonitor {
     private static final Logger A_LOG = LogManager.getLogger(TraceUtils.ACTION_LOGGER);
 
     // Add execution to avoid invoking advice twice
-    pointcut methodWithTracePositionAnnotation() : execution(* *(..)) && @annotation(cube.aop.TracePosition);
+    pointcut methodWithTracePositionAnnotation() : execution(* *(..)) && @annotation(cube.aop.trace.TracePosition);
 
     // TODO: Refactor point cut evaluation to include annotation arguments
-    pointcut methodWithTraceActionAnnotation() : execution(* *(..)) && @annotation(cube.aop.TraceAction);
+    pointcut methodWithTraceActionAnnotation() : execution(* *(..)) && @annotation(cube.aop.trace.TraceAction);
 
     Object around() : methodWithTracePositionAnnotation() {
         Object retVal;
         try {
-
             MethodSignature method = (MethodSignature) thisJoinPoint.getSignature();
             String label = method.getMethod().getAnnotation(TracePosition.class).action().getName();
 

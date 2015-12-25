@@ -1,4 +1,4 @@
-package cube.aop;
+package cube.aop.trace;
 
 /**
  * @author wenyu

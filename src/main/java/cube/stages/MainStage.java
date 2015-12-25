@@ -7,6 +7,7 @@ import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Score;
 import cube.monitors.Monitor;
+import cube.services.RecordService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,15 +27,17 @@ public class MainStage extends Stage {
     private ITetris tetris;
     private Monitor monitor;
     private JLabel scoreDisplay;
-
     private KeyboardListener keyboardListener;
+    private RecordService<Score> scoreService;
+
     private Integer xBoundary, yBoundary;
 
-    public MainStage(KeyboardListener keyboardListener, Monitor monitor) {
+    public MainStage(KeyboardListener keyboardListener, Monitor monitor, RecordService<Score> scoreService) {
         config = StageConfig.getInstance();
 
         this.monitor = monitor;
         this.keyboardListener = keyboardListener;
+        this.scoreService = scoreService;
 
         xBoundary = config.getXBoundary();
         yBoundary = config.getYBoundary();
@@ -95,19 +98,18 @@ public class MainStage extends Stage {
     }
 
     @Override
-    public void updateScore() {
-        String score = String.valueOf(monitor.getScore());
-        scoreDisplay.setText("Score: " + score);
-    }
-
-    @Override
     public Integer getScore() {
-        return monitor.getScore();
+        return scoreService.get().getValue();
     }
 
     @Override
     public List<Score> getAllScores() {
-        return monitor.getAllScores();
+        return scoreService.getAll();
+    }
+
+    @Override
+    public void updateScore() {
+        scoreDisplay.setText("Score: " + getScore().toString());
     }
 
     private void initStage() {

@@ -1,6 +1,8 @@
 package cube.services;
 
 import com.google.common.collect.ImmutableList;
+import cube.daos.IScoreDAO;
+import cube.daos.ScoreDAO;
 import cube.models.Score;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +12,7 @@ import java.util.List;
 
 /**
  * @author wenyu
- * @since 12/19/15
+ * @since 12/24/15
  */
 public class ScoreService implements RecordService<Score> {
 
@@ -36,16 +38,29 @@ public class ScoreService implements RecordService<Score> {
      */
     private List<Score> scoreList;
 
-    public ScoreService() {
+    /**
+     * DAO.
+     */
+    private IScoreDAO scoreDAO;
+
+
+    private static ScoreService SERVICE = new ScoreService();
+
+    private ScoreService() {
         scoreCache = 0;
         currentScore = new Score(scoreCache);
         scoreList = new ArrayList<>();
+        scoreDAO = new ScoreDAO();
+    }
+
+    public static ScoreService getInstance() {
+        return SERVICE;
     }
 
     @Override
     public void update() {
         scoreCache += scoreUnit;
-        currentScore.setScore(scoreCache);
+        currentScore.setValue(scoreCache);
 
         LOG.info("Updating score, current score: {}.", scoreCache);
     }
@@ -62,6 +77,6 @@ public class ScoreService implements RecordService<Score> {
 
     @Override
     public void save() {
-
+        scoreDAO.save(currentScore);
     }
 }

@@ -71,13 +71,6 @@ public abstract class Stage extends JPanel {
     }
 
     /**
-     * Refresh displayed score on the screen.
-     */
-    public void updateScore() {
-
-    }
-
-    /**
      * Return score of current game.
      * @return the score.
      */
@@ -91,5 +84,12 @@ public abstract class Stage extends JPanel {
      */
     public List<Score> getAllScores() {
         return null;
+    }
+
+    /**
+     * Update score on the screen.
+     */
+    public void updateScore() {
+
     }
 }

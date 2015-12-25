@@ -1,10 +1,8 @@
 package cube.monitors;
 
 import cube.models.ICube;
-import cube.models.Score;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,18 +10,6 @@ import java.util.Map;
  * @since 11/7/15
  */
 public interface Monitor {
-
-    /**
-     * Get score of current game.
-     * @return the score.
-     */
-    Integer getScore();
-
-    /**
-     * Get all historical score records.
-     * @return the list of scores.
-     */
-    List<Score> getAllScores();
 
     /**
      * Return cubes along with their position.

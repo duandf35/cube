@@ -1,7 +1,7 @@
  package cube.models;
 
-import cube.aop.TraceAction;
-import cube.aop.TraceUtils;
+import cube.aop.trace.TraceAction;
+import cube.aop.trace.TraceUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
