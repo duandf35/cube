@@ -98,7 +98,7 @@ public class MainStage extends Stage {
     }
 
     @Override
-    public Integer getScore() {
+    public long getScore() {
         return scoreService.get().getValue();
     }
 
@@ -109,7 +109,7 @@ public class MainStage extends Stage {
 
     @Override
     public void updateScore() {
-        scoreDisplay.setText("Score: " + getScore().toString());
+        scoreDisplay.setText("Score: " + getScore());
     }
 
     private void initStage() {

@@ -6,6 +6,7 @@ import cube.daos.ScoreDAO;
 import cube.models.Score;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,12 @@ public class ScoreService implements RecordService<Score> {
     /**
      * Basic unit of score.
      */
-    private static final Integer scoreUnit = 1;
+    private static final int scoreUnit = 1;
 
     /**
      * Score cache.
      */
-    private Integer scoreCache;
+    private long scoreCache;
 
     /**
      * The Score instance of current game.
@@ -77,6 +78,7 @@ public class ScoreService implements RecordService<Score> {
 
     @Override
     public void save() {
+        currentScore.setTimestamp(new DateTime());
         scoreDAO.save(currentScore);
     }
 }

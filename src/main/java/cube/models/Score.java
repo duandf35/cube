@@ -4,8 +4,13 @@ import org.joda.time.DateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import java.util.Date;
 
 /**
  * @author wenyu
@@ -15,13 +20,28 @@ import javax.persistence.Table;
 @Table(name = "scores")
 public class Score {
 
-    private int id;
+    @Id
+    @GeneratedValue
+    private long id;
 
+    @Column(name = "player_name")
     private String playerName;
 
-    private int value;
+    @Column(name = "value")
+    private long value;
 
-    private DateTime date;
+    /**
+     * Used by Hibernate, H2 seems not support joda time.
+     */
+    @Temporal(TemporalType.DATE)
+    @Column(name = "timestamp")
+    private Date h2Timestamp;
+
+    /**
+     * Not used by Hibernate.
+     */
+    @Transient
+    private DateTime timestamp;
 
     /**
      * Default constructor, used by Hibernate.
@@ -32,11 +52,11 @@ public class Score {
 
     /**
      * Used for creating new value instance of current game.
-     * Should be removed after playerName and date information is added.
+     * Should be removed after playerName and timestamp information is added.
      * @param value the value.
      */
     @Deprecated
-    public Score(Integer value) {
+    public Score(long value) {
         this.value = value;
     }
 
@@ -44,17 +64,16 @@ public class Score {
      * Used for loading historical value from database.
      * @param playerName the player's name.
      * @param value    the value.
-     * @param date     the date.
+     * @param timestamp     the timestamp.
      */
-    public Score(int id, String playerName, Integer value, DateTime date) {
+    public Score(long id, String playerName, long value, DateTime timestamp) {
         this.id = id;
         this.playerName = playerName;
         this.value = value;
-        this.date = date;
+        this.timestamp = timestamp;
     }
 
-    @Id
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -62,7 +81,6 @@ public class Score {
      * Get player's name.
      * @return the player name
      */
-    @Column(name = "player_name")
     public String getPlayerName() {
         return playerName;
     }
@@ -71,21 +89,27 @@ public class Score {
      * Get value.
      * @return the value
      */
-    @Column(name = "value")
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 
     /**
-     * Get date.
-     * @return the date
+     * Get h2 timestamp.
+     * @return the timestamp
      */
-    @Column(name = "date")
-    public DateTime getDate() {
-        return date;
+    public Date getH2Timestamp() {
+        return h2Timestamp;
     }
 
-    public void setId(int id) {
+    /**
+     * Get timestamp.
+     * @return the timestamp
+     */
+    public DateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -101,20 +125,29 @@ public class Score {
      * Set value.
      * @param value the value
      */
-    public void setValue(int value) {
+    public void setValue(long value) {
         this.value = value;
     }
 
     /**
-     * Set date.
-     * @param date the date
+     * Set H2 timestamp.
+     * @param h2Timestamp the h2 timestamp.
      */
-    public void setDate(DateTime date) {
-        this.date = date;
+    public void setH2Timestamp(Date h2Timestamp) {
+        this.h2Timestamp = h2Timestamp;
+        this.timestamp = new DateTime(h2Timestamp);
+    }
+
+    /**
+     * Set timestamp.
+     * @param timestamp the timestamp
+     */
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
     public String toString() {
-        return "Score: [value: " + value + ", playerName: " + playerName + ", date: " + date + "]";
+        return "Score: [id: " + id + ", value: " + value + ", playerName: " + playerName + ", timestamp: " + timestamp + "]";
     }
 }

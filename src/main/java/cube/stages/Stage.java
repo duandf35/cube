@@ -74,8 +74,8 @@ public abstract class Stage extends JPanel {
      * Return score of current game.
      * @return the score.
      */
-    public Integer getScore() {
-        return null;
+    public long getScore() {
+        return 0;
     }
 
     /**

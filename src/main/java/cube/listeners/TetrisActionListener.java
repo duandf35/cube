@@ -91,7 +91,8 @@ public class TetrisActionListener implements ActionListener {
 
             if (isBlockedByOtherTetris(newTetris)) {
                 isGameContinue = false;
-                gameOver();
+                gravityTimer.cancel();
+                saveFinalScore();
             } else {
                 stage.setTetris(newTetris);
             }
@@ -101,9 +102,8 @@ public class TetrisActionListener implements ActionListener {
     }
 
     @ScoreOperationRequired(operation = ScoreOperation.SAVE)
-    private void gameOver() {
-        LOG.info("Game Over! Score: {}", stage.getScore());
-        gravityTimer.cancel();
+    private void saveFinalScore() {
+        LOG.info("Game Over! Final score: {}", stage.getScore());
     }
 
     /**
@@ -146,7 +146,7 @@ public class TetrisActionListener implements ActionListener {
         gravityTimer.schedule(new TimerTask() {
 
             @Override
-            public void run() {
+            public synchronized void run() {
                 try {
                     if (null != stage.getTetris()) {
                         applyGravity(stage.getTetris());

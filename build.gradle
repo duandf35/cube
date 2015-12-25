@@ -14,6 +14,7 @@ repositories {
 dependencies {
     // h2
     compile 'com.h2database:h2:1.+'
+    compile 'org.jadira.usertype:usertype.core:5.+'
 
     // hibernate
     compile 'org.hibernate:hibernate-core:5.+'
@@ -21,7 +22,7 @@ dependencies {
     compile 'org.jboss.spec.javax.transaction:jboss-transaction-api_1.1_spec:1.0.1.Final'
 
     // joda time
-    compile 'joda-time:joda-time:2.9.+'
+    compile 'joda-time:joda-time:2.+'
 
     // guava
     compile 'com.google.guava:guava:19.+'

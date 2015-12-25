@@ -3,7 +3,6 @@ package cube.aop.score;
 import cube.services.ScoreService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
 /**
