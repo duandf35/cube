@@ -73,7 +73,12 @@ public class ScoreService implements RecordService<Score> {
 
     @Override
     public List<Score> getAll() {
-        return ImmutableList.of();
+        return scoreDAO.getAll();
+    }
+
+    @Override
+    public Score getBest() {
+        return scoreDAO.getBest();
     }
 
     @Override

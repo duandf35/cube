@@ -26,7 +26,7 @@ public class MainStage extends Stage {
      */
     private ITetris tetris;
     private Monitor monitor;
-    private JLabel scoreDisplay;
+    private JLabel scoreDisplay, bestScoreDisplay;
     private KeyboardListener keyboardListener;
     private RecordService<Score> scoreService;
 
@@ -112,6 +112,11 @@ public class MainStage extends Stage {
         scoreDisplay.setText("Score: " + getScore());
     }
 
+    @Override
+    public long getBestScore() {
+        return scoreService.getBest().getValue();
+    }
+
     private void initStage() {
         // The size of JPanel will be 0,0 until it is displayed because the components and layout are not calculated beforehand.
         // See also: http://stackoverflow.com/questions/12010587/how-to-get-real-jpanel-size
@@ -119,11 +124,19 @@ public class MainStage extends Stage {
 
         setFocusable(true);
         setDoubleBuffered(true);
-        setBackground(config.getBackground());
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(config.getBackgroundColor());
+
+        FlowLayout flowLayout = new FlowLayout();
+        flowLayout.setAlignment(FlowLayout.LEADING);
+        setLayout(flowLayout);
 
         scoreDisplay = new JLabel();
-        scoreDisplay.setForeground(Color.GREEN);
+        scoreDisplay.setForeground(config.getScoreDisplayColor());
         add(scoreDisplay);
+
+        bestScoreDisplay = new JLabel();
+        bestScoreDisplay.setForeground(config.getScoreDisplayColor());
+        bestScoreDisplay.setText("Best: " + getBestScore());
+        add(bestScoreDisplay);
     }
 }

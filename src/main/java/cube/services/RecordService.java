@@ -27,6 +27,12 @@ public interface RecordService<T> {
     List<T> getAll();
 
     /**
+     * Get the best record.
+     * @return the best record
+     */
+    T getBest();
+
+    /**
      * Save record.
      */
     void save();

@@ -23,7 +23,12 @@ public class StageConfig implements Config {
     /**
      * The background color of stage.
      */
-    private static final String BACKGROUND = "BACKGROUND";
+    private static final String BACKGROUND_COLOR = "BACKGROUND_COLOR";
+
+    /**
+     * The display color of score.
+     */
+    private static final String SCORE_DISPLAY_COLOR = "SCORE_DISPLAY_COLOR";
 
     /**
      * The x-axis boundary position.
@@ -51,7 +56,8 @@ public class StageConfig implements Config {
 
     private static final Integer DEF_W  = 600;
     private static final Integer DEF_H  = 600;
-    private static final Color   DEF_BG  = new Color(7, 6, 8);
+    private static final Color   DEF_BG = new Color(7, 6, 8);
+    private static final Color   DEF_SG = Color.GREEN;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();
 
@@ -66,7 +72,8 @@ public class StageConfig implements Config {
 
         CONF_MAP.put(WIDTH, DEF_W);
         CONF_MAP.put(HEIGHT, DEF_H);
-        CONF_MAP.put(BACKGROUND, DEF_BG);
+        CONF_MAP.put(BACKGROUND_COLOR, DEF_BG);
+        CONF_MAP.put(SCORE_DISPLAY_COLOR, DEF_SG);
 
         CONF_MAP.put(X_BOUNDARY, (Integer) CONF_MAP.get(WIDTH) - cubeConfig.getWidth());
         CONF_MAP.put(Y_BOUNDARY, (Integer) CONF_MAP.get(HEIGHT) - cubeConfig.getHeight());
@@ -87,8 +94,12 @@ public class StageConfig implements Config {
             CONF_MAP.replace(HEIGHT, override.get(HEIGHT));
         }
 
-        if (override.get(BACKGROUND) instanceof Color) {
-            CONF_MAP.replace(BACKGROUND, override.get(BACKGROUND));
+        if (override.get(BACKGROUND_COLOR) instanceof Color) {
+            CONF_MAP.replace(BACKGROUND_COLOR, override.get(BACKGROUND_COLOR));
+        }
+
+        if (override.get(SCORE_DISPLAY_COLOR) instanceof Color) {
+            CONF_MAP.replace(SCORE_DISPLAY_COLOR, override.get(SCORE_DISPLAY_COLOR));
         }
 
         if (override.get(X_BOUNDARY) instanceof Integer) {
@@ -116,8 +127,12 @@ public class StageConfig implements Config {
         return (Integer) CONF_MAP.get(HEIGHT);
     }
 
-    public Color getBackground() {
-        return (Color) CONF_MAP.get(BACKGROUND);
+    public Color getBackgroundColor() {
+        return (Color) CONF_MAP.get(BACKGROUND_COLOR);
+    }
+
+    public Color getScoreDisplayColor() {
+        return (Color) CONF_MAP.get(SCORE_DISPLAY_COLOR);
     }
 
     public Integer getXBoundary() {

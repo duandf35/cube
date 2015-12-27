@@ -92,4 +92,11 @@ public abstract class Stage extends JPanel {
     public void updateScore() {
 
     }
+
+    /**
+     * Get the best historical score.
+     */
+    public long getBestScore() {
+        return 0;
+    }
 }
