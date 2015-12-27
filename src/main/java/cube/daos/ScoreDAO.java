@@ -29,4 +29,8 @@ public final class ScoreDAO implements IScoreDAO {
 
         session.close();
     }
+
+    public void getAll() {
+
+    }
 }

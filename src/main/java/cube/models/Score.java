@@ -1,7 +1,5 @@
 package cube.models;
 
-import org.joda.time.DateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -35,13 +32,7 @@ public class Score {
      */
     @Temporal(TemporalType.DATE)
     @Column(name = "timestamp")
-    private Date h2Timestamp;
-
-    /**
-     * Not used by Hibernate.
-     */
-    @Transient
-    private DateTime timestamp;
+    private Date timestamp;
 
     /**
      * Default constructor, used by Hibernate.
@@ -53,7 +44,7 @@ public class Score {
     /**
      * Used for creating new value instance of current game.
      * Should be removed after playerName and timestamp information is added.
-     * @param value the value.
+     * @param value the value
      */
     @Deprecated
     public Score(long value) {
@@ -62,11 +53,11 @@ public class Score {
 
     /**
      * Used for loading historical value from database.
-     * @param playerName the player's name.
-     * @param value    the value.
-     * @param timestamp     the timestamp.
+     * @param playerName the player's name
+     * @param value      the value
+     * @param timestamp  the timestamp
      */
-    public Score(long id, String playerName, long value, DateTime timestamp) {
+    public Score(long id, String playerName, long value, Date timestamp) {
         this.id = id;
         this.playerName = playerName;
         this.value = value;
@@ -94,18 +85,10 @@ public class Score {
     }
 
     /**
-     * Get h2 timestamp.
-     * @return the timestamp
-     */
-    public Date getH2Timestamp() {
-        return h2Timestamp;
-    }
-
-    /**
      * Get timestamp.
      * @return the timestamp
      */
-    public DateTime getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
@@ -130,24 +113,15 @@ public class Score {
     }
 
     /**
-     * Set H2 timestamp.
-     * @param h2Timestamp the h2 timestamp.
-     */
-    public void setH2Timestamp(Date h2Timestamp) {
-        this.h2Timestamp = h2Timestamp;
-        this.timestamp = new DateTime(h2Timestamp);
-    }
-
-    /**
      * Set timestamp.
-     * @param timestamp the timestamp
+     * @param timestamp the timestamp.
      */
-    public void setTimestamp(DateTime timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
     @Override
     public String toString() {
-        return "Score: [id: " + id + ", value: " + value + ", playerName: " + playerName + ", timestamp: " + timestamp + "]";
+        return "Score: [value: " + value + ", playerName: " + playerName + ", timestamp: " + timestamp + "]";
     }
 }

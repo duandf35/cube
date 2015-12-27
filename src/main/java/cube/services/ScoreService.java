@@ -6,9 +6,9 @@ import cube.daos.ScoreDAO;
 import cube.models.Score;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -78,7 +78,7 @@ public class ScoreService implements RecordService<Score> {
 
     @Override
     public void save() {
-        currentScore.setTimestamp(new DateTime());
+        currentScore.setTimestamp(new Date());
         scoreDAO.save(currentScore);
     }
 }
