@@ -57,10 +57,16 @@ public interface ITetris {
     boolean isDigested();
 
     /**
-     * Move tetris based on the given position change.
+     * Move tetris horizontally.
      * @param command the operation command
      */
-    void move(Command command);
+    void moveX(Command command);
+
+    /**
+     * Move tetris vertically.
+     * @param command the operation command
+     */
+    void moveY(Command command);
 
     /**
      * Rotate tetris.

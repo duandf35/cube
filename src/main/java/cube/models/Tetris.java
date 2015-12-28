@@ -1,6 +1,7 @@
  package cube.models;
 
 import cube.aop.trace.TraceAction;
+import cube.aop.trace.TracePosition;
 import cube.aop.trace.TraceUtils;
 
 import java.awt.*;
@@ -83,14 +84,23 @@ public class Tetris implements ITetris {
     }
 
     @Override
-    public void move(Command command) {
+    @TracePosition(action = TraceUtils.Actions.MOVING)
+    public void moveX(Command command) {
         cubes.stream().forEach(cube -> {
             cube.moveX(command.moveX());
+        });
+    }
+
+    @Override
+    @TracePosition(action = TraceUtils.Actions.MOVING)
+    public void moveY(Command command) {
+        cubes.stream().forEach(cube -> {
             cube.moveY(command.moveY());
         });
     }
 
     @Override
+    @TracePosition(action = TraceUtils.Actions.ROTATING)
     public void rotate() {
         rotator.rotate();
     }

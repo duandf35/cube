@@ -1,6 +1,5 @@
 package cube.services;
 
-import com.google.common.collect.ImmutableList;
 import cube.daos.IScoreDAO;
 import cube.daos.ScoreDAO;
 import cube.models.Score;
@@ -43,7 +42,6 @@ public class ScoreService implements RecordService<Score> {
      * DAO.
      */
     private IScoreDAO scoreDAO;
-
 
     private static ScoreService SERVICE = new ScoreService();
 

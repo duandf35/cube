@@ -3,8 +3,6 @@ package cube.listeners;
 import com.google.common.base.Preconditions;
 import cube.aop.score.ScoreOperation;
 import cube.aop.score.ScoreOperationRequired;
-import cube.aop.trace.TracePosition;
-import cube.aop.trace.TraceUtils;
 import cube.configs.ListenerConfig;
 import cube.models.Command;
 import cube.models.ICube;
@@ -70,16 +68,6 @@ public class TetrisActionListener implements ActionListener {
         }
     }
 
-    @TracePosition(action = TraceUtils.Actions.MOVING)
-    private void moveTetris(Command command, ITetris tetris) {
-        tetris.move(command);
-    }
-
-    @TracePosition(action = TraceUtils.Actions.ROTATING)
-    private void rotateTetris(ITetris tetris) {
-        tetris.rotate();
-    }
-
     /**
      * Check if new tetris can be generated.
      * @return true if new tetris can be put on the state
@@ -114,14 +102,22 @@ public class TetrisActionListener implements ActionListener {
      */
     private synchronized void applyAction(Command command, ITetris tetris) throws InterruptedException {
         if (isRotatable(command, tetris)) {
-            rotateTetris(tetris);
+            tetris.rotate();
         }
 
-        if (hasMovingCommand(command)) {
-            if (!isBlockedByOtherTetris(command, tetris) && !isBlockedByEWBoundary(command, tetris) && !isBlockedByNSBoundary(command, tetris)) {
-                moveTetris(command, tetris);
-            } else if (0 < command.moveY()) {
+        if (0 != command.moveX()) {
+            if (isBlockedByOtherTetris(command, tetris)) {
+                if (isBlockedByNSBoundary(command, tetris)) {
+                    stage.digestTetris();
+                }
+            } else if (!isBlockedByEWBoundary(command, tetris)){
+                tetris.moveX(command);
+            }
+        } else if (0 < command.moveY()) {
+            if (isBlockedByOtherTetris(command, tetris) || isBlockedByNSBoundary(command, tetris)) {
                 stage.digestTetris();
+            } else {
+                tetris.moveY(command);
             }
         }
     }
@@ -156,10 +152,6 @@ public class TetrisActionListener implements ActionListener {
                 }
             }
         }, config.getGravityApplyDelay(), config.getGravityApplyPeriod());
-    }
-
-    private boolean hasMovingCommand(Command command) {
-        return 0 != command.moveX() || 0 != command.moveY();
     }
 
     private boolean isBlockedByOtherTetris(ITetris tetris) {

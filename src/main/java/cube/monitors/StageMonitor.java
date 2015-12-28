@@ -53,7 +53,7 @@ public class StageMonitor implements Monitor {
         Map<Integer, ICube> line = cubes.get(y);
 
         if (null == line) {
-            line = new HashMap<>();
+            line = new ConcurrentHashMap<>();
         }
 
         line.put(x, cube);
