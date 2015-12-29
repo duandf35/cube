@@ -3,6 +3,7 @@ package cube;
 import cube.configs.ConfigLoader;
 import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
+import cube.listeners.Listener;
 import cube.listeners.TetrisActionListener;
 import cube.services.StageFactory;
 import cube.services.TetrisFactory;
@@ -22,7 +23,7 @@ public class App extends JFrame {
 
     private Stage stage;
     private Factory tetrisFactory, stageFactory;
-    private TetrisActionListener tetrisActionListener;
+    private Listener tetrisActionListener;
 
     public App() {
         config = FrameConfig.getInstance();

@@ -19,84 +19,62 @@ public abstract class Stage extends JPanel {
      * Get width of the stage.
      * @return the width
      */
-    public Integer getXBoundary() {
-        return 0;
-    }
+    public abstract Integer getXBoundary();
 
     /**
      * Get height of the stage.
      * @return the height
      */
-    public Integer getYBoundary() {
-        return 0;
-    }
+    public abstract Integer getYBoundary();
 
     /**
      * Get keyboard action.
      * @return the keyboard action
      */
-    public Command getKeyboardAction() {
-        return null;
-    }
+    public abstract Command getKeyboardAction();
 
     /**
      * Get tetris in the stage.
      * @return the tetris
      */
-    public ITetris getTetris() {
-        return null;
-    }
+    public abstract ITetris getTetris();
 
     /**
      * Set tetris to the stage.
      * @param tetris the tetris
      */
-    public void setTetris(ITetris tetris) {
-
-    }
+    public abstract void setTetris(ITetris tetris);
 
     /**
      * Get position-cube map in the stage.
      * @return the map
      */
-    public Map<Integer, Map<Integer, ICube>> getCubes() {
-        return null;
-    }
+    public abstract Map<Integer, Map<Integer, ICube>> getCubes();
 
     /**
      * Digest current active tetris, convert it into cubes.
      */
-    public void digestTetris() {
-
-    }
+    public abstract void digestTetris();
 
     /**
      * Return score of current game.
      * @return the score.
      */
-    public long getScore() {
-        return 0;
-    }
+    public abstract long getScore();
 
     /**
      * Get all historical score records.
      * @return the list of all score records.
      */
-    public List<Score> getAllScores() {
-        return null;
-    }
+    public abstract List<Score> getAllScores();
 
     /**
      * Update score on the screen.
      */
-    public void updateScore() {
-
-    }
+    public abstract void updateScore();
 
     /**
      * Get the best historical score.
      */
-    public long getBestScore() {
-        return 0;
-    }
+    public abstract long getBestScore();
 }

@@ -16,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,7 +23,7 @@ import java.util.TimerTask;
  * @author wenyu
  * @since 10/22/15
  */
-public class TetrisActionListener implements ActionListener {
+public class TetrisActionListener extends Listener {
     private static final Logger LOG = LogManager.getLogger(TetrisActionListener.class);
 
     private final ListenerConfig config;
@@ -75,6 +74,7 @@ public class TetrisActionListener implements ActionListener {
     /**
      * Activate this listener.
      */
+    @Override
     public void activate() {
         mainTimer.start();
     }

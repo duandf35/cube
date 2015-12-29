@@ -111,7 +111,7 @@ public class StageMonitor implements Monitor {
                 LOG.debug("Moving line from {} to {}.", oldLineNum, newLineNum);
 
                 cubes.put(newLineNum, cubes.get(oldLineNum));
-                cubes.put(oldLineNum, new HashMap<>());
+                cubes.put(oldLineNum, new ConcurrentHashMap<>());
             }
 
             newLineNum -= cubeConfig.getHeight();
