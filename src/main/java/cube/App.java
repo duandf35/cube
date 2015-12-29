@@ -83,7 +83,7 @@ public class App extends JFrame {
     }
 
     private void activateActionListeners() {
-        new Timer(config.getDelay(), tetrisActionListener).start();
+        tetrisActionListener.activate();
     }
 
     /**

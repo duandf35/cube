@@ -28,20 +28,24 @@ public class TetrisActionListener implements ActionListener {
     private static final Logger LOG = LogManager.getLogger(TetrisActionListener.class);
 
     private final ListenerConfig config;
-    private final Timer gravityTimer;
 
     private Stage stage;
     private Factory factory;
 
     /**
-     * TODO: Check by main thread for stopping event queue ?
-     * A flag to indicate whether the current game is over to avoid calling boundary checking method multiple times.
+     * Timer {@code javax.swing.Timer} to notify this listener.
      */
-    private static boolean isGameContinue = true;
+    private final javax.swing.Timer mainTimer;
+
+    /**
+     * Timer {@code java.util.Timer} to generate gravity command {@code cube.models.TetrisCommand}.
+     */
+    private final Timer gravityTimer;
 
     public TetrisActionListener(Stage stage, Factory factory) {
         config = ListenerConfig.getInstance();
         gravityTimer = new Timer();
+        mainTimer = new javax.swing.Timer(config.getMainTimerDealy(), this);
 
         this.stage = stage;
         this.factory = factory;
@@ -69,18 +73,36 @@ public class TetrisActionListener implements ActionListener {
     }
 
     /**
+     * Activate this listener.
+     */
+    public void activate() {
+        mainTimer.start();
+    }
+
+    /**
+     * Deactivate this listener.
+     */
+    private void deactivate() {
+        LOG.info("Game Over, Shutting down... Final score: {}.", stage.getScore());
+
+        gravityTimer.cancel();
+        mainTimer.stop();
+    }
+
+    /**
      * Check if new tetris can be generated.
      * @return true if new tetris can be put on the state
      */
     private boolean isGameContinue() {
+        boolean isGameContinue = true;
 
-        if (isGameContinue && null == stage.getTetris()) {
+        if (null == stage.getTetris()) {
             ITetris newTetris = (ITetris) factory.build();
 
             if (isBlockedByOtherTetris(newTetris)) {
                 isGameContinue = false;
-                gravityTimer.cancel();
                 saveFinalScore();
+                deactivate();
             } else {
                 stage.setTetris(newTetris);
             }
@@ -89,9 +111,12 @@ public class TetrisActionListener implements ActionListener {
         return isGameContinue;
     }
 
+    /**
+     * AOP JoinPoint for saving point action.
+     */
     @ScoreOperationRequired(operation = ScoreOperation.SAVE)
     private void saveFinalScore() {
-        LOG.info("Game Over! Final score: {}", stage.getScore());
+
     }
 
     /**

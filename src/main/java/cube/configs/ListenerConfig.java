@@ -9,6 +9,7 @@ import java.util.Map;
  */
 public class ListenerConfig implements Config {
 
+    private static final String MAIN_TIMER_DELAY = "MAIN_TIMER_DELAY";
     private static final String GRAVITY = "GRAVITY";
     private static final String GRAVITY_APPLY_DELAY = "GRAVITY_APPLY_DELAY";
     private static final String GRAVITY_APPLY_PERIOD = "GRAVITY_APPLY_PERIOD";
@@ -17,6 +18,7 @@ public class ListenerConfig implements Config {
     private static final String X_UPDATE = "X_UPDATE";
     private static final String Y_UPDATE = "Y_UPDATE";
 
+    private static final Integer DEF_MAIN_TIMER_DEL = 100;
     private static final Integer DEF_GRAVITY_APP_PER = 1000;
     private static final Integer DEF_GRAVITY_APP_DEL = 1000;
     private static final Integer DEF_DIGEST_DEL = 750;
@@ -32,6 +34,7 @@ public class ListenerConfig implements Config {
     public static ListenerConfig getInstance() {
         CubeConfig cubeConfig = CubeConfig.getInstance();
 
+        CONF_MAP.put(MAIN_TIMER_DELAY, DEF_MAIN_TIMER_DEL);
         CONF_MAP.put(GRAVITY, cubeConfig.getHeight());
         CONF_MAP.put(GRAVITY_APPLY_DELAY, DEF_GRAVITY_APP_DEL);
         CONF_MAP.put(GRAVITY_APPLY_PERIOD, DEF_GRAVITY_APP_PER);
@@ -45,6 +48,10 @@ public class ListenerConfig implements Config {
 
     @Override
     public void load(Map<String, Object> override) {
+        if (override.get(MAIN_TIMER_DELAY) instanceof Integer) {
+            CONF_MAP.replace(MAIN_TIMER_DELAY, override.get(MAIN_TIMER_DELAY));
+        }
+
         if (override.get(GRAVITY) instanceof Integer) {
             CONF_MAP.replace(GRAVITY, override.get(GRAVITY));
         }
@@ -68,6 +75,10 @@ public class ListenerConfig implements Config {
         if (override.get(Y_UPDATE) instanceof Integer) {
             CONF_MAP.replace(Y_UPDATE, override.get(Y_UPDATE));
         }
+    }
+
+    public Integer getMainTimerDealy() {
+        return (Integer) CONF_MAP.get(MAIN_TIMER_DELAY);
     }
 
     public Integer getGravity() {
