@@ -73,7 +73,7 @@ public final class ScoreDAO implements IScoreDAO {
             session.getTransaction().commit();
             session.close();
 
-            return bestScores.get(0);
+            return bestScores.isEmpty() ? null : bestScores.get(0);
         } catch (ClassCastException e) {
             LOG.error("Error happened during casting query results.");
             return null;
