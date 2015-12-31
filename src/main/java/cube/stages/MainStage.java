@@ -114,7 +114,7 @@ public class MainStage extends Stage {
 
     @Override
     public long getBestScore() {
-        return null != scoreService.getBest() ? scoreService.getBest().getValue() : 0;
+        return scoreService.getBest().getValue();
     }
 
     private void initStage() {

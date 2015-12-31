@@ -59,7 +59,7 @@ public class CubeConfig implements Config {
     private static final Integer DEF_H  = 50;
     private static final Integer DEF_B  = 5;
     private static final Color   DEF_COLOR = new Color(230, 154, 221);
-    private static final Color   DEF_COLOR_B = new Color(7, 6, 8);
+    private static final Color   DEF_COLOR_B = new Color(247, 237, 250);
     private static final Color   DEF_COLOR_C = new Color(233, 216, 90);
     private static final Float   DEF_STROKE = 3f;
     private static final Integer DEF_TID_BOUND = 7;

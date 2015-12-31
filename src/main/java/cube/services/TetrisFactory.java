@@ -16,7 +16,10 @@ import com.google.common.collect.ImmutableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -31,6 +34,8 @@ public class TetrisFactory implements Factory<ITetris> {
     private final StageConfig stageConfig;
     private final Random rand;
 
+    private final Map<Integer, Color> palette;
+
     /**
      * The start point of tetris.
      * start-point = cube.width * ( max # of cubes in row / 2 )
@@ -44,6 +49,9 @@ public class TetrisFactory implements Factory<ITetris> {
         rand = new Random(cubeConfig.getTetrisRollingSeed());
 
         startPoint = cubeConfig.getWidth() * stageConfig.getXMonitorSize() / 2;
+
+        palette = new HashMap<>();
+        buildPalette();
     }
 
     public static TetrisFactory getInstance() {
@@ -53,7 +61,7 @@ public class TetrisFactory implements Factory<ITetris> {
     /**
      * Build random tetris.
      *
-     * O - 0, S - 1, Z - 2, L - 3, J - 4, T - 5, I - 6
+     * O - 0 (blue), S - 1 (dark green), Z - 2 (light green), L - 3 (pink), J - 4 (yellow), T - 5 (purple), I - 6 (red)
      *
      * @return the tetirs
      */
@@ -79,6 +87,9 @@ public class TetrisFactory implements Factory<ITetris> {
             default: tetris = I(); break;
         }
 
+        // Override color
+        tetris.setColor(palette.get(id));
+
         return tetris;
     }
 
@@ -90,6 +101,16 @@ public class TetrisFactory implements Factory<ITetris> {
         Rotator rotator = new TetrisRotator(center, rim);
 
         return new Tetris(center, rim, rotator, type);
+    }
+
+    private void buildPalette() {
+        palette.put(0, Color.BLUE);
+        palette.put(1, new Color(33, 182, 119));
+        palette.put(2, new Color(115, 182, 23));
+        palette.put(3, Color.PINK);
+        palette.put(4, Color.YELLOW);
+        palette.put(5, new Color(132, 58, 182));
+        palette.put(6, Color.RED);
     }
 
     private ITetris O() {

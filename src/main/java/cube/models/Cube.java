@@ -87,11 +87,11 @@ public class Cube implements ICube {
                                                   height - 2 * config.getBorder());
 
         g2d.setStroke(new BasicStroke(config.getStrokeWidth()));
-        g2d.setColor(color);
+        g2d.setColor(config.getBorderColor());
         g2d.fill(oR2d);
         g2d.draw(oR2d);
 
-        g2d.setColor(config.getBorderColor());
+        g2d.setColor(color);
         g2d.fill(iR2d);
         g2d.draw(iR2d);
     }

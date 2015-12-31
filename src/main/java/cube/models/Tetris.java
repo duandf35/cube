@@ -129,6 +129,11 @@ public class Tetris implements ITetris {
     }
 
     @Override
+    public void setColor(Color color) {
+        cubes.stream().forEach(c -> c.setColor(color));
+    }
+
+    @Override
     public String toString() {
         String info =
                 getPositions().stream()

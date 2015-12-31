@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.reflect.MethodSignature;
 
 /**
- * Aspect to handle score get/save operations.
+ * Aspect to handle score update/save operations.
  *
  * @author wenyu
  * @since 12/19/15

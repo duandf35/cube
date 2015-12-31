@@ -93,4 +93,9 @@ public interface ITetris {
      * @param g the graphics
      */
     void paint(Graphics g);
+
+    /**
+     * Set color of all cubes.
+     */
+    void setColor(Color color);
 }
