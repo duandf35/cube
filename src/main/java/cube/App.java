@@ -1,5 +1,7 @@
 package cube;
 
+import cube.aop.TraceUtils;
+import cube.aop.control.GameStatus;
 import cube.configs.ConfigLoader;
 import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
@@ -82,13 +84,17 @@ public class App extends JFrame {
         tetrisActionListener = new TetrisActionListener(stage, tetrisFactory);
     }
 
+    /**
+     * AOP joinPoint for activate listeners.
+     */
+    @GameStatus(status = TraceUtils.Status.GAME_START)
     private void activateListeners() {
-        tetrisActionListener.activate();
+
     }
 
     /**
      * Entrance of the application.
-     * @param args the args.
+     * @param args the args
      */
     public static void main(String... args) {
         EventQueue.invokeLater(() -> new App());

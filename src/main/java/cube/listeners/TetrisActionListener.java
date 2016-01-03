@@ -2,6 +2,8 @@ package cube.listeners;
 
 import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
+import cube.aop.control.GameControllerHelper;
+import cube.aop.control.GameStatus;
 import cube.aop.score.ScoreOperationRequired;
 import cube.configs.ListenerConfig;
 import cube.models.Command;
@@ -55,6 +57,7 @@ public class TetrisActionListener extends Listener {
         mainTimer = new javax.swing.Timer(config.getMainTimerDealy(), this);
 
         activateGravity();
+        GameControllerHelper.inject(this);
     }
 
     /**
@@ -114,7 +117,6 @@ public class TetrisActionListener extends Listener {
             if (isBlockedByOtherTetris(newTetris)) {
                 isGameContinue = false;
                 saveFinalScore();
-                deactivate();
             } else {
                 mainStage.setTetris(newTetris);
             }
@@ -124,8 +126,9 @@ public class TetrisActionListener extends Listener {
     }
 
     /**
-     * AOP JoinPoint for saving point action.
+     * AOP JoinPoint for saving point action and deactivate listener.
      */
+    @GameStatus(status = TraceUtils.Status.GAME_OVER)
     @ScoreOperationRequired(operation = TraceUtils.ScoreOperation.SAVE)
     private void saveFinalScore() {
 

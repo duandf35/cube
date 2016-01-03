@@ -25,7 +25,7 @@ public class StageFactory implements Factory<Stage> {
     public Stage build() {
         KeyboardListener keyboardListener = new KeyboardListener();
         Monitor monitor = new StageMonitor();
-        RecordService<Score> scoreService = ScoreService.getInstance();
+        RecordService<Score> scoreService = new ScoreService();
 
         return new MainStage(keyboardListener, monitor, scoreService);
     }

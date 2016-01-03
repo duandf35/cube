@@ -91,10 +91,6 @@ public class TetrisFactory implements Factory<ITetris> {
     }
 
     private ITetris build(ICube center, List<ICube> rim, TetrisType type) {
-//        if (null != center) {
-//            center.setColor(cubeConfig.getCenterColor());
-//        }
-
         Rotator rotator = new TetrisRotator(center, rim);
 
         return new Tetris(center, rim, rotator, type);

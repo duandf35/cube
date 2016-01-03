@@ -1,5 +1,6 @@
 package cube.aop.score;
 
+import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
 import cube.services.ScoreService;
 import org.apache.logging.log4j.LogManager;
@@ -16,13 +17,15 @@ privileged aspect ScoreMonitor {
 
     private static final Logger LOG = LogManager.getLogger(ScoreMonitor.class);
 
-    private final ScoreService scoreService = ScoreService.getInstance();
+    private ScoreService scoreService;
 
     pointcut methodWithScoreOperationRequiredAnnotation() : execution(* * (..)) && @annotation(cube.aop.score.ScoreOperationRequired);
 
     after() : methodWithScoreOperationRequiredAnnotation() {
         MethodSignature method = (MethodSignature) thisJoinPoint.getSignature();
         TraceUtils.ScoreOperation ops = method.getMethod().getAnnotation(ScoreOperationRequired.class).operation();
+
+        Preconditions.checkNotNull(scoreService, "scoreService has not been registered!");
 
         if (TraceUtils.ScoreOperation.UPDATE == ops) {
             scoreService.update();
@@ -31,5 +34,9 @@ privileged aspect ScoreMonitor {
         } else {
             LOG.warn("Unknown operation {} received.", ops);
         }
+    }
+
+    public void setScoreService(final ScoreService scoreService) {
+        this.scoreService = scoreService;
     }
 }

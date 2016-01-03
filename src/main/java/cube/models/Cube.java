@@ -28,7 +28,6 @@ public class Cube implements ICube {
 
         width  = config.getWidth();
         height = config.getHeight();
-//        color = config.getColor();
     }
 
     @Override
