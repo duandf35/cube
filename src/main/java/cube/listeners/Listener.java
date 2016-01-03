@@ -19,4 +19,9 @@ public abstract class Listener implements ActionListener {
      * Activate current listener.
      */
     public abstract void activate();
+
+    /**
+     * Deactivate current listener.
+     */
+    public abstract void deactivate();
 }

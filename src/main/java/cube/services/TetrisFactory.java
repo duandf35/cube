@@ -1,6 +1,6 @@
 package cube.services;
 
-import cube.aop.trace.TraceUtils;
+import cube.aop.TraceUtils;
 import cube.configs.CubeConfig;
 import cube.configs.StageConfig;
 import cube.models.Cube;
@@ -47,11 +47,8 @@ public class TetrisFactory implements Factory<ITetris> {
         stageConfig = StageConfig.getInstance();
 
         rand = new Random(cubeConfig.getTetrisRollingSeed());
-
         startPoint = cubeConfig.getWidth() * stageConfig.getXMonitorSize() / 2;
-
-        palette = new HashMap<>();
-        buildPalette();
+        palette = buildPalette();
     }
 
     public static TetrisFactory getInstance() {
@@ -94,16 +91,18 @@ public class TetrisFactory implements Factory<ITetris> {
     }
 
     private ITetris build(ICube center, List<ICube> rim, TetrisType type) {
-        if (null != center) {
-            center.setColor(cubeConfig.getCenterColor());
-        }
+//        if (null != center) {
+//            center.setColor(cubeConfig.getCenterColor());
+//        }
 
         Rotator rotator = new TetrisRotator(center, rim);
 
         return new Tetris(center, rim, rotator, type);
     }
 
-    private void buildPalette() {
+    private Map<Integer, Color> buildPalette() {
+        Map<Integer, Color> palette = new HashMap<>();
+
         palette.put(0, Color.BLUE);
         palette.put(1, new Color(33, 182, 119));
         palette.put(2, new Color(115, 182, 23));
@@ -111,6 +110,8 @@ public class TetrisFactory implements Factory<ITetris> {
         palette.put(4, Color.YELLOW);
         palette.put(5, new Color(132, 58, 182));
         palette.put(6, Color.RED);
+
+        return palette;
     }
 
     private ITetris O() {

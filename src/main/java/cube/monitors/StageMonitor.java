@@ -1,9 +1,8 @@
 package cube.monitors;
 
-import cube.aop.score.ScoreOperation;
 import cube.aop.score.ScoreOperationRequired;
 import cube.aop.trace.TraceAction;
-import cube.aop.trace.TraceUtils;
+import cube.aop.TraceUtils;
 import cube.configs.CubeConfig;
 import cube.configs.StageConfig;
 import cube.models.ICube;
@@ -129,8 +128,8 @@ public class StageMonitor implements Monitor {
                                            .setY(newLineNum));
     }
 
-    @ScoreOperationRequired(operation = ScoreOperation.UPDATE)
-    @TraceAction(action = TraceUtils.Actions.ERASING)
+    @ScoreOperationRequired(operation = TraceUtils.ScoreOperation.UPDATE)
+    @TraceAction(action = TraceUtils.Action.ERASING)
     private void removeLine(final Integer lineNum) {
         cubes.get(lineNum)
              .entrySet()

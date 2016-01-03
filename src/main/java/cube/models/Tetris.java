@@ -2,7 +2,7 @@
 
 import cube.aop.trace.TraceAction;
 import cube.aop.trace.TracePosition;
-import cube.aop.trace.TraceUtils;
+import cube.aop.TraceUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,16 +23,15 @@ public class Tetris implements ITetris {
     private ICube center;
     private List<ICube> cubes, rim;
 
-    private Rotator rotator;
+    private Rotator tetrisRotator;
 
-    public Tetris(ICube center, List<ICube> rim, Rotator rotator, TetrisType type) {
-        digested = false;
-
+    public Tetris(ICube center, List<ICube> rim, Rotator tetrisRotator, TetrisType type) {
         this.center = center;
         this.rim = rim;
-        this.rotator = rotator;
+        this.tetrisRotator = tetrisRotator;
         this.type = type;
 
+        digested = false;
         cubes = new ArrayList<>();
 
         if (null != center) {
@@ -73,7 +72,7 @@ public class Tetris implements ITetris {
     }
 
     @Override
-    @TraceAction(action = TraceUtils.Actions.DIGESTING)
+    @TraceAction(action = TraceUtils.Action.DIGESTING)
     public void digest() {
         digested = true;
     }
@@ -84,7 +83,7 @@ public class Tetris implements ITetris {
     }
 
     @Override
-    @TracePosition(action = TraceUtils.Actions.MOVING)
+    @TracePosition(action = TraceUtils.Action.MOVING)
     public void moveX(Command command) {
         cubes.stream().forEach(cube -> {
             cube.moveX(command.moveX());
@@ -92,7 +91,7 @@ public class Tetris implements ITetris {
     }
 
     @Override
-    @TracePosition(action = TraceUtils.Actions.MOVING)
+    @TracePosition(action = TraceUtils.Action.MOVING)
     public void moveY(Command command) {
         cubes.stream().forEach(cube -> {
             cube.moveY(command.moveY());
@@ -100,9 +99,9 @@ public class Tetris implements ITetris {
     }
 
     @Override
-    @TracePosition(action = TraceUtils.Actions.ROTATING)
+    @TracePosition(action = TraceUtils.Action.ROTATING)
     public void rotate() {
-        rotator.rotate();
+        tetrisRotator.rotate();
     }
 
     @Override
@@ -118,7 +117,7 @@ public class Tetris implements ITetris {
     @Override
     public Position getNextRotatePosition(ICube cube) {
         Position p = new Position(cube.getPosition());
-        rotator.rotate(p);
+        tetrisRotator.rotate(p);
 
         return p;
     }

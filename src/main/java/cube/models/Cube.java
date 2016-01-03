@@ -22,13 +22,13 @@ public class Cube implements ICube {
     private Graphics2D g2d;
 
     public Cube(Position position) {
+        this.position = position;
+
         config = CubeConfig.getInstance();
 
         width  = config.getWidth();
         height = config.getHeight();
-        color = config.getColor();
-
-        this.position = position;
+//        color = config.getColor();
     }
 
     @Override

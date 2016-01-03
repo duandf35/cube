@@ -1,5 +1,6 @@
 package cube.aop.trace;
 
+import cube.aop.TraceUtils;
 import cube.models.ITetris;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +26,7 @@ privileged aspect TraceMonitor {
         Object retVal;
         try {
             MethodSignature method = (MethodSignature) thisJoinPoint.getSignature();
-            String label = method.getMethod().getAnnotation(TracePosition.class).action().getName();
+            String label = method.getMethod().getAnnotation(TracePosition.class).action().toString();
 
             ITetris tetris = getTetris(thisJoinPoint);
             String tetrisInformation = null != tetris ? tetris.toString() : null;
@@ -48,7 +49,7 @@ privileged aspect TraceMonitor {
             retVal = proceed();
 
             MethodSignature method = (MethodSignature) thisJoinPoint.getSignature();
-            String label = method.getMethod().getAnnotation(TraceAction.class).action().getName();
+            String label = method.getMethod().getAnnotation(TraceAction.class).action().toString();
 
             ITetris tetris = getTetris(thisJoinPoint);
             String tetrisInformation = null != tetris ? tetris.toString() : null;

@@ -33,10 +33,9 @@ public class App extends JFrame {
             initFrame();
             registerFactories();
             registerStages();
-            registerActionListeners();
-            activateActionListeners();
+            registerListeners();
+            activateListeners();
         } catch (ConfigLoaderException e) {
-            System.out.println(e.getMessage());
             System.exit(1);
         }
     }
@@ -76,14 +75,14 @@ public class App extends JFrame {
         add(stage);
     }
 
-    private void registerActionListeners() {
+    private void registerListeners() {
         Objects.requireNonNull(stage, "Stage has not been registered yet !");
         Objects.requireNonNull(tetrisFactory, "tetrisFactory has not been registered yet !");
 
         tetrisActionListener = new TetrisActionListener(stage, tetrisFactory);
     }
 
-    private void activateActionListeners() {
+    private void activateListeners() {
         tetrisActionListener.activate();
     }
 

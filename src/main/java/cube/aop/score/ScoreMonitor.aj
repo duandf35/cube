@@ -1,5 +1,6 @@
 package cube.aop.score;
 
+import cube.aop.TraceUtils;
 import cube.services.ScoreService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,11 +22,11 @@ privileged aspect ScoreMonitor {
 
     after() : methodWithScoreOperationRequiredAnnotation() {
         MethodSignature method = (MethodSignature) thisJoinPoint.getSignature();
-        ScoreOperation ops = method.getMethod().getAnnotation(ScoreOperationRequired.class).operation();
+        TraceUtils.ScoreOperation ops = method.getMethod().getAnnotation(ScoreOperationRequired.class).operation();
 
-        if (ScoreOperation.UPDATE == ops) {
+        if (TraceUtils.ScoreOperation.UPDATE == ops) {
             scoreService.update();
-        } else if (ScoreOperation.SAVE == ops) {
+        } else if (TraceUtils.ScoreOperation.SAVE == ops) {
             scoreService.save();
         } else {
             LOG.warn("Unknown operation {} received.", ops);

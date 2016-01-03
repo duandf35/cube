@@ -25,19 +25,19 @@ public class MainStage extends Stage {
      * Current active tetris which will response keyboard action.
      */
     private ITetris tetris;
-    private Monitor monitor;
+    private Monitor stageMonitor;
     private JLabel scoreDisplay, bestScoreDisplay;
     private KeyboardListener keyboardListener;
     private RecordService<Score> scoreService;
 
     private Integer xBoundary, yBoundary;
 
-    public MainStage(KeyboardListener keyboardListener, Monitor monitor, RecordService<Score> scoreService) {
-        config = StageConfig.getInstance();
-
-        this.monitor = monitor;
+    public MainStage(KeyboardListener keyboardListener, Monitor stageMonitor, RecordService<Score> scoreService) {
+        this.stageMonitor = stageMonitor;
         this.keyboardListener = keyboardListener;
         this.scoreService = scoreService;
+
+        config = StageConfig.getInstance();
 
         xBoundary = config.getXBoundary();
         yBoundary = config.getYBoundary();
@@ -52,11 +52,11 @@ public class MainStage extends Stage {
         // Clear the trail
         super.paint(g);
 
-        if (tetris != null) {
+        if (null != tetris) {
             tetris.paint(g);
         }
 
-        monitor.refresh(g);
+        stageMonitor.refresh(g);
         updateScore();
     }
 
@@ -87,13 +87,13 @@ public class MainStage extends Stage {
 
     @Override
     public Map<Integer, Map<Integer, ICube>> getCubes() {
-        return monitor.getCubes();
+        return stageMonitor.getCubes();
     }
 
     @Override
     public void digestTetris() {
         tetris.digest();
-        tetris.getCubes().stream().forEach(c -> monitor.add(c));
+        tetris.getCubes().stream().forEach(c -> stageMonitor.add(c));
         tetris = null;
     }
 
