@@ -1,6 +1,5 @@
 package cube.services;
 
-import cube.aop.score.ScoreMonitorHelper;
 import cube.daos.IScoreDAO;
 import cube.daos.ScoreDAO;
 import cube.models.Score;
@@ -49,8 +48,6 @@ public class ScoreService implements RecordService<Score> {
         currentScore = new Score(scoreCache);
         scoreList = new ArrayList<>();
         scoreDAO = new ScoreDAO();
-
-        ScoreMonitorHelper.inject(this);
     }
 
     @Override

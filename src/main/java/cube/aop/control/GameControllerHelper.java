@@ -1,6 +1,6 @@
 package cube.aop.control;
 
-import cube.listeners.Listener;
+import cube.stages.Stage;
 
 /**
  * @author Wenyu
@@ -12,7 +12,7 @@ public final class GameControllerHelper {
 
     }
 
-    public static void inject(final Listener listener) {
-        GameController.aspectOf().setTetrisActionListener(listener);
+    public static void inject(final Stage stage) {
+        GameController.aspectOf().setStage(stage);
     }
 }

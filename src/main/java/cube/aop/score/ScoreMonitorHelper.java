@@ -1,5 +1,7 @@
 package cube.aop.score;
 
+import cube.models.Score;
+import cube.services.RecordService;
 import cube.services.ScoreService;
 
 /**
@@ -12,7 +14,7 @@ public final class ScoreMonitorHelper {
 
     }
 
-    public static void inject(final ScoreService scoreService) {
+    public static void inject(final RecordService<Score> scoreService) {
         ScoreMonitor.aspectOf().setScoreService(scoreService);
     }
 }

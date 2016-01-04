@@ -27,4 +27,9 @@ public interface Monitor {
      * Check each line and erase cubes if necessary.
      */
     void refresh(Graphics g);
+
+    /**
+     * Reset monitor.
+     */
+    void reset();
 }

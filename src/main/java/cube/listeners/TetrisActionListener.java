@@ -2,7 +2,6 @@ package cube.listeners;
 
 import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
-import cube.aop.control.GameControllerHelper;
 import cube.aop.control.GameStatus;
 import cube.aop.score.ScoreOperationRequired;
 import cube.configs.ListenerConfig;
@@ -41,7 +40,7 @@ public class TetrisActionListener extends Listener {
     /**
      * Timer {@code java.util.Timer} to generate gravity command {@code cube.models.TetrisCommand}.
      */
-    private final Timer gravityTimer;
+    private Timer gravityTimer;
 
     /**
      * Flag to indicate if the listener is active. Used by de(activate) methods to avoid duplicate operating.
@@ -53,11 +52,9 @@ public class TetrisActionListener extends Listener {
         this.tetrisFactory = tetrisFactory;
 
         config = ListenerConfig.getInstance();
-        gravityTimer = new Timer();
         mainTimer = new javax.swing.Timer(config.getMainTimerDealy(), this);
 
         activateGravity();
-        GameControllerHelper.inject(this);
     }
 
     /**
@@ -83,10 +80,13 @@ public class TetrisActionListener extends Listener {
      * Activate this listener.
      */
     @Override
-    public void activate() {
+    public synchronized void activate() {
         if (!isActive) {
+            LOG.info("Game start, activating listener...");
+
             isActive = true;
             mainTimer.start();
+            activateGravity();
         }
     }
 
@@ -94,10 +94,10 @@ public class TetrisActionListener extends Listener {
      * Deactivate this listener.
      */
     @Override
-    public void deactivate() {
-        LOG.info("Game Over, Shutting down... Final score: {}.", mainStage.getScore());
-
+    public synchronized void deactivate() {
         if (isActive) {
+            LOG.info("Game Over, Shutting down... Final score: {}.", mainStage.getScore());
+
             isActive = false;
             gravityTimer.cancel();
             mainTimer.stop();
@@ -126,12 +126,12 @@ public class TetrisActionListener extends Listener {
     }
 
     /**
-     * AOP JoinPoint for saving point action and deactivate listener.
+     * AOP JoinPoint for saving point action and show control panel.
      */
     @GameStatus(status = TraceUtils.Status.GAME_OVER)
     @ScoreOperationRequired(operation = TraceUtils.ScoreOperation.SAVE)
     private void saveFinalScore() {
-
+        deactivate();
     }
 
     /**
@@ -179,6 +179,7 @@ public class TetrisActionListener extends Listener {
      * Activate gravity.
      */
     private void activateGravity() {
+        gravityTimer = new Timer();
         gravityTimer.schedule(new TimerTask() {
 
             @Override

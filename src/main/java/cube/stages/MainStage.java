@@ -1,5 +1,6 @@
 package cube.stages;
 
+import com.google.common.base.Preconditions;
 import cube.configs.StageConfig;
 import cube.listeners.KeyboardListener;
 import cube.models.Command;
@@ -27,6 +28,7 @@ public class MainStage extends Stage {
     private ITetris tetris;
     private Monitor stageMonitor;
     private JLabel scoreDisplay, bestScoreDisplay;
+    private ControlStage gameControlStage;
     private KeyboardListener keyboardListener;
     private RecordService<Score> scoreService;
 
@@ -117,6 +119,35 @@ public class MainStage extends Stage {
         return scoreService.getBest().getValue();
     }
 
+    @Override
+    public void registerControlStage(final ControlStage gameControlStage) {
+        this.gameControlStage = gameControlStage;
+        add(gameControlStage);
+    }
+
+    @Override
+    public void setControlStage() {
+        Preconditions.checkNotNull(gameControlStage, "gameControlStage has not been registered!");
+
+        add(gameControlStage);
+        SwingUtilities.getWindowAncestor(this).revalidate();
+        SwingUtilities.getWindowAncestor(this).repaint();
+    }
+
+    @Override
+    public void unsetControlStage() {
+        Preconditions.checkNotNull(gameControlStage, "gameControlStage has already been removed!");
+
+        remove(gameControlStage);
+        SwingUtilities.getWindowAncestor(this).revalidate();
+        SwingUtilities.getWindowAncestor(this).repaint();
+    }
+
+    @Override
+    public void reset() {
+        stageMonitor.reset();
+    }
+
     private void initStage() {
         // The size of JPanel will be 0,0 until it is displayed because the components and layout are not calculated beforehand.
         // See also: http://stackoverflow.com/questions/12010587/how-to-get-real-jpanel-size
@@ -125,18 +156,24 @@ public class MainStage extends Stage {
         setFocusable(true);
         setDoubleBuffered(true);
         setBackground(config.getBackgroundColor());
+        setLayout(new GridLayout(10, 1));
 
-        FlowLayout flowLayout = new FlowLayout();
-        flowLayout.setAlignment(FlowLayout.LEADING);
-        setLayout(flowLayout);
+        initScoreDisplays();
+    }
+
+    private void initScoreDisplays() {
+        JPanel displayPanel = new JPanel();
 
         scoreDisplay = new JLabel();
         scoreDisplay.setForeground(config.getScoreDisplayColor());
-        add(scoreDisplay);
+        displayPanel.add(scoreDisplay);
 
         bestScoreDisplay = new JLabel();
         bestScoreDisplay.setForeground(config.getScoreDisplayColor());
         bestScoreDisplay.setText("Best: " + getBestScore());
-        add(bestScoreDisplay);
+        displayPanel.add(bestScoreDisplay);
+
+        displayPanel.setBackground(config.getBackgroundColor());
+        add(displayPanel);
     }
 }

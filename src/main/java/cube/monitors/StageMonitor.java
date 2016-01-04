@@ -85,6 +85,21 @@ public class StageMonitor implements Monitor {
         );
     }
 
+    @Override
+    public void reset() {
+        cubes.entrySet().stream()
+                        .forEach(lineEntry -> {
+                            lineEntry.getValue()
+                                     .entrySet()
+                                     .stream()
+                                     .forEach(cubeEntry -> cubeEntry.getValue()
+                                                                    .dispose());
+            lineEntry.getValue().clear();
+        });
+
+        cubes.clear();
+    }
+
     /**
      * Remove lines and relocate rest lines to fill the gaps.
      * @param removedLines the removed lines

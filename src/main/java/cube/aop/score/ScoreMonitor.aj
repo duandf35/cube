@@ -2,6 +2,8 @@ package cube.aop.score;
 
 import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
+import cube.models.Score;
+import cube.services.RecordService;
 import cube.services.ScoreService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +19,7 @@ privileged aspect ScoreMonitor {
 
     private static final Logger LOG = LogManager.getLogger(ScoreMonitor.class);
 
-    private ScoreService scoreService;
+    private RecordService<Score> scoreService;
 
     pointcut methodWithScoreOperationRequiredAnnotation() : execution(* * (..)) && @annotation(cube.aop.score.ScoreOperationRequired);
 
@@ -36,7 +38,7 @@ privileged aspect ScoreMonitor {
         }
     }
 
-    public void setScoreService(final ScoreService scoreService) {
+    public void setScoreService(final RecordService<Score> scoreService) {
         this.scoreService = scoreService;
     }
 }

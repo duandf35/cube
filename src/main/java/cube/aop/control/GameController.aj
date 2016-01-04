@@ -2,7 +2,7 @@ package cube.aop.control;
 
 import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
-import cube.listeners.Listener;
+import cube.stages.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -15,7 +15,7 @@ privileged aspect GameController {
 
     private static final Logger LOG = LogManager.getLogger(GameController.class);
 
-    private Listener tetrisActionListener;
+    private Stage mainStage;
 
     pointcut methodWithGameStatusAnnotation() : execution(* * (..)) && @annotation(cube.aop.control.GameStatus);
 
@@ -23,18 +23,19 @@ privileged aspect GameController {
         MethodSignature method = (MethodSignature) thisJoinPoint.getSignature();
         TraceUtils.Status status = method.getMethod().getAnnotation(GameStatus.class).status();
 
-        Preconditions.checkNotNull(tetrisActionListener, "tetrisActionListener has not been registered!");
+        Preconditions.checkNotNull(mainStage, "mainStage has not been registered!");
 
         if (TraceUtils.Status.GAME_START == status) {
-            tetrisActionListener.activate();
+            mainStage.unsetControlStage();
         } else if (TraceUtils.Status.GAME_OVER == status) {
-            tetrisActionListener.deactivate();
+            mainStage.setControlStage();
+            mainStage.reset();
         } else {
             LOG.warn("Unknown status {} received.", status);
         }
     }
 
-    public void setTetrisActionListener(final Listener tetrisActionListener) {
-        this.tetrisActionListener = tetrisActionListener;
+    public void setStage(final Stage mainStage) {
+        this.mainStage = mainStage;
     }
 }

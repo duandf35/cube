@@ -77,4 +77,24 @@ public abstract class Stage extends JPanel {
      * Get the best historical score.
      */
     public abstract long getBestScore();
+
+    /**
+     * Register control related stage.
+     */
+    public abstract void registerControlStage(ControlStage controlStage);
+
+    /**
+     * Add control stage.
+     */
+    public abstract void setControlStage();
+
+    /**
+     * Remove control stage.
+     */
+    public abstract void unsetControlStage();
+
+    /**
+     * Reset stage.
+     */
+    public abstract void reset();
 }

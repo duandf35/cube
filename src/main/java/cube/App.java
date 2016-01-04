@@ -1,20 +1,18 @@
 package cube;
 
-import cube.aop.TraceUtils;
-import cube.aop.control.GameStatus;
+import cube.aop.control.GameControllerHelper;
 import cube.configs.ConfigLoader;
 import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
-import cube.listeners.Listener;
 import cube.listeners.TetrisActionListener;
 import cube.services.StageFactory;
 import cube.services.TetrisFactory;
-import cube.services.Factory;
+import cube.stages.ControlStage;
+import cube.stages.GameControlStage;
 import cube.stages.Stage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 /**
  * @author wenyu
@@ -23,20 +21,13 @@ import java.util.Objects;
 public class App extends JFrame {
     private final FrameConfig config;
 
-    private Stage stage;
-    private Factory tetrisFactory, stageFactory;
-    private Listener tetrisActionListener;
-
     public App() {
         config = FrameConfig.getInstance();
 
         try {
             bootstrap();
             initFrame();
-            registerFactories();
-            registerStages();
-            registerListeners();
-            activateListeners();
+            registerComponents();
         } catch (ConfigLoaderException e) {
             System.exit(1);
         }
@@ -65,31 +56,17 @@ public class App extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void registerFactories() {
-        tetrisFactory = TetrisFactory.getInstance();
-        stageFactory = StageFactory.getInstance();
-    }
+    private void registerComponents() {
+        Stage mainStage = StageFactory.ModelStageFactory
+                                      .getInstance()
+                                      .build();
 
-    private void registerStages() {
-        Objects.requireNonNull(stageFactory, "stageFactory has not been registered yet !");
+        ControlStage gameControlStage = new GameControlStage(new TetrisActionListener(mainStage, TetrisFactory.getInstance()));
 
-        stage = (Stage) stageFactory.build();
-        add(stage);
-    }
+        mainStage.registerControlStage(gameControlStage);
+        GameControllerHelper.inject(mainStage);
 
-    private void registerListeners() {
-        Objects.requireNonNull(stage, "Stage has not been registered yet !");
-        Objects.requireNonNull(tetrisFactory, "tetrisFactory has not been registered yet !");
-
-        tetrisActionListener = new TetrisActionListener(stage, tetrisFactory);
-    }
-
-    /**
-     * AOP joinPoint for activate listeners.
-     */
-    @GameStatus(status = TraceUtils.Status.GAME_START)
-    private void activateListeners() {
-
+        add(mainStage);
     }
 
     /**
