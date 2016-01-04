@@ -77,5 +77,7 @@ public class ScoreService implements RecordService<Score> {
     public void save() {
         currentScore.setTimestamp(new Date());
         scoreDAO.save(currentScore);
+        scoreCache = 0;
+        currentScore.setValue(0);
     }
 }

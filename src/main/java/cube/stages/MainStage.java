@@ -146,6 +146,11 @@ public class MainStage extends Stage {
     @Override
     public void reset() {
         stageMonitor.reset();
+        updateBestScore();
+    }
+
+    private void updateBestScore() {
+        bestScoreDisplay.setText("Best: " + getBestScore());
     }
 
     private void initStage() {
@@ -170,10 +175,11 @@ public class MainStage extends Stage {
 
         bestScoreDisplay = new JLabel();
         bestScoreDisplay.setForeground(config.getScoreDisplayColor());
-        bestScoreDisplay.setText("Best: " + getBestScore());
+        updateBestScore();
         displayPanel.add(bestScoreDisplay);
 
         displayPanel.setBackground(config.getBackgroundColor());
+//        setLayer(displayPanel, JLayeredPane.DRAG_LAYER);
         add(displayPanel);
     }
 }
