@@ -19,7 +19,7 @@ import java.util.Map;
  * @author wenyu
  * @since 10/21/15
  */
-public class MainStage extends Stage {
+public class TetrisStage extends Stage {
     private final StageConfig config;
 
     /**
@@ -34,7 +34,7 @@ public class MainStage extends Stage {
 
     private Integer xBoundary, yBoundary;
 
-    public MainStage(KeyboardListener keyboardListener, Monitor stageMonitor, RecordService<Score> scoreService) {
+    public TetrisStage(KeyboardListener keyboardListener, Monitor stageMonitor, RecordService<Score> scoreService) {
         this.stageMonitor = stageMonitor;
         this.keyboardListener = keyboardListener;
         this.scoreService = scoreService;

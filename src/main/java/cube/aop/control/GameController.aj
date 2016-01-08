@@ -15,7 +15,7 @@ privileged aspect GameController {
 
     private static final Logger LOG = LogManager.getLogger(GameController.class);
 
-    private Stage mainStage;
+    private Stage tetrisStage;
 
     pointcut methodWithGameStatusAnnotation() : execution(* * (..)) && @annotation(cube.aop.control.GameStatus);
 
@@ -23,19 +23,19 @@ privileged aspect GameController {
         MethodSignature method = (MethodSignature) thisJoinPoint.getSignature();
         TraceUtils.Status status = method.getMethod().getAnnotation(GameStatus.class).status();
 
-        Preconditions.checkNotNull(mainStage, "mainStage has not been registered!");
+        Preconditions.checkNotNull(tetrisStage, "tetrisStage has not been registered!");
 
         if (TraceUtils.Status.GAME_START == status) {
-            mainStage.unsetControlStage();
+            tetrisStage.unsetControlStage();
         } else if (TraceUtils.Status.GAME_OVER == status) {
-            mainStage.setControlStage();
-            mainStage.reset();
+            tetrisStage.setControlStage();
+            tetrisStage.reset();
         } else {
             LOG.warn("Unknown status {} received.", status);
         }
     }
 
-    public void setStage(final Stage mainStage) {
-        this.mainStage = mainStage;
+    public void setStage(final Stage tetrisStage) {
+        this.tetrisStage = tetrisStage;
     }
 }

@@ -24,12 +24,12 @@ import java.util.TimerTask;
  * @author wenyu
  * @since 10/22/15
  */
-public class TetrisStageListener extends Listener {
-    private static final Logger LOG = LogManager.getLogger(TetrisStageListener.class);
+public class StageListener extends Listener {
+    private static final Logger LOG = LogManager.getLogger(StageListener.class);
 
     private final ListenerConfig config;
 
-    private Stage mainStage;
+    private Stage tetrisStage;
     private Factory tetrisFactory;
 
     /**
@@ -47,8 +47,8 @@ public class TetrisStageListener extends Listener {
      */
     private boolean isActive = false;
 
-    public TetrisStageListener(Stage mainStage, Factory tetrisFactory) {
-        this.mainStage = mainStage;
+    public StageListener(Stage tetrisStage, Factory tetrisFactory) {
+        this.tetrisStage = tetrisStage;
         this.tetrisFactory = tetrisFactory;
 
         config = ListenerConfig.getInstance();
@@ -65,11 +65,11 @@ public class TetrisStageListener extends Listener {
     @Override
     public synchronized void actionPerformed(ActionEvent event) {
         try {
-            Command command = mainStage.getKeyboardAction();
+            Command command = tetrisStage.getKeyboardAction();
 
             if (isGameContinue()) {
-                applyAction(command, mainStage.getTetris());
-                mainStage.repaint();
+                applyAction(command, tetrisStage.getTetris());
+                tetrisStage.repaint();
             }
         } catch (InterruptedException e) {
             LOG.error("Error happened during action performing.", e);
@@ -96,7 +96,7 @@ public class TetrisStageListener extends Listener {
     @Override
     public synchronized void deactivate() {
         if (isActive) {
-            LOG.info("Game Over, Shutting down... Final score: {}.", mainStage.getScore());
+            LOG.info("Game Over, Shutting down... Final score: {}.", tetrisStage.getScore());
 
             isActive = false;
             gravityTimer.cancel();
@@ -111,14 +111,14 @@ public class TetrisStageListener extends Listener {
     private boolean isGameContinue() {
         boolean isGameContinue = true;
 
-        if (null == mainStage.getTetris()) {
+        if (null == tetrisStage.getTetris()) {
             ITetris newTetris = (ITetris) tetrisFactory.build();
 
             if (isBlockedByOtherTetris(newTetris)) {
                 isGameContinue = false;
                 saveFinalScore();
             } else {
-                mainStage.setTetris(newTetris);
+                tetrisStage.setTetris(newTetris);
             }
         }
 
@@ -137,7 +137,7 @@ public class TetrisStageListener extends Listener {
     /**
      * Apply keyboard action.
      * @param command the keyboard action
-     * @param tetris  the active tetris on the mainStage
+     * @param tetris  the active tetris on the tetrisStage
      * @throws InterruptedException
      */
     private synchronized void applyAction(Command command, ITetris tetris) throws InterruptedException {
@@ -148,14 +148,14 @@ public class TetrisStageListener extends Listener {
         if (0 != command.moveX()) {
             if (isBlockedByOtherTetris(command, tetris)) {
                 if (isBlockedByNSBoundary(command, tetris)) {
-                    mainStage.digestTetris();
+                    tetrisStage.digestTetris();
                 }
             } else if (!isBlockedByEWBoundary(command, tetris)){
                 tetris.moveX(command);
             }
         } else if (0 < command.moveY()) {
             if (isBlockedByOtherTetris(command, tetris) || isBlockedByNSBoundary(command, tetris)) {
-                mainStage.digestTetris();
+                tetrisStage.digestTetris();
             } else {
                 tetris.moveY(command);
             }
@@ -164,7 +164,7 @@ public class TetrisStageListener extends Listener {
 
     /**
      * Apply gravity.
-     * @param tetris the active tetris on the mainStage
+     * @param tetris the active tetris on the tetrisStage
      * @throws InterruptedException
      */
     private void applyGravity(ITetris tetris) throws InterruptedException {
@@ -185,8 +185,8 @@ public class TetrisStageListener extends Listener {
             @Override
             public synchronized void run() {
                 try {
-                    if (null != mainStage.getTetris()) {
-                        applyGravity(mainStage.getTetris());
+                    if (null != tetrisStage.getTetris()) {
+                        applyGravity(tetrisStage.getTetris());
                     }
                 } catch (InterruptedException e) {
                     LOG.error("Error happened during gravity performing.", e);
@@ -217,8 +217,8 @@ public class TetrisStageListener extends Listener {
     }
 
     private boolean isBlockedByOtherCubes(Position nextPosition) {
-        return null != mainStage.getCubes().get(nextPosition.getY())
-            && null != mainStage.getCubes().get(nextPosition.getY()).get(nextPosition.getX());
+        return null != tetrisStage.getCubes().get(nextPosition.getY())
+            && null != tetrisStage.getCubes().get(nextPosition.getY()).get(nextPosition.getX());
     }
 
     private boolean isBlockedByEWBoundary(Command command, ITetris tetris) {
@@ -229,7 +229,7 @@ public class TetrisStageListener extends Listener {
         for (ICube cube: tetris.getCubes()) {
             Position p = cube.getPosition();
             reachWBoundary |= (p.getX() <= 0);
-            reachEBoundary |= (p.getX() >= mainStage.getXBoundary());
+            reachEBoundary |= (p.getX() >= tetrisStage.getXBoundary());
         }
 
         if (reachWBoundary)  {
@@ -249,7 +249,7 @@ public class TetrisStageListener extends Listener {
         for (ICube cube: tetris.getCubes()) {
             Position p = cube.getPosition();
             reachNBoundary |= (p.getY() <= 0);
-            reachSBoundary |= (p.getY() >= mainStage.getYBoundary());
+            reachSBoundary |= (p.getY() >= tetrisStage.getYBoundary());
         }
 
         if (reachNBoundary) {
@@ -288,12 +288,12 @@ public class TetrisStageListener extends Listener {
     }
 
     private boolean isReachBoundary(Position p) {
-        return (0 >= p.getX() || mainStage.getXBoundary() <= p.getX() ||
-                0 >= p.getY() || mainStage.getYBoundary() <= p.getY());
+        return (0 >= p.getX() || tetrisStage.getXBoundary() <= p.getX() ||
+                0 >= p.getY() || tetrisStage.getYBoundary() <= p.getY());
     }
 
     private boolean isOutOfBoundary(Position p) {
-        return (0 > p.getX() || mainStage.getXBoundary() < p.getX() ||
-                0 > p.getY() || mainStage.getYBoundary() < p.getY());
+        return (0 > p.getX() || tetrisStage.getXBoundary() < p.getX() ||
+                0 > p.getY() || tetrisStage.getYBoundary() < p.getY());
     }
 }

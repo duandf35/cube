@@ -4,7 +4,7 @@ import cube.aop.control.GameControllerHelper;
 import cube.configs.ConfigLoader;
 import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
-import cube.listeners.TetrisActionListener;
+import cube.listeners.StageListener;
 import cube.services.StageFactory;
 import cube.services.TetrisFactory;
 import cube.stages.ControlStage;
@@ -61,7 +61,7 @@ public class App extends JFrame {
                                       .getInstance()
                                       .build();
 
-        ControlStage gameControlStage = new GameControlStage(new TetrisActionListener(mainStage, TetrisFactory.getInstance()));
+        ControlStage gameControlStage = new GameControlStage(new StageListener(mainStage, TetrisFactory.getInstance()));
 
         mainStage.registerControlStage(gameControlStage);
         GameControllerHelper.inject(mainStage);
