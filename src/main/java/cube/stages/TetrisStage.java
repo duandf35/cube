@@ -1,6 +1,5 @@
 package cube.stages;
 
-import com.google.common.base.Preconditions;
 import cube.configs.StageConfig;
 import cube.listeners.KeyboardListener;
 import cube.models.Command;
@@ -28,7 +27,6 @@ public class TetrisStage extends Stage {
     private ITetris tetris;
     private Monitor stageMonitor;
     private JLabel scoreDisplay, bestScoreDisplay;
-    private ControlStage gameControlStage;
     private KeyboardListener keyboardListener;
     private RecordService<Score> scoreService;
 
@@ -99,48 +97,20 @@ public class TetrisStage extends Stage {
         tetris = null;
     }
 
-    @Override
-    public long getScore() {
+    private long getScore() {
         return scoreService.get().getValue();
     }
 
-    @Override
-    public List<Score> getAllScores() {
+    private List<Score> getAllScores() {
         return scoreService.getAll();
     }
 
-    @Override
-    public void updateScore() {
+    private void updateScore() {
         scoreDisplay.setText("Score: " + getScore());
     }
 
-    @Override
-    public long getBestScore() {
+    private long getBestScore() {
         return scoreService.getBest().getValue();
-    }
-
-    @Override
-    public void registerControlStage(final ControlStage gameControlStage) {
-        this.gameControlStage = gameControlStage;
-        add(gameControlStage);
-    }
-
-    @Override
-    public void setControlStage() {
-        Preconditions.checkNotNull(gameControlStage, "gameControlStage has not been registered!");
-
-        add(gameControlStage);
-        SwingUtilities.getWindowAncestor(this).revalidate();
-        SwingUtilities.getWindowAncestor(this).repaint();
-    }
-
-    @Override
-    public void unsetControlStage() {
-        Preconditions.checkNotNull(gameControlStage, "gameControlStage has already been removed!");
-
-        remove(gameControlStage);
-        SwingUtilities.getWindowAncestor(this).revalidate();
-        SwingUtilities.getWindowAncestor(this).repaint();
     }
 
     @Override
@@ -179,7 +149,6 @@ public class TetrisStage extends Stage {
         displayPanel.add(bestScoreDisplay);
 
         displayPanel.setBackground(config.getBackgroundColor());
-//        setLayer(displayPanel, JLayeredPane.DRAG_LAYER);
         add(displayPanel);
     }
 }

@@ -1,15 +1,9 @@
 package cube;
 
-import cube.aop.control.GameControllerHelper;
 import cube.configs.ConfigLoader;
 import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
-import cube.listeners.StageListener;
-import cube.services.StageFactory;
-import cube.services.TetrisFactory;
-import cube.stages.ControlStage;
-import cube.stages.GameControlStage;
-import cube.stages.Stage;
+import cube.services.ComponentInitializer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,16 +51,7 @@ public class App extends JFrame {
     }
 
     private void registerComponents() {
-        Stage mainStage = StageFactory.ModelStageFactory
-                                      .getInstance()
-                                      .build();
-
-        ControlStage gameControlStage = new GameControlStage(new StageListener(mainStage, TetrisFactory.getInstance()));
-
-        mainStage.registerControlStage(gameControlStage);
-        GameControllerHelper.inject(mainStage);
-
-        add(mainStage);
+        add(ComponentInitializer.getInstance().build());
     }
 
     /**

@@ -11,6 +11,7 @@ import cube.models.ITetris;
 import cube.models.Position;
 import cube.models.TetrisCommand;
 import cube.services.Factory;
+import cube.services.TetrisFactory;
 import cube.stages.Stage;
 
 import org.apache.logging.log4j.LogManager;
@@ -47,10 +48,10 @@ public class StageListener extends Listener {
      */
     private boolean isActive = false;
 
-    public StageListener(Stage tetrisStage, Factory tetrisFactory) {
-        this.tetrisStage = tetrisStage;
-        this.tetrisFactory = tetrisFactory;
+    public StageListener(final Stage tetrisStage) {
+        this.tetrisStage = Preconditions.checkNotNull(tetrisStage, "tetrisStage must not be null.");
 
+        tetrisFactory = TetrisFactory.getInstance();
         config = ListenerConfig.getInstance();
         mainTimer = new javax.swing.Timer(config.getMainTimerDealy(), this);
 
@@ -96,7 +97,7 @@ public class StageListener extends Listener {
     @Override
     public synchronized void deactivate() {
         if (isActive) {
-            LOG.info("Game Over, Shutting down... Final score: {}.", tetrisStage.getScore());
+            LOG.info("Game Over, Shutting down...");
 
             isActive = false;
             gravityTimer.cancel();

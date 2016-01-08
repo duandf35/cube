@@ -11,12 +11,12 @@ import javax.swing.*;
  * @author Wenyu
  * @since 1/3/16
  */
-public class GameControlStage extends ControlStage {
+public class GameControlStage extends SubStage {
     private final StageConfig config;
-    private Listener tetrisActionListener;
+    private Listener stageListener;
 
-    public GameControlStage(final Listener tetrisActionListener) {
-        this.tetrisActionListener = tetrisActionListener;
+    public GameControlStage(final Listener stageListener) {
+        this.stageListener = stageListener;
 
         config = StageConfig.getInstance();
 
@@ -41,7 +41,7 @@ public class GameControlStage extends ControlStage {
 
     @GameStatus(status = TraceUtils.Status.GAME_START)
     private void start() {
-        tetrisActionListener.activate();
+        stageListener.activate();
     }
 
     private void records() {

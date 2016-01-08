@@ -1,8 +1,7 @@
 package cube.aop.control;
 
-import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
-import cube.stages.Stage;
+import cube.services.ComponentManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -15,27 +14,19 @@ privileged aspect GameController {
 
     private static final Logger LOG = LogManager.getLogger(GameController.class);
 
-    private Stage tetrisStage;
-
     pointcut methodWithGameStatusAnnotation() : execution(* * (..)) && @annotation(cube.aop.control.GameStatus);
 
     after() : methodWithGameStatusAnnotation() {
         MethodSignature method = (MethodSignature) thisJoinPoint.getSignature();
         TraceUtils.Status status = method.getMethod().getAnnotation(GameStatus.class).status();
 
-        Preconditions.checkNotNull(tetrisStage, "tetrisStage has not been registered!");
-
         if (TraceUtils.Status.GAME_START == status) {
-            tetrisStage.unsetControlStage();
+            ComponentManager.getInstance().remove();
         } else if (TraceUtils.Status.GAME_OVER == status) {
-            tetrisStage.setControlStage();
-            tetrisStage.reset();
+            ComponentManager.getInstance().add();
+            ComponentManager.getInstance().reset();
         } else {
             LOG.warn("Unknown status {} received.", status);
         }
-    }
-
-    public void setStage(final Stage tetrisStage) {
-        this.tetrisStage = tetrisStage;
     }
 }
