@@ -93,7 +93,7 @@ public class MainStage extends Stage {
     }
 
     @Override
-    public void digestTetris() {
+    public synchronized void digestTetris() {
         tetris.digest();
         tetris.getCubes().stream().forEach(c -> stageMonitor.add(c));
         tetris = null;

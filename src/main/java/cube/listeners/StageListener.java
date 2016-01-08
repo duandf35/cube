@@ -24,8 +24,8 @@ import java.util.TimerTask;
  * @author wenyu
  * @since 10/22/15
  */
-public class TetrisActionListener extends Listener {
-    private static final Logger LOG = LogManager.getLogger(TetrisActionListener.class);
+public class TetrisStageListener extends Listener {
+    private static final Logger LOG = LogManager.getLogger(TetrisStageListener.class);
 
     private final ListenerConfig config;
 
@@ -47,7 +47,7 @@ public class TetrisActionListener extends Listener {
      */
     private boolean isActive = false;
 
-    public TetrisActionListener(Stage mainStage, Factory tetrisFactory) {
+    public TetrisStageListener(Stage mainStage, Factory tetrisFactory) {
         this.mainStage = mainStage;
         this.tetrisFactory = tetrisFactory;
 
