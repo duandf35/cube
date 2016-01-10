@@ -6,7 +6,6 @@ import cube.models.Score;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,11 +33,6 @@ public class ScoreService implements RecordService<Score> {
     private Score currentScore;
 
     /**
-     * All historical score records.
-     */
-    private List<Score> scoreList;
-
-    /**
      * DAO.
      */
     private IScoreDAO scoreDAO;
@@ -46,7 +40,6 @@ public class ScoreService implements RecordService<Score> {
     public ScoreService() {
         scoreCache = 0;
         currentScore = new Score(scoreCache);
-        scoreList = new ArrayList<>();
         scoreDAO = new ScoreDAO();
     }
 

@@ -10,9 +10,9 @@ import org.aspectj.lang.reflect.MethodSignature;
  * @author Wenyu
  * @since 1/2/16
  */
-privileged aspect GameController {
+privileged aspect ComponentController {
 
-    private static final Logger LOG = LogManager.getLogger(GameController.class);
+    private static final Logger LOG = LogManager.getLogger(ComponentController.class);
 
     pointcut methodWithGameStatusAnnotation() : execution(* * (..)) && @annotation(cube.aop.control.GameStatus);
 
@@ -22,9 +22,9 @@ privileged aspect GameController {
 
         if (TraceUtils.Status.GAME_START == status) {
             ComponentManager.getInstance().remove();
+            ComponentManager.getInstance().reset();
         } else if (TraceUtils.Status.GAME_OVER == status) {
             ComponentManager.getInstance().add();
-            ComponentManager.getInstance().reset();
         } else {
             LOG.warn("Unknown status {} received.", status);
         }

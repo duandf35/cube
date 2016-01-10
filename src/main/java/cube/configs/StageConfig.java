@@ -54,10 +54,16 @@ public class StageConfig implements Config {
      */
     private static final String Y_MONITOR_SIZE = "Y_MONITOR_SIZE";
 
+    /**
+     * The maximum number of historical records to load.
+     */
+    private static final String MAX_RECORDS_LOAD = "MAX_RECORDS_LOAD";
+
     private static final Integer DEF_W  = 600;
     private static final Integer DEF_H  = 600;
     private static final Color   DEF_BG = new Color(7, 6, 8);
     private static final Color   DEF_SG = Color.GREEN;
+    private static final Integer DEF_MAX_RECORDS = 10;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();
 
@@ -80,6 +86,8 @@ public class StageConfig implements Config {
 
         CONF_MAP.put(X_MONITOR_SIZE, (Integer) CONF_MAP.get(WIDTH) / cubeConfig.getWidth());
         CONF_MAP.put(Y_MONITOR_SIZE, (Integer) CONF_MAP.get(HEIGHT) / cubeConfig.getHeight());
+
+        CONF_MAP.put(MAX_RECORDS_LOAD, DEF_MAX_RECORDS);
 
         return CONF;
     }
@@ -117,6 +125,10 @@ public class StageConfig implements Config {
         if (override.get(Y_MONITOR_SIZE) instanceof Integer) {
             CONF_MAP.replace(Y_MONITOR_SIZE, override.get(Y_MONITOR_SIZE));
         }
+
+        if (override.get(MAX_RECORDS_LOAD) instanceof Integer) {
+            CONF_MAP.replace(MAX_RECORDS_LOAD, override.get(MAX_RECORDS_LOAD));
+        }
     }
 
     public Integer getWidth() {
@@ -149,5 +161,9 @@ public class StageConfig implements Config {
 
     public Integer getYMonitorSize() {
         return (Integer) CONF_MAP.get(Y_MONITOR_SIZE);
+    }
+
+    public Integer getMaxRecordsLoad() {
+        return (Integer) CONF_MAP.get(MAX_RECORDS_LOAD);
     }
 }

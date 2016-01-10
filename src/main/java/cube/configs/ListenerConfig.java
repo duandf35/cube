@@ -18,7 +18,7 @@ public class ListenerConfig implements Config {
     private static final String X_UPDATE = "X_UPDATE";
     private static final String Y_UPDATE = "Y_UPDATE";
 
-    private static final Integer DEF_MAIN_TIMER_DEL = 100;
+    private static final Integer DEF_MAIN_TIMER_DEL = 75;
     private static final Integer DEF_GRAVITY_APP_PER = 1000;
     private static final Integer DEF_GRAVITY_APP_DEL = 1000;
     private static final Integer DEF_DIGEST_DEL = 750;
@@ -77,7 +77,7 @@ public class ListenerConfig implements Config {
         }
     }
 
-    public Integer getMainTimerDealy() {
+    public Integer getMainTimerDelay() {
         return (Integer) CONF_MAP.get(MAIN_TIMER_DELAY);
     }
 

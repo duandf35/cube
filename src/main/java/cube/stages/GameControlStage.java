@@ -30,7 +30,7 @@ public class GameControlStage extends SubStage {
 
     private void setupButtons() {
         JButton start = new JButton("Start");
-        JButton records = new JButton("Records");
+        JButton records = new JButton("Scores");
 
         start.addActionListener(e -> start());
         records.addActionListener(e -> records());

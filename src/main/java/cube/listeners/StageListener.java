@@ -53,7 +53,7 @@ public class StageListener extends Listener {
 
         tetrisFactory = TetrisFactory.getInstance();
         config = ListenerConfig.getInstance();
-        mainTimer = new javax.swing.Timer(config.getMainTimerDealy(), this);
+        mainTimer = new javax.swing.Timer(config.getMainTimerDelay(), this);
 
         activateGravity();
     }
