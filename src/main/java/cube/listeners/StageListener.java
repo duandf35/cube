@@ -2,7 +2,7 @@ package cube.listeners;
 
 import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
-import cube.aop.control.GameStatus;
+import cube.aop.control.ControlStatus;
 import cube.aop.score.ScoreOperationRequired;
 import cube.configs.ListenerConfig;
 import cube.models.Command;
@@ -129,7 +129,7 @@ public class StageListener extends Listener {
     /**
      * AOP JoinPoint for saving point action and show control panel.
      */
-    @GameStatus(status = TraceUtils.Status.GAME_OVER)
+    @ControlStatus(status = TraceUtils.Status.GAME_OVER)
     @ScoreOperationRequired(operation = TraceUtils.ScoreOperation.SAVE)
     private void saveFinalScore() {
         deactivate();

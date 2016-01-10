@@ -63,7 +63,7 @@ public class StageConfig implements Config {
     private static final Integer DEF_H  = 600;
     private static final Color   DEF_BG = new Color(7, 6, 8);
     private static final Color   DEF_SG = Color.GREEN;
-    private static final Integer DEF_MAX_RECORDS = 10;
+    private static final Integer DEF_MAX_RECORDS = 7;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();
 

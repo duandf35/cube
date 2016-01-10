@@ -19,13 +19,13 @@ public class Score {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @Column(name = "player_name")
     private String playerName;
 
     @Column(name = "value")
-    private long value;
+    private Long value;
 
     /**
      * Used by Hibernate, H2 seems not support joda time.
@@ -47,7 +47,7 @@ public class Score {
      * @param value the value
      */
     @Deprecated
-    public Score(long value) {
+    public Score(Long value) {
         this.value = value;
     }
 
@@ -57,14 +57,14 @@ public class Score {
      * @param value      the value
      * @param timestamp  the timestamp
      */
-    public Score(long id, String playerName, long value, Date timestamp) {
+    public Score(Long id, String playerName, Long value, Date timestamp) {
         this.id = id;
         this.playerName = playerName;
         this.value = value;
         this.timestamp = timestamp;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -80,7 +80,7 @@ public class Score {
      * Get value.
      * @return the value
      */
-    public long getValue() {
+    public Long getValue() {
         return value;
     }
 
@@ -92,7 +92,7 @@ public class Score {
         return timestamp;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -108,7 +108,7 @@ public class Score {
      * Set value.
      * @param value the value
      */
-    public void setValue(long value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 

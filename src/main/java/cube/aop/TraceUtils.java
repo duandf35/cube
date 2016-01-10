@@ -9,6 +9,9 @@ public abstract class TraceUtils {
     public static final String POSITION_LOGGER = "PositionLogger";
     public static final String ACTION_LOGGER = "ActionLogger";
 
+    /**
+     * Tetris actions.
+     */
     public enum Action {
 
         /**
@@ -32,6 +35,9 @@ public abstract class TraceUtils {
         ERASING
     }
 
+    /**
+     * Game statuses.
+     */
     public enum Status {
 
         /**
@@ -42,9 +48,17 @@ public abstract class TraceUtils {
         /**
          * Game over.
          */
-        GAME_OVER
+        GAME_OVER,
+
+        /**
+         * Show game records.
+         */
+        SHOW_RECORDS
     }
 
+    /**
+     * Score operations.
+     */
     public enum ScoreOperation {
         /**
          * Update score.

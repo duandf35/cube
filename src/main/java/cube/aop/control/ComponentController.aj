@@ -14,17 +14,20 @@ privileged aspect ComponentController {
 
     private static final Logger LOG = LogManager.getLogger(ComponentController.class);
 
-    pointcut methodWithGameStatusAnnotation() : execution(* * (..)) && @annotation(cube.aop.control.GameStatus);
+    pointcut methodWithGameStatusAnnotation() : execution(* * (..)) && @annotation(cube.aop.control.ControlStatus);
 
     after() : methodWithGameStatusAnnotation() {
         MethodSignature method = (MethodSignature) thisJoinPoint.getSignature();
-        TraceUtils.Status status = method.getMethod().getAnnotation(GameStatus.class).status();
+        TraceUtils.Status status = method.getMethod().getAnnotation(ControlStatus.class).status();
 
         if (TraceUtils.Status.GAME_START == status) {
             ComponentManager.getInstance().remove();
-            ComponentManager.getInstance().reset();
+            ComponentManager.getInstance().removeRecords();
         } else if (TraceUtils.Status.GAME_OVER == status) {
+            ComponentManager.getInstance().reset();
             ComponentManager.getInstance().add();
+        } else if (TraceUtils.Status.SHOW_RECORDS == status) {
+            ComponentManager.getInstance().addRecords();
         } else {
             LOG.warn("Unknown status {} received.", status);
         }

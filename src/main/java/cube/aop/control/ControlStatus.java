@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface GameStatus {
+public @interface ControlStatus {
 
     TraceUtils.Status status();
 }

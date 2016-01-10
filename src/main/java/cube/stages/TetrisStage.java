@@ -131,11 +131,12 @@ public class TetrisStage extends Stage {
         setFocusable(true);
         setDoubleBuffered(true);
         setBackground(config.getBackgroundColor());
-        setLayout(new GridLayout(10, 1));
+        setLayout(new GridLayout(10, 0));
 
         initScoreDisplays();
     }
 
+    // TODO: How put scores display on the top of Graphics. Note: JLayeredPanel doesn't work.
     private void initScoreDisplays() {
         JPanel displayPanel = new JPanel();
 

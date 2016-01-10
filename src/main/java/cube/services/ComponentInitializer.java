@@ -19,8 +19,10 @@ import cube.stages.TetrisStage;
 public final class ComponentInitializer implements Factory<Stage> {
     private static final ComponentInitializer INITIALIZER = new ComponentInitializer();
 
-    private ComponentInitializer() {
+    private final RecordService<Score> scoreService;
 
+    private ComponentInitializer() {
+        scoreService = new ScoreService();
     }
 
     public static ComponentInitializer getInstance() {
@@ -38,7 +40,9 @@ public final class ComponentInitializer implements Factory<Stage> {
 
         ComponentManager.getInstance()
                         .register(container)
-                        .register(subStages);
+                        .register(subStages)
+                        .register(ScoreRecordStageManager.getInstance()
+                                                         .register(scoreService));
 
         return container;
     }
@@ -46,7 +50,6 @@ public final class ComponentInitializer implements Factory<Stage> {
     private Stage buildContainer() {
         KeyboardListener keyboardListener = new KeyboardListener();
         Monitor monitor = new StageMonitor();
-        RecordService<Score> scoreService = new ScoreService();
         ScoreMonitorHelper.inject(scoreService);
 
         return new TetrisStage(keyboardListener, monitor, scoreService);

@@ -1,7 +1,7 @@
 package cube.stages;
 
 import cube.aop.TraceUtils;
-import cube.aop.control.GameStatus;
+import cube.aop.control.ControlStatus;
 import cube.configs.StageConfig;
 import cube.listeners.Listener;
 
@@ -39,11 +39,12 @@ public class GameControlStage extends SubStage {
         add(records);
     }
 
-    @GameStatus(status = TraceUtils.Status.GAME_START)
+    @ControlStatus(status = TraceUtils.Status.GAME_START)
     private void start() {
         stageListener.activate();
     }
 
+    @ControlStatus(status = TraceUtils.Status.SHOW_RECORDS)
     private void records() {
 
     }

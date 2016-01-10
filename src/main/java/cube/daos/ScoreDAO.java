@@ -22,6 +22,8 @@ public final class ScoreDAO implements IScoreDAO {
     private static final Logger LOG = LogManager.getLogger(ScoreDAO.class);
     private static final SessionFactory FACTORY = HibernateSessionFactory.getSessionFactory();
 
+    private static final Integer MAX_RESULTS = 30;
+
     @Override
     public void save(final Score score) {
         Preconditions.checkNotNull(score, "Score must not be null.");
@@ -44,7 +46,10 @@ public final class ScoreDAO implements IScoreDAO {
         try {
             session.beginTransaction();
 
-            List<Score> scores = (List<Score>) session.createQuery("FROM Score").list();
+//            List<Score> scores = (List<Score>) session.createQuery("FROM Score").setMaxResults(MAX_RESULTS).list();
+            List<Score> scores = (List<Score>) session.createCriteria(Score.class)
+                                                      .addOrder(Property.forName("value").desc())
+                                                      .setMaxResults(MAX_RESULTS).list();
 
             session.getTransaction().commit();
             session.close();
@@ -73,7 +78,7 @@ public final class ScoreDAO implements IScoreDAO {
             session.getTransaction().commit();
             session.close();
 
-            return bestScores.isEmpty() ? new Score(0) : bestScores.get(0);
+            return bestScores.isEmpty() ? new Score(0L) : bestScores.get(0);
         } catch (ClassCastException e) {
             LOG.error("Error happened during casting query results.");
             return null;
