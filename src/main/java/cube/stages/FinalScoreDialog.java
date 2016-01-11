@@ -1,4 +1,4 @@
-package cube.services;
+package cube.stages;
 
 import cube.configs.StageConfig;
 

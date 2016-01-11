@@ -7,7 +7,6 @@ import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Score;
 import cube.monitors.Monitor;
-import cube.services.FinalScoreDialog;
 import cube.services.RecordService;
 
 import javax.swing.*;
