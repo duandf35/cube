@@ -67,7 +67,7 @@ public class ComponentManager {
     /**
      * Add all sub stages to container stage.
      */
-    public void add() {
+    public void addAllSubStages() {
         Preconditions.checkNotNull(containerStage, "containerStage has not been registered.");
 
         for (SubStage subStage : subStages) {
@@ -80,7 +80,7 @@ public class ComponentManager {
     /**
      * Remove all sub stages from container stage.
      */
-    public void remove() {
+    public void removeAllSubStages() {
         Preconditions.checkNotNull(containerStage, "containerStage has not been registered.");
 
         for (SubStage subStage : subStages) {

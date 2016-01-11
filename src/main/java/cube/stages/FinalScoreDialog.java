@@ -34,7 +34,7 @@ public class FinalScoreDialog extends JDialog {
         playerLabel.setText("Player: " + player);
     }
 
-    public void setContent() {
+    private void setContent() {
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new GridLayout(2, 1));
 

@@ -27,7 +27,6 @@ public class TetrisStage extends Stage {
     private ITetris tetris;
     private Monitor stageMonitor;
     private JLabel scoreDisplay, bestScoreDisplay;
-    private JPanel scoreAndPlayerDisplay;
     private FinalScoreDialog finalScore;
     private KeyboardListener keyboardListener;
     private RecordService<Score> scoreService;
@@ -44,9 +43,6 @@ public class TetrisStage extends Stage {
         xBoundary = config.getXBoundary();
         yBoundary = config.getYBoundary();
 
-        scoreAndPlayerDisplay = new JPanel();
-        scoreAndPlayerDisplay.setBackground(config.getBackgroundColor());
-        add(scoreAndPlayerDisplay);
         addKeyListener(keyboardListener);
 
         initStage();
@@ -157,12 +153,21 @@ public class TetrisStage extends Stage {
         setBackground(config.getBackgroundColor());
         setLayout(new GridLayout(10, 0));
 
-        initScoreDisplay();
-        initPlayerDisplay();
+        initDisplay();
+    }
+
+    // TODO: Extract out ?
+    private void initDisplay() {
+        JPanel scoreAndPlayerDisplay = new JPanel();
+        scoreAndPlayerDisplay.setBackground(config.getBackgroundColor());
+        add(scoreAndPlayerDisplay);
+
+        initScoreDisplay(scoreAndPlayerDisplay);
+        initPlayerDisplay(scoreAndPlayerDisplay);
     }
 
     // TODO: How put scores display on the top of Graphics. Note: JLayeredPanel doesn't work.
-    private void initScoreDisplay() {
+    private void initScoreDisplay(final JPanel scoreAndPlayerDisplay) {
         scoreDisplay = new JLabel();
         scoreDisplay.setForeground(config.getScoreDisplayColor());
         scoreAndPlayerDisplay.add(scoreDisplay);
@@ -174,7 +179,7 @@ public class TetrisStage extends Stage {
         scoreAndPlayerDisplay.add(bestScoreDisplay);
     }
 
-    private void initPlayerDisplay() {
+    private void initPlayerDisplay(final JPanel scoreAndPlayerDisplay) {
         JTextField playerInput = new JTextField("player1");
         JLabel player = new JLabel("Player Name:");
 

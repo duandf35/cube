@@ -22,13 +22,14 @@ privileged aspect ComponentController {
 
         if (TraceUtils.Status.GAME_START == status) {
             ComponentManager.getInstance().hideFinalScore();
-            ComponentManager.getInstance().remove();
+            ComponentManager.getInstance().removeAllSubStages();
             ComponentManager.getInstance().removeRecords();
         } else if (TraceUtils.Status.GAME_OVER == status) {
             ComponentManager.getInstance().showFinalScore();
             ComponentManager.getInstance().reset();
-            ComponentManager.getInstance().add();
+            ComponentManager.getInstance().addAllSubStages();
         } else if (TraceUtils.Status.SHOW_RECORDS == status) {
+            ComponentManager.getInstance().hideFinalScore();
             ComponentManager.getInstance().addRecords();
         } else {
             LOG.warn("Unknown status {} received.", status);
