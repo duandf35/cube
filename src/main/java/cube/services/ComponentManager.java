@@ -106,11 +106,27 @@ public class ComponentManager {
      * Remove all score record stages to container stage.
      */
     public void removeRecords() {
-        for (ScoreRecordStage stage: scoreRecordStages) {
-            containerStage.remove(stage);
-        }
+        if (null != scoreRecordStages) {
+            for (ScoreRecordStage stage: scoreRecordStages) {
+                containerStage.remove(stage);
+            }
 
-        validateEDT();
+            validateEDT();
+        }
+    }
+
+    /**
+     * Pops out final score dialog.
+     */
+    public void showFinalScore() {
+        containerStage.showFinalScore();
+    }
+
+    /**
+     * Hide final score dialog.
+     */
+    public void hideFinalScore() {
+        containerStage.hideFinalScore();
     }
 
     /**

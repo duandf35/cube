@@ -46,7 +46,15 @@ public class ScoreRecordStageManager {
         Preconditions.checkNotNull(scoreService, "scoreService has not been registered.");
 
         List<Score> scores = scoreService.getAll();
-        List<Score> displayScores = null != scores && !scores.isEmpty() ? ImmutableList.copyOf(scores.subList(0, config.getMaxRecordsLoad())) : ImmutableList.of();
+
+        List<Score> displayScores;
+        if (null == scores || scores.isEmpty()) {
+            displayScores = ImmutableList.of();
+        } else if (config.getMaxRecordsLoad() >= scores.size()){
+            displayScores = ImmutableList.copyOf(scores);
+        } else {
+            displayScores = ImmutableList.copyOf(scores.subList(0, config.getMaxRecordsLoad()));
+        }
 
         scoreRecordStages = new ScoreRecordStage[displayScores.size()];
         for (int i = 0; i < displayScores.size(); i++) {

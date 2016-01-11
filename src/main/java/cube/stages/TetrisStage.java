@@ -7,6 +7,7 @@ import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Score;
 import cube.monitors.Monitor;
+import cube.services.FinalScoreDialog;
 import cube.services.RecordService;
 
 import javax.swing.*;
@@ -27,6 +28,8 @@ public class TetrisStage extends Stage {
     private ITetris tetris;
     private Monitor stageMonitor;
     private JLabel scoreDisplay, bestScoreDisplay;
+    private JPanel scoreAndPlayerDisplay;
+    private FinalScoreDialog finalScore;
     private KeyboardListener keyboardListener;
     private RecordService<Score> scoreService;
 
@@ -42,7 +45,11 @@ public class TetrisStage extends Stage {
         xBoundary = config.getXBoundary();
         yBoundary = config.getYBoundary();
 
+        scoreAndPlayerDisplay = new JPanel();
+        scoreAndPlayerDisplay.setBackground(config.getBackgroundColor());
+        add(scoreAndPlayerDisplay);
         addKeyListener(keyboardListener);
+
         initStage();
     }
 
@@ -97,7 +104,31 @@ public class TetrisStage extends Stage {
         tetris = null;
     }
 
-    private long getScore() {
+    @Override
+    public void reset() {
+        stageMonitor.reset();
+        scoreService.reset();
+        updateBestScore();
+    }
+
+    @Override
+    public void showFinalScore() {
+        if (null == finalScore) {
+            finalScore = new FinalScoreDialog();
+        }
+
+        finalScore.setScoreAndPlayer(scoreService.get().getValue(), scoreService.getPlayer());
+        finalScore.setVisible(true);
+    }
+
+    @Override
+    public void hideFinalScore() {
+        if (null != finalScore) {
+            finalScore.setVisible(false);
+        }
+    }
+
+    private Long getScore() {
         return scoreService.get().getValue();
     }
 
@@ -109,14 +140,8 @@ public class TetrisStage extends Stage {
         scoreDisplay.setText("Score: " + getScore());
     }
 
-    private long getBestScore() {
+    private Long getBestScore() {
         return scoreService.getBest().getValue();
-    }
-
-    @Override
-    public void reset() {
-        stageMonitor.reset();
-        updateBestScore();
     }
 
     private void updateBestScore() {
@@ -133,23 +158,36 @@ public class TetrisStage extends Stage {
         setBackground(config.getBackgroundColor());
         setLayout(new GridLayout(10, 0));
 
-        initScoreDisplays();
+        initScoreDisplay();
+        initPlayerDisplay();
     }
 
     // TODO: How put scores display on the top of Graphics. Note: JLayeredPanel doesn't work.
-    private void initScoreDisplays() {
-        JPanel displayPanel = new JPanel();
-
+    private void initScoreDisplay() {
         scoreDisplay = new JLabel();
         scoreDisplay.setForeground(config.getScoreDisplayColor());
-        displayPanel.add(scoreDisplay);
+        scoreAndPlayerDisplay.add(scoreDisplay);
 
         bestScoreDisplay = new JLabel();
         bestScoreDisplay.setForeground(config.getScoreDisplayColor());
         updateBestScore();
-        displayPanel.add(bestScoreDisplay);
 
-        displayPanel.setBackground(config.getBackgroundColor());
-        add(displayPanel);
+        scoreAndPlayerDisplay.add(bestScoreDisplay);
+    }
+
+    private void initPlayerDisplay() {
+        JTextField playerInput = new JTextField("player1");
+        JLabel player = new JLabel("Player Name:");
+
+        player.setForeground(config.getScoreDisplayColor());
+        playerInput.setBackground(config.getBackgroundColor());
+        playerInput.setForeground(config.getScoreDisplayColor());
+
+        // Set default player name
+        scoreService.setPlayer(playerInput.getText());
+        playerInput.addActionListener(e -> scoreService.setPlayer(playerInput.getText()));
+
+        scoreAndPlayerDisplay.add(player);
+        scoreAndPlayerDisplay.add(playerInput);
     }
 }

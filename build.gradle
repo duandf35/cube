@@ -14,7 +14,6 @@ repositories {
 dependencies {
     // h2
     compile 'com.h2database:h2:1.+'
-    compile 'org.jadira.usertype:usertype.core:5.+'
 
     // hibernate
     compile 'org.hibernate:hibernate-core:5.+'

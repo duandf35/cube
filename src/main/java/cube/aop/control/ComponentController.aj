@@ -21,9 +21,11 @@ privileged aspect ComponentController {
         TraceUtils.Status status = method.getMethod().getAnnotation(ControlStatus.class).status();
 
         if (TraceUtils.Status.GAME_START == status) {
+            ComponentManager.getInstance().hideFinalScore();
             ComponentManager.getInstance().remove();
             ComponentManager.getInstance().removeRecords();
         } else if (TraceUtils.Status.GAME_OVER == status) {
+            ComponentManager.getInstance().showFinalScore();
             ComponentManager.getInstance().reset();
             ComponentManager.getInstance().add();
         } else if (TraceUtils.Status.SHOW_RECORDS == status) {

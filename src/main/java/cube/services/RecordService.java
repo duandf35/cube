@@ -36,4 +36,20 @@ public interface RecordService<T> {
      * Save record.
      */
     void save();
+
+    /**
+     * Reset current score.
+     */
+    void reset();
+
+    /**
+     * Get player.
+     * @return the player name
+     */
+    String getPlayer();
+
+    /**
+     * Set player.
+     */
+    void setPlayer(String player);
 }

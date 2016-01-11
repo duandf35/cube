@@ -58,4 +58,14 @@ public abstract class Stage extends JPanel {
      * Reset stage.
      */
     public abstract void reset();
+
+    /**
+     * Pops out final score dialog.
+     */
+    public abstract void showFinalScore();
+
+    /**
+     * Hide final score dialog.
+     */
+    public abstract void hideFinalScore();
 }

@@ -33,6 +33,11 @@ public class ScoreService implements RecordService<Score> {
     private Score currentScore;
 
     /**
+     * The player name.
+     */
+    private String player;
+
+    /**
      * DAO.
      */
     private IScoreDAO scoreDAO;
@@ -69,8 +74,23 @@ public class ScoreService implements RecordService<Score> {
     @Override
     public void save() {
         currentScore.setTimestamp(new Date());
+        currentScore.setPlayerName(player);
         scoreDAO.save(currentScore);
+    }
+
+    @Override
+    public void reset() {
         scoreCache = 0;
         currentScore.setValue(0L);
+    }
+
+    @Override
+    public String getPlayer() {
+        return player;
+    }
+
+    @Override
+    public void setPlayer(final String player) {
+        this.player = player;
     }
 }

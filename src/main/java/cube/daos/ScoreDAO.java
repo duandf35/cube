@@ -24,6 +24,10 @@ public final class ScoreDAO implements IScoreDAO {
 
     private static final Integer MAX_RESULTS = 30;
 
+    /**
+     * Save score of current game to database.
+     * @param score the score of current game
+     */
     @Override
     public void save(final Score score) {
         Preconditions.checkNotNull(score, "Score must not be null.");
@@ -39,6 +43,10 @@ public final class ScoreDAO implements IScoreDAO {
         session.close();
     }
 
+    /**
+     * Get records up to maximum records limitation sorted in descending order.
+     * @return the sorted records
+     */
     @Override
     public List<Score> getAll() {
         Session session = FACTORY.openSession();
@@ -46,7 +54,6 @@ public final class ScoreDAO implements IScoreDAO {
         try {
             session.beginTransaction();
 
-//            List<Score> scores = (List<Score>) session.createQuery("FROM Score").setMaxResults(MAX_RESULTS).list();
             List<Score> scores = (List<Score>) session.createCriteria(Score.class)
                                                       .addOrder(Property.forName("value").desc())
                                                       .setMaxResults(MAX_RESULTS).list();
@@ -61,6 +68,10 @@ public final class ScoreDAO implements IScoreDAO {
         }
     }
 
+    /**
+     * The the highest score.
+     * @return the highest score
+     */
     @Override
     public Score getBest() {
         Session session = FACTORY.openSession();
