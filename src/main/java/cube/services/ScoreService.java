@@ -60,9 +60,9 @@ public class ScoreService implements IScoreService {
     }
 
     @Override
-    public <V> void update(V hitCount) {
-        Preconditions.checkArgument(hitCount instanceof HitCount, "Argument must be HitCount.");
-        Long count = ((HitCount) hitCount).getHitCount();
+    public void update(HitCount hitCount) {
+        Preconditions.checkNotNull(hitCount, "hitCount must not be null.");
+        Long count = hitCount.getHitCount();
 
         if (0L == count) {
             update();

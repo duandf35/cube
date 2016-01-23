@@ -14,13 +14,6 @@ public interface RecordService<T> {
     void update();
 
     /**
-     * Update record by a given value.
-     * @param v   the value
-     * @param <V> the type of the vale
-     */
-    <V> void update(V v);
-
-    /**
      * Get current record.
      * @return the record
      */
