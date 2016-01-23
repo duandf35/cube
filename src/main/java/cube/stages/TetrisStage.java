@@ -6,6 +6,7 @@ import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.monitors.Monitor;
+import cube.services.IHitCountService;
 import cube.services.IScoreService;
 
 import javax.swing.*;
@@ -24,17 +25,19 @@ public class TetrisStage extends Stage {
      */
     private ITetris tetris;
     private Monitor stageMonitor;
-    private JLabel scoreDisplay, bestScoreDisplay;
+    private JLabel scoreDisplay, bestScoreDisplay, hitCountDisplay, bestHitCountDisplay;
     private FinalScoreDialog finalScore;
     private KeyboardListener keyboardListener;
     private IScoreService scoreService;
+    private IHitCountService hitCountService;
 
     private Integer xBoundary, yBoundary;
 
-    public TetrisStage(KeyboardListener keyboardListener, Monitor stageMonitor, IScoreService scoreService) {
+    public TetrisStage(KeyboardListener keyboardListener, Monitor stageMonitor, IScoreService scoreService, IHitCountService hitCountService) {
         this.stageMonitor = stageMonitor;
         this.keyboardListener = keyboardListener;
         this.scoreService = scoreService;
+        this.hitCountService = hitCountService;
 
         config = StageConfig.getInstance();
 
@@ -58,6 +61,7 @@ public class TetrisStage extends Stage {
 
         stageMonitor.refresh(g);
         updateScore();
+        updateHitCount();
     }
 
     @Override
@@ -101,6 +105,8 @@ public class TetrisStage extends Stage {
     public void reset() {
         stageMonitor.reset();
         scoreService.reset();
+        hitCountService.reset();
+
         updateBestScore();
     }
 
@@ -121,20 +127,17 @@ public class TetrisStage extends Stage {
         }
     }
 
-    private Long getScore() {
-        return scoreService.get().getValue();
-    }
-
     private void updateScore() {
-        scoreDisplay.setText("Score: " + getScore());
-    }
-
-    private Long getBestScore() {
-        return scoreService.getBest().getValue();
+        scoreDisplay.setText("Score: " + scoreService.get().getValue());
     }
 
     private void updateBestScore() {
-        bestScoreDisplay.setText("Best: " + getBestScore());
+        bestScoreDisplay.setText("Best: " + scoreService.getBest().getValue());
+    }
+
+    private void updateHitCount() {
+        hitCountDisplay.setText("Hit: " + hitCountService.get());
+        bestHitCountDisplay.setText("Best hit: " + hitCountService.getBest());
     }
 
     private void initStage() {
@@ -169,8 +172,15 @@ public class TetrisStage extends Stage {
         bestScoreDisplay = new JLabel();
         bestScoreDisplay.setForeground(config.getScoreDisplayColor());
         updateBestScore();
-
         scoreAndPlayerDisplay.add(bestScoreDisplay);
+
+        hitCountDisplay = new JLabel();
+        hitCountDisplay.setForeground(config.getScoreDisplayColor());
+        scoreAndPlayerDisplay.add(hitCountDisplay);
+
+        bestHitCountDisplay = new JLabel();
+        bestHitCountDisplay.setForeground(config.getScoreDisplayColor());
+        scoreAndPlayerDisplay.add(bestHitCountDisplay);
     }
 
     private void initPlayerDisplay(final JPanel scoreAndPlayerDisplay) {

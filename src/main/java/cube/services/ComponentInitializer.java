@@ -49,8 +49,10 @@ public final class ComponentInitializer implements Factory<Stage> {
     private Stage buildContainer() {
         KeyboardListener keyboardListener = new KeyboardListener();
         Monitor monitor = new StageMonitor();
+        IHitCountService hitCountService = new HitCountService();
         ScoreMonitorHelper.inject(scoreService);
+        ScoreMonitorHelper.inject(hitCountService);
 
-        return new TetrisStage(keyboardListener, monitor, scoreService);
+        return new TetrisStage(keyboardListener, monitor, scoreService, hitCountService);
     }
 }

@@ -2,10 +2,8 @@ package cube.aop.score;
 
 import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
-import cube.models.Score;
+import cube.services.IHitCountService;
 import cube.services.IScoreService;
-import cube.services.RecordService;
-import cube.services.ScoreService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -21,6 +19,7 @@ privileged aspect ScoreMonitor {
     private static final Logger LOG = LogManager.getLogger(ScoreMonitor.class);
 
     private IScoreService scoreService;
+    private IHitCountService hitCountService;
 
     pointcut methodWithScoreOperationRequiredAnnotation() : execution(* * (..)) && @annotation(cube.aop.score.ScoreOperationRequired);
 
@@ -41,5 +40,9 @@ privileged aspect ScoreMonitor {
 
     public void setScoreService(final IScoreService scoreService) {
         this.scoreService = scoreService;
+    }
+
+    public void setHitCountService(final IHitCountService hitCountService) {
+        this.hitCountService = hitCountService;
     }
 }

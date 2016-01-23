@@ -6,11 +6,9 @@ import cube.models.HitCount;
  * @author Wenyu
  * @since 1/19/16
  */
-public class HitCountService implements RecordService<Long> {
+public class HitCountService implements IHitCountService {
 
     private HitCount hitCount;
-
-    private String player;
 
     public HitCountService() {
         hitCount = new HitCount(0L, 0L);
@@ -29,11 +27,6 @@ public class HitCountService implements RecordService<Long> {
     }
 
     @Override
-    public <V> void update(V v) {
-
-    }
-
-    @Override
     public Long get() {
         return hitCount.getHitCount();
     }
@@ -46,5 +39,6 @@ public class HitCountService implements RecordService<Long> {
     @Override
     public void reset() {
         hitCount.setHitCount(0L);
+        hitCount.setBestHitCount(0L);
     }
 }

@@ -1,5 +1,6 @@
 package cube.aop.score;
 
+import cube.services.IHitCountService;
 import cube.services.IScoreService;
 
 /**
@@ -14,5 +15,9 @@ public final class ScoreMonitorHelper {
 
     public static void inject(final IScoreService scoreService) {
         ScoreMonitor.aspectOf().setScoreService(scoreService);
+    }
+
+    public static void inject(final IHitCountService hitCountService) {
+        ScoreMonitor.aspectOf().setHitCountService(hitCountService);
     }
 }
