@@ -4,7 +4,6 @@ import cube.aop.score.ScoreMonitorHelper;
 import cube.listeners.KeyboardListener;
 import cube.listeners.Listener;
 import cube.listeners.StageListener;
-import cube.models.Score;
 import cube.monitors.Monitor;
 import cube.monitors.StageMonitor;
 import cube.stages.GameControlStage;
@@ -19,7 +18,7 @@ import cube.stages.TetrisStage;
 public final class ComponentInitializer implements Factory<Stage> {
     private static final ComponentInitializer INITIALIZER = new ComponentInitializer();
 
-    private final RecordService<Score> scoreService;
+    private final IScoreService scoreService;
 
     private ComponentInitializer() {
         scoreService = new ScoreService();

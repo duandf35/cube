@@ -1,7 +1,10 @@
 package cube.services;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import cube.daos.IScoreDAO;
 import cube.daos.ScoreDAO;
+import cube.models.HitCount;
 import cube.models.Score;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +16,7 @@ import java.util.List;
  * @author wenyu
  * @since 12/24/15
  */
-public class ScoreService implements RecordService<Score> {
+public class ScoreService implements IScoreService {
 
     private static final Logger LOG = LogManager.getLogger(ScoreService.class);
 
@@ -57,25 +60,25 @@ public class ScoreService implements RecordService<Score> {
     }
 
     @Override
+    public <V> void update(V hitCount) {
+        Preconditions.checkArgument(hitCount instanceof HitCount, "Argument must be HitCount.");
+        Long count = ((HitCount) hitCount).getHitCount();
+
+        if (0L == count) {
+            update();
+        } else {
+            scoreCache += count * scoreUnit;
+        }
+    }
+
+    @Override
     public Score get() {
         return currentScore;
     }
 
     @Override
-    public List<Score> getAll() {
-        return scoreDAO.getAll();
-    }
-
-    @Override
     public Score getBest() {
         return scoreDAO.getBest();
-    }
-
-    @Override
-    public void save() {
-        currentScore.setTimestamp(new Date());
-        currentScore.setPlayerName(player);
-        scoreDAO.save(currentScore);
     }
 
     @Override
@@ -92,5 +95,22 @@ public class ScoreService implements RecordService<Score> {
     @Override
     public void setPlayer(final String player) {
         this.player = player;
+    }
+
+    @Override
+    public void save() {
+        currentScore.setTimestamp(new Date());
+        currentScore.setPlayerName(player);
+        scoreDAO.save(currentScore);
+    }
+
+    @Override
+    public List<Score> getAll() {
+        return scoreDAO.getAll();
+    }
+
+    @Override
+    public List<Score> getByPlayer(final String player) {
+        return ImmutableList.of();
     }
 }

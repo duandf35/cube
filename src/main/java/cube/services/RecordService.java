@@ -1,7 +1,5 @@
 package cube.services;
 
-import java.util.List;
-
 /**
  * Interface for defining recording function.
  *
@@ -16,15 +14,17 @@ public interface RecordService<T> {
     void update();
 
     /**
+     * Update record by a given value.
+     * @param v   the value
+     * @param <V> the type of the vale
+     */
+    <V> void update(V v);
+
+    /**
      * Get current record.
      * @return the record
      */
     T get();
-
-    /**
-     * Get all records.
-     */
-    List<T> getAll();
 
     /**
      * Get the best record.
@@ -33,23 +33,7 @@ public interface RecordService<T> {
     T getBest();
 
     /**
-     * Save record.
-     */
-    void save();
-
-    /**
      * Reset current score.
      */
     void reset();
-
-    /**
-     * Get player.
-     * @return the player name
-     */
-    String getPlayer();
-
-    /**
-     * Set player.
-     */
-    void setPlayer(String player);
 }

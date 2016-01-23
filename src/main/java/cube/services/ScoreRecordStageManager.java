@@ -16,7 +16,7 @@ public class ScoreRecordStageManager {
     private static final ScoreRecordStageManager MANAGER = new ScoreRecordStageManager();
 
     private final StageConfig config;
-    private RecordService<Score> scoreService;
+    private IScoreService scoreService;
     private ScoreRecordStage[] scoreRecordStages;
 
     private ScoreRecordStageManager() {
@@ -32,7 +32,7 @@ public class ScoreRecordStageManager {
      * @param  scoreService the score service
      * @return the manager itself for method chaining
      */
-    public ScoreRecordStageManager register(final RecordService<Score> scoreService) {
+    public ScoreRecordStageManager register(final IScoreService scoreService) {
         this.scoreService = scoreService;
 
         return this;

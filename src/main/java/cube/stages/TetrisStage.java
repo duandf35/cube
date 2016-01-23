@@ -5,13 +5,11 @@ import cube.listeners.KeyboardListener;
 import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
-import cube.models.Score;
 import cube.monitors.Monitor;
-import cube.services.RecordService;
+import cube.services.IScoreService;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,11 +27,11 @@ public class TetrisStage extends Stage {
     private JLabel scoreDisplay, bestScoreDisplay;
     private FinalScoreDialog finalScore;
     private KeyboardListener keyboardListener;
-    private RecordService<Score> scoreService;
+    private IScoreService scoreService;
 
     private Integer xBoundary, yBoundary;
 
-    public TetrisStage(KeyboardListener keyboardListener, Monitor stageMonitor, RecordService<Score> scoreService) {
+    public TetrisStage(KeyboardListener keyboardListener, Monitor stageMonitor, IScoreService scoreService) {
         this.stageMonitor = stageMonitor;
         this.keyboardListener = keyboardListener;
         this.scoreService = scoreService;
@@ -125,10 +123,6 @@ public class TetrisStage extends Stage {
 
     private Long getScore() {
         return scoreService.get().getValue();
-    }
-
-    private List<Score> getAllScores() {
-        return scoreService.getAll();
     }
 
     private void updateScore() {
