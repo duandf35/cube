@@ -1,6 +1,5 @@
 package cube.services;
 
-import cube.models.HitCount;
 import cube.models.Score;
 
 /**
@@ -13,5 +12,5 @@ public interface IScoreService extends RecordService<Score>, DBIOService<Score>,
      * Update score by hit count.
      * @param hitCount the hit count
      */
-    void update(HitCount hitCount);
+    void update(Long hitCount);
 }

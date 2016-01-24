@@ -39,6 +39,5 @@ public class HitCountService implements IHitCountService {
     @Override
     public void reset() {
         hitCount.setHitCount(0L);
-        hitCount.setBestHitCount(0L);
     }
 }

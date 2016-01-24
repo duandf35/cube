@@ -19,5 +19,6 @@ public final class ScoreMonitorHelper {
 
     public static void inject(final IHitCountService hitCountService) {
         ScoreMonitor.aspectOf().setHitCountService(hitCountService);
+        ScoreMonitor.aspectOf().activateHitCountPeriod();
     }
 }

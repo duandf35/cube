@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cube.daos.IScoreDAO;
 import cube.daos.ScoreDAO;
-import cube.models.HitCount;
 import cube.models.Score;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,19 +54,21 @@ public class ScoreService implements IScoreService {
     public void update() {
         scoreCache += scoreUnit;
         currentScore.setValue(scoreCache);
-
-        LOG.info("Updating score, current score: {}.", scoreCache);
     }
 
     @Override
-    public void update(HitCount hitCount) {
+    public void update(Long hitCount) {
         Preconditions.checkNotNull(hitCount, "hitCount must not be null.");
-        Long count = hitCount.getHitCount();
 
-        if (0L == count) {
+        if (0L == hitCount) {
+            LOG.info("Updating score, current score = {} + {}", scoreCache, scoreUnit);
+
             update();
         } else {
-            scoreCache += count * scoreUnit;
+            LOG.info("Updating score, current score = {} + {} * {}", scoreCache, hitCount, scoreUnit);
+
+            scoreCache += hitCount * scoreUnit;
+            currentScore.setValue(scoreCache);
         }
     }
 

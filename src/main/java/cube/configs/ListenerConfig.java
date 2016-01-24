@@ -14,6 +14,7 @@ public class ListenerConfig implements Config {
     private static final String GRAVITY_APPLY_DELAY = "GRAVITY_APPLY_DELAY";
     private static final String GRAVITY_APPLY_PERIOD = "GRAVITY_APPLY_PERIOD";
     private static final String DIGEST_DELAY = "DIGEST_DELAY";
+    private static final String HIT_COUNT_PERIOD = "HIT_COUNT_PERIOD";
 
     private static final String X_UPDATE = "X_UPDATE";
     private static final String Y_UPDATE = "Y_UPDATE";
@@ -22,6 +23,7 @@ public class ListenerConfig implements Config {
     private static final Integer DEF_GRAVITY_APP_PER = 1000;
     private static final Integer DEF_GRAVITY_APP_DEL = 1000;
     private static final Integer DEF_DIGEST_DEL = 750;
+    private static final Integer DEF_HC_PERIOD = 3000;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();
 
@@ -39,6 +41,7 @@ public class ListenerConfig implements Config {
         CONF_MAP.put(GRAVITY_APPLY_DELAY, DEF_GRAVITY_APP_DEL);
         CONF_MAP.put(GRAVITY_APPLY_PERIOD, DEF_GRAVITY_APP_PER);
         CONF_MAP.put(DIGEST_DELAY, DEF_DIGEST_DEL);
+        CONF_MAP.put(HIT_COUNT_PERIOD, DEF_HC_PERIOD);
 
         CONF_MAP.put(X_UPDATE, cubeConfig.getWidth());
         CONF_MAP.put(Y_UPDATE, cubeConfig.getHeight());
@@ -68,6 +71,10 @@ public class ListenerConfig implements Config {
             CONF_MAP.replace(DIGEST_DELAY, override.get(DIGEST_DELAY));
         }
 
+        if (override.get(HIT_COUNT_PERIOD) instanceof Integer) {
+            CONF_MAP.replace(HIT_COUNT_PERIOD, override.get(HIT_COUNT_PERIOD));
+        }
+
         if (override.get(X_UPDATE) instanceof Integer) {
             CONF_MAP.replace(X_UPDATE, override.get(X_UPDATE));
         }
@@ -95,6 +102,10 @@ public class ListenerConfig implements Config {
 
     public Integer getDigestDelay() {
         return (Integer) CONF_MAP.get(DIGEST_DELAY);
+    }
+
+    public Integer getHitCountPeriod() {
+        return (Integer) CONF_MAP.get(HIT_COUNT_PERIOD);
     }
 
     public Integer getUpdateX() {

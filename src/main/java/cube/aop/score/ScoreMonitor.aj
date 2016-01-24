@@ -2,11 +2,15 @@ package cube.aop.score;
 
 import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
+import cube.configs.ListenerConfig;
 import cube.services.IHitCountService;
 import cube.services.IScoreService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.reflect.MethodSignature;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Aspect to handle score update/save operations.
@@ -17,6 +21,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 privileged aspect ScoreMonitor {
 
     private static final Logger LOG = LogManager.getLogger(ScoreMonitor.class);
+
+    private final Timer hitCountTimer = new Timer();
 
     private IScoreService scoreService;
     private IHitCountService hitCountService;
@@ -30,7 +36,8 @@ privileged aspect ScoreMonitor {
         Preconditions.checkNotNull(scoreService, "scoreService has not been registered!");
 
         if (TraceUtils.ScoreOperation.UPDATE == ops) {
-            scoreService.update();
+            hitCountService.update();
+            scoreService.update(hitCountService.get());
         } else if (TraceUtils.ScoreOperation.SAVE == ops) {
             scoreService.save();
         } else {
@@ -44,5 +51,22 @@ privileged aspect ScoreMonitor {
 
     public void setHitCountService(final IHitCountService hitCountService) {
         this.hitCountService = hitCountService;
+    }
+
+    /**
+     * Activate timer to periodically reset hit count.
+     */
+    public void activateHitCountPeriod() {
+        ListenerConfig config = ListenerConfig.getInstance();
+
+        LOG.debug("Activating hit count reset timer...");
+
+        hitCountTimer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                hitCountService.reset();
+            }
+        }, config.getGravityApplyDelay(), config.getHitCountPeriod());
     }
 }
