@@ -1,7 +1,7 @@
 package cube.aop.control;
 
 import cube.aop.TraceUtils;
-import cube.services.ComponentManager;
+import cube.services.factories.ComponentManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.reflect.MethodSignature;

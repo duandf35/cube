@@ -3,7 +3,7 @@ package cube.stages;
 import cube.aop.TraceUtils;
 import cube.aop.control.ControlStatus;
 import cube.configs.StageConfig;
-import cube.listeners.Listener;
+import cube.listeners.IStageListener;
 
 import javax.swing.*;
 
@@ -13,9 +13,9 @@ import javax.swing.*;
  */
 public class GameControlStage extends SubStage {
     private final StageConfig config;
-    private Listener stageListener;
+    private IStageListener stageListener;
 
-    public GameControlStage(final Listener stageListener) {
+    public GameControlStage(final IStageListener stageListener) {
         this.stageListener = stageListener;
 
         config = StageConfig.getInstance();

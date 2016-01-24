@@ -1,13 +1,17 @@
-package cube.services;
+package cube.services.factories;
 
 import cube.aop.score.ScoreMonitorHelper;
+import cube.listeners.IStageListener;
 import cube.listeners.KeyboardListener;
-import cube.listeners.Listener;
 import cube.listeners.StageListener;
-import cube.monitors.Monitor;
+import cube.monitors.IStageMonitor;
 import cube.monitors.StageMonitor;
+import cube.services.HitCountService;
+import cube.services.IHitCountService;
+import cube.services.IScoreService;
+import cube.services.ScoreService;
+import cube.stages.ContainerStage;
 import cube.stages.GameControlStage;
-import cube.stages.Stage;
 import cube.stages.SubStage;
 import cube.stages.TetrisStage;
 
@@ -15,7 +19,7 @@ import cube.stages.TetrisStage;
  * @author wenyu
  * @since 10/24/15
  */
-public final class ComponentInitializer implements Factory<Stage> {
+public final class ComponentInitializer implements Factory<ContainerStage> {
     private static final ComponentInitializer INITIALIZER = new ComponentInitializer();
 
     private final IScoreService scoreService;
@@ -29,9 +33,9 @@ public final class ComponentInitializer implements Factory<Stage> {
     }
 
     @Override
-    public Stage build() {
-        Stage container = buildContainer();
-        Listener containerListener = new StageListener(container);
+    public ContainerStage build() {
+        ContainerStage container = buildContainer();
+        IStageListener containerListener = new StageListener(container);
         SubStage controlStage = new GameControlStage(containerListener);
         SubStage[] subStages = new SubStage[] { controlStage };
 
@@ -46,13 +50,13 @@ public final class ComponentInitializer implements Factory<Stage> {
         return container;
     }
 
-    private Stage buildContainer() {
+    private ContainerStage buildContainer() {
         KeyboardListener keyboardListener = new KeyboardListener();
-        Monitor monitor = new StageMonitor();
+        IStageMonitor IStageMonitor = new StageMonitor();
         IHitCountService hitCountService = new HitCountService();
         ScoreMonitorHelper.inject(scoreService);
         ScoreMonitorHelper.inject(hitCountService);
 
-        return new TetrisStage(keyboardListener, monitor, scoreService, hitCountService);
+        return new TetrisStage(keyboardListener, IStageMonitor, scoreService, hitCountService);
     }
 }

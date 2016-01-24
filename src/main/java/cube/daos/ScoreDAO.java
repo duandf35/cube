@@ -3,7 +3,7 @@ package cube.daos;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cube.models.Score;
-import cube.services.HibernateSessionFactory;
+import cube.services.factories.HibernateSessionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;

@@ -17,7 +17,7 @@ public class FrameConfig implements Config {
     // Default settings
     private static final Integer DEF_W  = 600;
 
-    // Set Frame height larger than Stage height to avoid tetris out of boundary
+    // Set Frame height larger than ContainerStage height to avoid tetris out of boundary
     private static final Integer DEF_H  = 620;
 
     private static final String  DEF_TITLE  = "CUBE MAIN CONSOLE";

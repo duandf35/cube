@@ -3,7 +3,7 @@ package cube;
 import cube.configs.ConfigLoader;
 import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
-import cube.services.ComponentInitializer;
+import cube.services.factories.ComponentInitializer;
 
 import javax.swing.*;
 import java.awt.*;

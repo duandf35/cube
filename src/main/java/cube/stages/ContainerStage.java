@@ -11,7 +11,7 @@ import java.util.Map;
  * @author wenyu
  * @since 10/27/15
  */
-public abstract class Stage extends JPanel {
+public abstract class ContainerStage extends JPanel {
 
     /**
      * Get width of the stage.

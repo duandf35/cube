@@ -5,7 +5,7 @@ import cube.listeners.KeyboardListener;
 import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
-import cube.monitors.Monitor;
+import cube.monitors.IStageMonitor;
 import cube.services.IHitCountService;
 import cube.services.IScoreService;
 
@@ -17,14 +17,14 @@ import java.util.Map;
  * @author wenyu
  * @since 10/21/15
  */
-public class TetrisStage extends Stage {
+public class TetrisStage extends ContainerStage {
     private final StageConfig config;
 
     /**
      * Current active tetris which will response keyboard action.
      */
     private ITetris tetris;
-    private Monitor stageMonitor;
+    private IStageMonitor stageMonitor;
     private JLabel scoreDisplay, bestScoreDisplay, hitCountDisplay, bestHitCountDisplay;
     private FinalScoreDialog finalScore;
     private KeyboardListener keyboardListener;
@@ -33,7 +33,7 @@ public class TetrisStage extends Stage {
 
     private Integer xBoundary, yBoundary;
 
-    public TetrisStage(KeyboardListener keyboardListener, Monitor stageMonitor, IScoreService scoreService, IHitCountService hitCountService) {
+    public TetrisStage(KeyboardListener keyboardListener, IStageMonitor stageMonitor, IScoreService scoreService, IHitCountService hitCountService) {
         this.stageMonitor = stageMonitor;
         this.keyboardListener = keyboardListener;
         this.scoreService = scoreService;

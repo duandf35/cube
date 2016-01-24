@@ -10,9 +10,9 @@ import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Position;
 import cube.models.TetrisCommand;
-import cube.services.Factory;
-import cube.services.TetrisFactory;
-import cube.stages.Stage;
+import cube.services.factories.Factory;
+import cube.services.factories.TetrisFactory;
+import cube.stages.ContainerStage;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,12 +25,12 @@ import java.util.TimerTask;
  * @author wenyu
  * @since 10/22/15
  */
-public class StageListener extends Listener {
+public class StageListener extends IStageListener {
     private static final Logger LOG = LogManager.getLogger(StageListener.class);
 
     private final ListenerConfig config;
 
-    private Stage tetrisStage;
+    private ContainerStage tetrisStage;
     private Factory tetrisFactory;
 
     /**
@@ -48,7 +48,7 @@ public class StageListener extends Listener {
      */
     private boolean isActive = false;
 
-    public StageListener(final Stage tetrisStage) {
+    public StageListener(final ContainerStage tetrisStage) {
         this.tetrisStage = Preconditions.checkNotNull(tetrisStage, "tetrisStage must not be null.");
 
         tetrisFactory = TetrisFactory.getInstance();

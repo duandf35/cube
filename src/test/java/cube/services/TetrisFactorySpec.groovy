@@ -2,7 +2,7 @@ package services
 
 import cube.models.ITetris
 import cube.models.TetrisType
-import cube.services.TetrisFactory
+import cube.services.factories.TetrisFactory
 import spock.lang.Specification
 import spock.lang.Unroll
 

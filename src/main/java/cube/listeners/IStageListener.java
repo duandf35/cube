@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
  * @author wenyu
  * @since 12/28/15
  */
-public abstract class Listener implements ActionListener {
+public abstract class IStageListener implements ActionListener {
 
     /**
      * Perform action based on received event.

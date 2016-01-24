@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @author wenyu
  * @since 11/7/15
  */
-public class StageMonitor implements Monitor {
+public class StageMonitor implements IStageMonitor {
     private static final Logger LOG = LogManager.getLogger(StageMonitor.class);
 
     private CubeConfig cubeConfig;

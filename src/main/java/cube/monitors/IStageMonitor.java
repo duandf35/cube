@@ -9,7 +9,7 @@ import java.util.Map;
  * @author wenyu
  * @since 11/7/15
  */
-public interface Monitor {
+public interface IStageMonitor {
 
     /**
      * Return cubes along with their position.

@@ -1,8 +1,8 @@
-package cube.services;
+package cube.services.factories;
 
 import com.google.common.base.Preconditions;
+import cube.stages.ContainerStage;
 import cube.stages.ScoreRecordStage;
-import cube.stages.Stage;
 import cube.stages.SubStage;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class ComponentManager {
 
     private static final ComponentManager MANAGER = new ComponentManager();
 
-    private Stage containerStage;
+    private ContainerStage containerContainerStage;
     private SubStage[] subStages;
 
     private ScoreRecordStageManager scoreRecordStageManager;
@@ -33,11 +33,11 @@ public class ComponentManager {
 
     /**
      * Register container stage.
-     * @param  containerStage the container stage
+     * @param  containerContainerStage the container stage
      * @return the manager itself for method chaining
      */
-    public ComponentManager register(final Stage containerStage) {
-        this.containerStage = Preconditions.checkNotNull(containerStage, "containerStage must not be null.");
+    public ComponentManager register(final ContainerStage containerContainerStage) {
+        this.containerContainerStage = Preconditions.checkNotNull(containerContainerStage, "containerContainerStage must not be null.");
 
         return this;
     }
@@ -68,10 +68,10 @@ public class ComponentManager {
      * Add all sub stages to container stage.
      */
     public void addAllSubStages() {
-        Preconditions.checkNotNull(containerStage, "containerStage has not been registered.");
+        Preconditions.checkNotNull(containerContainerStage, "containerContainerStage has not been registered.");
 
         for (SubStage subStage : subStages) {
-            containerStage.add(subStage);
+            containerContainerStage.add(subStage);
         }
 
         validateEDT();
@@ -81,10 +81,10 @@ public class ComponentManager {
      * Remove all sub stages from container stage.
      */
     public void removeAllSubStages() {
-        Preconditions.checkNotNull(containerStage, "containerStage has not been registered.");
+        Preconditions.checkNotNull(containerContainerStage, "containerContainerStage has not been registered.");
 
         for (SubStage subStage : subStages) {
-            containerStage.remove(subStage);
+            containerContainerStage.remove(subStage);
         }
 
         validateEDT();
@@ -96,7 +96,7 @@ public class ComponentManager {
     public void addRecords() {
         scoreRecordStages = scoreRecordStageManager.buildStages().getStages();
         for (ScoreRecordStage stage : scoreRecordStages) {
-            containerStage.add(stage);
+            containerContainerStage.add(stage);
         }
 
         validateEDT();
@@ -108,7 +108,7 @@ public class ComponentManager {
     public void removeRecords() {
         if (null != scoreRecordStages) {
             for (ScoreRecordStage stage: scoreRecordStages) {
-                containerStage.remove(stage);
+                containerContainerStage.remove(stage);
             }
 
             validateEDT();
@@ -119,28 +119,28 @@ public class ComponentManager {
      * Pops out final score dialog.
      */
     public void showFinalScore() {
-        containerStage.showFinalScore();
+        containerContainerStage.showFinalScore();
     }
 
     /**
      * Hide final score dialog.
      */
     public void hideFinalScore() {
-        containerStage.hideFinalScore();
+        containerContainerStage.hideFinalScore();
     }
 
     /**
      * Rest container stage.
      */
     public void reset() {
-        containerStage.reset();
+        containerContainerStage.reset();
     }
 
     /**
      * Notify Swing EDT to validate container changes.
      */
     private void validateEDT() {
-        SwingUtilities.getWindowAncestor(containerStage).revalidate();
-        SwingUtilities.getWindowAncestor(containerStage).repaint();
+        SwingUtilities.getWindowAncestor(containerContainerStage).revalidate();
+        SwingUtilities.getWindowAncestor(containerContainerStage).repaint();
     }
 }

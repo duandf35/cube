@@ -1,4 +1,4 @@
-package cube.services;
+package cube.services.factories;
 
 /**
  * @author wenyu
