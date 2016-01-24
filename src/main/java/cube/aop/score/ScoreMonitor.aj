@@ -3,6 +3,8 @@ package cube.aop.score;
 import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
 import cube.configs.ListenerConfig;
+import cube.monitors.TimerMonitor;
+import cube.monitors.timers.TimerWrapper;
 import cube.services.IHitCountService;
 import cube.services.IScoreService;
 import org.apache.logging.log4j.LogManager;
@@ -18,11 +20,9 @@ import java.util.TimerTask;
  * @author wenyu
  * @since 12/19/15
  */
-privileged aspect ScoreMonitor {
+public privileged aspect ScoreMonitor {
 
     private static final Logger LOG = LogManager.getLogger(ScoreMonitor.class);
-
-    private final Timer hitCountTimer = new Timer();
 
     private IScoreService scoreService;
     private IHitCountService hitCountService;
@@ -54,19 +54,24 @@ privileged aspect ScoreMonitor {
     }
 
     /**
-     * Activate timer to periodically reset hit count.
+     * Register timer.
      */
-    public void activateHitCountPeriod() {
+    public void registerTimer() {
         ListenerConfig config = ListenerConfig.getInstance();
 
-        LOG.debug("Activating hit count reset timer...");
-
-        hitCountTimer.schedule(new TimerTask() {
-
+        Timer hitCountTimer = new Timer();
+        TimerTask hitCountTimerTask = new TimerTask() {
             @Override
             public void run() {
                 hitCountService.reset();
             }
-        }, config.getGravityApplyDelay(), config.getHitCountPeriod());
+        };
+
+        TimerMonitor.getInstance()
+                    .register(new TimerWrapper("Hit Count Reset Timer",
+                                               hitCountTimer,
+                                               hitCountTimerTask,
+                                               config.getGravityApplyDelay(),
+                                               config.getHitCountPeriod()));
     }
 }

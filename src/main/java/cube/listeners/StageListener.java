@@ -10,6 +10,9 @@ import cube.models.ICube;
 import cube.models.ITetris;
 import cube.models.Position;
 import cube.models.TetrisCommand;
+import cube.monitors.TimerMonitor;
+import cube.monitors.timers.SwingTimerWrapper;
+import cube.monitors.timers.TimerWrapper;
 import cube.services.factories.Factory;
 import cube.services.factories.TetrisFactory;
 import cube.stages.ContainerStage;
@@ -33,29 +36,11 @@ public class StageListener extends IStageListener {
     private ContainerStage tetrisStage;
     private Factory tetrisFactory;
 
-    /**
-     * Timer {@code javax.swing.Timer} to notify this listener.
-     */
-    private final javax.swing.Timer mainTimer;
-
-    /**
-     * Timer {@code java.util.Timer} to generate gravity command {@code cube.models.TetrisCommand}.
-     */
-    private Timer gravityTimer;
-
-    /**
-     * Flag to indicate if the listener is active. Used by de(activate) methods to avoid duplicate operating.
-     */
-    private boolean isActive = false;
-
     public StageListener(final ContainerStage tetrisStage) {
         this.tetrisStage = Preconditions.checkNotNull(tetrisStage, "tetrisStage must not be null.");
 
         tetrisFactory = TetrisFactory.getInstance();
         config = ListenerConfig.getInstance();
-        mainTimer = new javax.swing.Timer(config.getMainTimerDelay(), this);
-
-        activateGravity();
     }
 
     /**
@@ -77,32 +62,40 @@ public class StageListener extends IStageListener {
         }
     }
 
-    /**
-     * Activate this listener.
-     */
     @Override
-    public synchronized void activate() {
-        if (!isActive) {
-            LOG.info("Game start, activating listener...");
-
-            isActive = true;
-            mainTimer.start();
-            activateGravity();
-        }
+    public void registerTimers() {
+        registerMainTimer();
+        registerGravityTimer();
     }
 
-    /**
-     * Deactivate this listener.
-     */
-    @Override
-    public synchronized void deactivate() {
-        if (isActive) {
-            LOG.info("Game Over, Shutting down...");
+    private void registerMainTimer() {
+        javax.swing.Timer mainTimer = new javax.swing.Timer(config.getMainTimerDelay(), this);
 
-            isActive = false;
-            gravityTimer.cancel();
-            mainTimer.stop();
-        }
+        TimerMonitor.getInstance()
+                    .register(new SwingTimerWrapper("Stage Listener main timer", mainTimer));
+    }
+
+    private void registerGravityTimer() {
+        Timer gravityTimer = new Timer();
+        TimerTask gravityTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    if (null != tetrisStage.getTetris()) {
+                        applyGravity(tetrisStage.getTetris());
+                    }
+                } catch (InterruptedException e) {
+                    LOG.error("Error happened during gravity performing.", e);
+                }
+            }
+        };
+
+        TimerMonitor.getInstance()
+                    .register(new TimerWrapper("Stage Listener gravity timer",
+                                               gravityTimer,
+                                               gravityTimerTask,
+                                               config.getGravityApplyDelay(),
+                                               config.getGravityApplyPeriod()));
     }
 
     /**
@@ -132,7 +125,7 @@ public class StageListener extends IStageListener {
     @ControlStatus(status = TraceUtils.Status.GAME_OVER)
     @ScoreOperationRequired(operation = TraceUtils.ScoreOperation.SAVE)
     private void saveFinalScore() {
-        deactivate();
+
     }
 
     /**
@@ -174,26 +167,6 @@ public class StageListener extends IStageListener {
         Command gravityCommand = new TetrisCommand(0, config.getGravity(), false);
 
         applyAction(gravityCommand, tetris);
-    }
-
-    /**
-     * Activate gravity.
-     */
-    private void activateGravity() {
-        gravityTimer = new Timer();
-        gravityTimer.schedule(new TimerTask() {
-
-            @Override
-            public synchronized void run() {
-                try {
-                    if (null != tetrisStage.getTetris()) {
-                        applyGravity(tetrisStage.getTetris());
-                    }
-                } catch (InterruptedException e) {
-                    LOG.error("Error happened during gravity performing.", e);
-                }
-            }
-        }, config.getGravityApplyDelay(), config.getGravityApplyPeriod());
     }
 
     private boolean isBlockedByOtherTetris(ITetris tetris) {

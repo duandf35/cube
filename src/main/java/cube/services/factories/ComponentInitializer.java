@@ -1,5 +1,6 @@
 package cube.services.factories;
 
+import com.google.common.base.Preconditions;
 import cube.aop.score.ScoreMonitorHelper;
 import cube.listeners.IStageListener;
 import cube.listeners.KeyboardListener;
@@ -35,8 +36,9 @@ public final class ComponentInitializer implements Factory<ContainerStage> {
     @Override
     public ContainerStage build() {
         ContainerStage container = buildContainer();
-        IStageListener containerListener = new StageListener(container);
-        SubStage controlStage = new GameControlStage(containerListener);
+        registerContainerListener(container);
+
+        SubStage controlStage = new GameControlStage();
         SubStage[] subStages = new SubStage[] { controlStage };
 
         container.add(controlStage);
@@ -58,5 +60,12 @@ public final class ComponentInitializer implements Factory<ContainerStage> {
         ScoreMonitorHelper.inject(hitCountService);
 
         return new TetrisStage(keyboardListener, IStageMonitor, scoreService, hitCountService);
+    }
+
+    private void registerContainerListener(final ContainerStage container) {
+        Preconditions.checkNotNull(container, "container must not be null.");
+
+        IStageListener containerListener = new StageListener(container);
+        containerListener.registerTimers();
     }
 }

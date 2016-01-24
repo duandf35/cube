@@ -16,12 +16,7 @@ public abstract class IStageListener implements ActionListener {
     public abstract void actionPerformed(ActionEvent event);
 
     /**
-     * Activate current listener.
+     * Register timers.
      */
-    public abstract void activate();
-
-    /**
-     * Deactivate current listener.
-     */
-    public abstract void deactivate();
+    public abstract void registerTimers();
 }
