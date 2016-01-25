@@ -23,7 +23,7 @@ public class ListenerConfig implements Config {
     private static final Integer DEF_GRAVITY_APP_PER = 1000;
     private static final Integer DEF_GRAVITY_APP_DEL = 1000;
     private static final Integer DEF_DIGEST_DEL = 750;
-    private static final Integer DEF_HC_PERIOD = 3000;
+    private static final Integer DEF_HC_PERIOD = 4500;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();
 

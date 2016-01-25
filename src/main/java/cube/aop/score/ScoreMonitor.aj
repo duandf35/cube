@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
 import cube.configs.ListenerConfig;
 import cube.monitors.TimerMonitor;
+import cube.monitors.timers.TimerTaskBuilder;
 import cube.monitors.timers.TimerWrapper;
 import cube.services.IHitCountService;
 import cube.services.IScoreService;
@@ -11,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.reflect.MethodSignature;
 
-import java.util.Timer;
 import java.util.TimerTask;
 
 /**
@@ -37,6 +37,7 @@ public privileged aspect ScoreMonitor {
 
         if (TraceUtils.ScoreOperation.UPDATE == ops) {
             hitCountService.update();
+            hitCountService.canResetOff();
             scoreService.update(hitCountService.get());
         } else if (TraceUtils.ScoreOperation.SAVE == ops) {
             scoreService.save();
@@ -59,18 +60,21 @@ public privileged aspect ScoreMonitor {
     public void registerTimer() {
         ListenerConfig config = ListenerConfig.getInstance();
 
-        Timer hitCountTimer = new Timer();
-        TimerTask hitCountTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                hitCountService.reset();
-            }
-        };
+        TimerTaskBuilder taskBuilder = () ->
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (hitCountService.canReset()) {
+                            hitCountService.reset();
+                        }
+
+                        hitCountService.canResetOn();
+                    }
+                };
 
         TimerMonitor.getInstance()
                     .register(new TimerWrapper("Hit Count Reset Timer",
-                                               hitCountTimer,
-                                               hitCountTimerTask,
+                                               taskBuilder,
                                                config.getGravityApplyDelay(),
                                                config.getHitCountPeriod()));
     }

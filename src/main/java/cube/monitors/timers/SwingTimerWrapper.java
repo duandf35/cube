@@ -40,7 +40,7 @@ public class SwingTimerWrapper implements Activable {
 
     @Override
     public void deactivate() {
-        log.info("Deactivating timer: {}", timer);
+        log.info("Deactivating timer: {}", label);
 
         timer.stop();
     }

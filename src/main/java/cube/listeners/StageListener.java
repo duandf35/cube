@@ -12,6 +12,7 @@ import cube.models.Position;
 import cube.models.TetrisCommand;
 import cube.monitors.TimerMonitor;
 import cube.monitors.timers.SwingTimerWrapper;
+import cube.monitors.timers.TimerTaskBuilder;
 import cube.monitors.timers.TimerWrapper;
 import cube.services.factories.Factory;
 import cube.services.factories.TetrisFactory;
@@ -76,24 +77,23 @@ public class StageListener extends IStageListener {
     }
 
     private void registerGravityTimer() {
-        Timer gravityTimer = new Timer();
-        TimerTask gravityTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    if (null != tetrisStage.getTetris()) {
-                        applyGravity(tetrisStage.getTetris());
+        TimerTaskBuilder taskBuilder = () ->
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (null != tetrisStage.getTetris()) {
+                                applyGravity(tetrisStage.getTetris());
+                            }
+                        } catch (InterruptedException e) {
+                            LOG.error("Error happened during gravity performing.", e);
+                        }
                     }
-                } catch (InterruptedException e) {
-                    LOG.error("Error happened during gravity performing.", e);
-                }
-            }
-        };
+                };
 
         TimerMonitor.getInstance()
                     .register(new TimerWrapper("Stage Listener gravity timer",
-                                               gravityTimer,
-                                               gravityTimerTask,
+                                               taskBuilder,
                                                config.getGravityApplyDelay(),
                                                config.getGravityApplyPeriod()));
     }

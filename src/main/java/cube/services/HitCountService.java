@@ -1,12 +1,18 @@
 package cube.services;
 
 import cube.models.HitCount;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Wenyu
  * @since 1/19/16
  */
 public class HitCountService implements IHitCountService {
+
+    private static final Logger LOG = LogManager.getLogger(HitCountService.class);
+
+    private volatile boolean resetFlag = true;
 
     private HitCount hitCount;
 
@@ -38,6 +44,24 @@ public class HitCountService implements IHitCountService {
 
     @Override
     public void reset() {
+        LOG.debug("Reset hit count.");
         hitCount.setHitCount(0L);
+    }
+
+    @Override
+    public void canResetOn() {
+//        LOG.debug("Can reset turn on.");
+        resetFlag = true;
+    }
+
+    @Override
+    public void canResetOff() {
+//        LOG.debug("Can reset turn off.");
+        resetFlag = false;
+    }
+
+    @Override
+    public boolean canReset() {
+        return resetFlag;
     }
 }
