@@ -45,18 +45,17 @@ public class HitCountService implements IHitCountService {
     @Override
     public void reset() {
         LOG.debug("Reset hit count.");
+
         hitCount.setHitCount(0L);
     }
 
     @Override
     public void canResetOn() {
-//        LOG.debug("Can reset turn on.");
         resetFlag = true;
     }
 
     @Override
     public void canResetOff() {
-//        LOG.debug("Can reset turn off.");
         resetFlag = false;
     }
 

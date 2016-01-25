@@ -116,7 +116,7 @@ public class TetrisStage extends ContainerStage {
             finalScore = new FinalScoreDialog();
         }
 
-        finalScore.setScoreAndPlayer(scoreService.get().getValue(), scoreService.getPlayer());
+        finalScore.setScoreAndPlayer(scoreService.get().getValue(), hitCountService.getBest(), scoreService.getPlayer());
         finalScore.setVisible(true);
     }
 

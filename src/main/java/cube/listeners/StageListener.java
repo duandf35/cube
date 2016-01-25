@@ -22,7 +22,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.event.ActionEvent;
-import java.util.Timer;
 import java.util.TimerTask;
 
 /**
@@ -73,7 +72,7 @@ public class StageListener extends IStageListener {
         javax.swing.Timer mainTimer = new javax.swing.Timer(config.getMainTimerDelay(), this);
 
         TimerMonitor.getInstance()
-                    .register(new SwingTimerWrapper("Stage Listener main timer", mainTimer));
+                    .register(new SwingTimerWrapper("Stage Listener Main Timer", mainTimer));
     }
 
     private void registerGravityTimer() {
@@ -92,7 +91,7 @@ public class StageListener extends IStageListener {
                 };
 
         TimerMonitor.getInstance()
-                    .register(new TimerWrapper("Stage Listener gravity timer",
+                    .register(new TimerWrapper("Stage Listener Gravity Timer",
                                                taskBuilder,
                                                config.getGravityApplyDelay(),
                                                config.getGravityApplyPeriod()));

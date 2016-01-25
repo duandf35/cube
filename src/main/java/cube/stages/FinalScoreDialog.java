@@ -12,7 +12,7 @@ import java.awt.*;
 public class FinalScoreDialog extends JDialog {
     private final StageConfig config;
 
-    private JLabel scoreLabel, playerLabel;
+    private JLabel scoreLabel, bestHitCountLabel, playerLabel;
 
     public FinalScoreDialog() {
         config = StageConfig.getInstance();
@@ -29,8 +29,9 @@ public class FinalScoreDialog extends JDialog {
         setContent();
     }
 
-    public void setScoreAndPlayer(final Long score, final String player) {
+    public void setScoreAndPlayer(final Long score, final Long bestHitCount, final String player) {
         scoreLabel.setText("Score: " + score);
+        bestHitCountLabel.setText("Best Hit: " + bestHitCount);
         playerLabel.setText("Player: " + player);
     }
 
@@ -39,11 +40,16 @@ public class FinalScoreDialog extends JDialog {
         contentPanel.setLayout(new GridLayout(2, 1));
 
         JPanel infoPanel = new JPanel();
+
         scoreLabel = new JLabel();
         infoPanel.add(scoreLabel);
 
+        bestHitCountLabel = new JLabel();
+        infoPanel.add(bestHitCountLabel);
+
         playerLabel = new JLabel();
         infoPanel.add(playerLabel);
+
         contentPanel.add(infoPanel);
 
         JPanel buttonPanel = new JPanel();
