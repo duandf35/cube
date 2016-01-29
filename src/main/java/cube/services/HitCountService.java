@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
  * @since 1/19/16
  */
 public class HitCountService implements IHitCountService {
-
     private static final Logger LOG = LogManager.getLogger(HitCountService.class);
 
     private volatile boolean resetFlag = true;

@@ -20,8 +20,7 @@ import java.util.TimerTask;
  * @author wenyu
  * @since 12/19/15
  */
-public privileged aspect ScoreMonitor {
-
+privileged aspect ScoreMonitor {
     private static final Logger LOG = LogManager.getLogger(ScoreMonitor.class);
 
     private IScoreService scoreService;

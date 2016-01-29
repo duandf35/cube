@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Hold all timers.
+ * Monitor that holds all timer references for controlling.
  *
  * @author Wenyu
  * @since 1/23/16

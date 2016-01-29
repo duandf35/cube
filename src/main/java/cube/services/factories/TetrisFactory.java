@@ -38,7 +38,7 @@ public class TetrisFactory implements Factory<ITetris> {
 
     /**
      * The start point of tetris.
-     * start-point = cube.width * ( max # of cubes in row / 2 )
+     * start point = cube.width * ( max # of cubes in row / 2 )
      */
     private final Integer startPoint;
 

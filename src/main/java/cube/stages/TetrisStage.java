@@ -137,7 +137,7 @@ public class TetrisStage extends ContainerStage {
 
     private void updateHitCount() {
         hitCountDisplay.setText("Hit: " + hitCountService.get());
-        bestHitCountDisplay.setText("Best hit: " + hitCountService.getBest());
+        bestHitCountDisplay.setText("Best Hit: " + hitCountService.getBest());
     }
 
     private void initStage() {

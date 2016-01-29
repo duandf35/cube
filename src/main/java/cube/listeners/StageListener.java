@@ -120,6 +120,9 @@ public class StageListener extends IStageListener {
 
     /**
      * AOP JoinPoint for saving point action and show control panel.
+     *
+     * Note: AspectJ compiler will complain that two advices will be executed in an uncertain order,
+     * the precedence can be declared in Aspect e.g. "declare precedence : around1, before2, after3".
      */
     @ControlStatus(status = TraceUtils.Status.GAME_OVER)
     @ScoreOperationRequired(operation = TraceUtils.ScoreOperation.SAVE)

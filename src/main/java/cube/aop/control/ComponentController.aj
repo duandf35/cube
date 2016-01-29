@@ -11,7 +11,7 @@ import org.aspectj.lang.reflect.MethodSignature;
  * @author Wenyu
  * @since 1/2/16
  */
-public privileged aspect ComponentController {
+privileged aspect ComponentController {
 
     private static final Logger LOG = LogManager.getLogger(ComponentController.class);
 

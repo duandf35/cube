@@ -12,7 +12,7 @@ import org.aspectj.lang.reflect.MethodSignature;
  * @author wenyu
  * @since 11/9/15
  */
-public privileged aspect TraceMonitor {
+privileged aspect TraceMonitor {
     private static final Logger P_LOG = LogManager.getLogger(TraceUtils.POSITION_LOGGER);
     private static final Logger A_LOG = LogManager.getLogger(TraceUtils.ACTION_LOGGER);
 
