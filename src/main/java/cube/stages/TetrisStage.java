@@ -6,12 +6,16 @@ import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.monitors.IStageMonitor;
+import cube.monitors.TimerMonitor;
+import cube.monitors.timers.TimerTaskBuilder;
+import cube.monitors.timers.TimerWrapper;
 import cube.services.IHitCountService;
 import cube.services.IScoreService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
+import java.util.TimerTask;
 
 /**
  * @author wenyu
@@ -24,14 +28,20 @@ public class TetrisStage extends ContainerStage {
      * Current active tetris which will response keyboard action.
      */
     private ITetris tetris;
+
     private IStageMonitor stageMonitor;
-    private JLabel scoreDisplay, bestScoreDisplay, hitCountDisplay, bestHitCountDisplay;
-    private FinalScoreDialog finalScore;
+
     private KeyboardListener keyboardListener;
+
     private IScoreService scoreService;
+
     private IHitCountService hitCountService;
 
     private Integer xBoundary, yBoundary;
+
+    private FinalScoreDialog finalScore;
+
+    private JLabel scoreDisplay, bestScoreDisplay, hitCountDisplay, bestHitCountDisplay;
 
     public TetrisStage(KeyboardListener keyboardListener, IStageMonitor stageMonitor, IScoreService scoreService, IHitCountService hitCountService) {
         this.stageMonitor = stageMonitor;
@@ -60,7 +70,7 @@ public class TetrisStage extends ContainerStage {
         }
 
         stageMonitor.refresh(g);
-        updateScore();
+//        updateScore();
         updateHitCount();
     }
 
@@ -127,8 +137,25 @@ public class TetrisStage extends ContainerStage {
         }
     }
 
+    @Override
+    public void registerTimer() {
+        TimerTaskBuilder taskBuilder = () ->
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        updateScore();
+                    }
+                };
+
+        TimerMonitor.getInstance()
+                    .register(new TimerWrapper("Score Update Timer",
+                                                taskBuilder,
+                                                0,
+                                                config.getScoreUpdatePeriod()));
+    }
+
     private void updateScore() {
-        scoreDisplay.setText("Score: " + scoreService.get().getValue());
+        scoreDisplay.setText(scoreService.getMessage());
     }
 
     private void updateBestScore() {
@@ -167,6 +194,7 @@ public class TetrisStage extends ContainerStage {
     private void initScoreDisplay(final JPanel scoreAndPlayerDisplay) {
         scoreDisplay = new JLabel();
         scoreDisplay.setForeground(config.getScoreDisplayColor());
+        updateScore();
         scoreAndPlayerDisplay.add(scoreDisplay);
 
         bestScoreDisplay = new JLabel();

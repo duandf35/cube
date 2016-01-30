@@ -59,13 +59,16 @@ public final class ComponentInitializer implements Factory<ContainerStage> {
         ScoreMonitorHelper.inject(scoreService);
         ScoreMonitorHelper.inject(hitCountService);
 
-        return new TetrisStage(keyboardListener, IStageMonitor, scoreService, hitCountService);
+        ContainerStage containerStage = new TetrisStage(keyboardListener, IStageMonitor, scoreService, hitCountService);
+        containerStage.registerTimer();
+
+        return containerStage;
     }
 
     private void registerContainerListener(final ContainerStage container) {
         Preconditions.checkNotNull(container, "container must not be null.");
 
         IStageListener containerListener = new StageListener(container);
-        containerListener.registerTimers();
+        containerListener.registerTimer();
     }
 }

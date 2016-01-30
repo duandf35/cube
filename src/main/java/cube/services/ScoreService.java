@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cube.daos.IScoreDAO;
 import cube.daos.ScoreDAO;
 import cube.models.Score;
+import cube.monitors.mq.HitCountMessageQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,10 +45,13 @@ public class ScoreService implements IScoreService {
      */
     private IScoreDAO scoreDAO;
 
+    private HitCountMessageQueue messageQueue;
+
     public ScoreService() {
         scoreCache = 0;
         currentScore = new Score(scoreCache);
         scoreDAO = new ScoreDAO();
+        messageQueue = new HitCountMessageQueue();
     }
 
     @Override
@@ -57,15 +61,16 @@ public class ScoreService implements IScoreService {
     }
 
     @Override
-    public void update(Long hitCount) {
+    public void update(final Long hitCount) {
         Preconditions.checkNotNull(hitCount, "hitCount must not be null.");
 
         if (0L == hitCount) {
-            LOG.info("Updating score, current score = {} + {}", scoreCache, scoreUnit);
+            LOG.info("Updating score, current Score = {} + {}", scoreCache, scoreUnit);
 
             update();
         } else {
             LOG.info("Updating score, current score = {} + {} * {}", scoreCache, hitCount, scoreUnit);
+            putMessage(scoreCache + " + " + hitCount + " * " + scoreUnit);
 
             scoreCache += hitCount * scoreUnit;
             currentScore.setValue(scoreCache);
@@ -113,5 +118,15 @@ public class ScoreService implements IScoreService {
     @Override
     public List<Score> getByPlayer(final String player) {
         return ImmutableList.of();
+    }
+
+    @Override
+    public void putMessage(final String message) {
+        messageQueue.enqueue(message);
+    }
+
+    @Override
+    public String getMessage() {
+        return "Score: " + (messageQueue.hasNext() ? messageQueue.dequeue() : scoreCache);
     }
 }

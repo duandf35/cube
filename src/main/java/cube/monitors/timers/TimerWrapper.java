@@ -25,7 +25,7 @@ public class TimerWrapper implements Activable {
     public TimerWrapper(final String label, final TimerTaskBuilder taskBuilder, final Integer delay, final Integer period) {
         Preconditions.checkNotNull(taskBuilder, "taskBuilder must not be null.");
         Preconditions.checkArgument(delay >= 0, "delay must greater than 0 ms.");
-        Preconditions.checkArgument(period >= 1000, "period must no less than 1000 ms.");
+        Preconditions.checkArgument(period >= 750, "period must no less than 1000 ms.");
 
         if (null == label || "".equals(label)) {
             this.label = UUID.randomUUID().toString().replace("-", "");

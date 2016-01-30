@@ -3,6 +3,7 @@ package cube.stages;
 import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
+import cube.monitors.timers.TimerRegister;
 
 import javax.swing.*;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
  * @author wenyu
  * @since 10/27/15
  */
-public abstract class ContainerStage extends JPanel {
+public abstract class ContainerStage extends JPanel implements TimerRegister {
 
     /**
      * Get width of the stage.

@@ -13,4 +13,16 @@ public interface IScoreService extends RecordService<Score>, DBIOService<Score>,
      * @param hitCount the hit count
      */
     void update(Long hitCount);
+
+    /**
+     * Put score message into queue.
+     * @param message the message
+     */
+    void putMessage(String message);
+
+    /**
+     * Get score message from queue.
+     * @return the message
+     */
+    String getMessage();
 }

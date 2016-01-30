@@ -69,6 +69,11 @@ public class StageConfig implements Config {
      */
     private static final String MAX_RECORDS_LOAD = "MAX_RECORDS_LOAD";
 
+    /**
+     * Score update period.
+     */
+    private static final String SCORE_UPDATE_PERIOD = "SCORE_UPDATE_PERIOD";
+
     private static final Integer DEF_W  = 600;
     private static final Integer DEF_H  = 600;
     private static final Color   DEF_BG = new Color(7, 6, 8);
@@ -76,6 +81,7 @@ public class StageConfig implements Config {
     private static final Integer DEF_MAX_RECORDS = 7;
     private static final Integer DEF_FS_DIA_W = 300;
     private static final Integer DEF_FS_DIA_H = 100;
+    private static final Integer DEF_SCORE_UP_PERIOD = 750;
 
     private static final Map<String, Object> CONF_MAP = new HashMap<>();
 
@@ -102,6 +108,8 @@ public class StageConfig implements Config {
         CONF_MAP.put(MAX_RECORDS_LOAD, DEF_MAX_RECORDS);
         CONF_MAP.put(FINAL_SCORE_DIALOG_WIDTH, DEF_FS_DIA_W);
         CONF_MAP.put(FINAL_SCORE_DIALOG_HEIGHT, DEF_FS_DIA_H);
+
+        CONF_MAP.put(SCORE_UPDATE_PERIOD, DEF_SCORE_UP_PERIOD);
 
         return CONF;
     }
@@ -151,6 +159,10 @@ public class StageConfig implements Config {
         if (override.get(FINAL_SCORE_DIALOG_HEIGHT) instanceof Integer) {
             CONF_MAP.replace(FINAL_SCORE_DIALOG_HEIGHT, override.get(FINAL_SCORE_DIALOG_HEIGHT));
         }
+
+        if (override.get(SCORE_UPDATE_PERIOD) instanceof Integer) {
+            CONF_MAP.replace(SCORE_UPDATE_PERIOD, override.get(SCORE_UPDATE_PERIOD));
+        }
     }
 
     public Integer getWidth() {
@@ -195,5 +207,9 @@ public class StageConfig implements Config {
 
     public Integer getMaxRecordsLoad() {
         return (Integer) CONF_MAP.get(MAX_RECORDS_LOAD);
+    }
+
+    public Integer getScoreUpdatePeriod() {
+        return (Integer) CONF_MAP.get(SCORE_UPDATE_PERIOD);
     }
 }

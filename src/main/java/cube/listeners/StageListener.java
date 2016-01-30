@@ -63,7 +63,7 @@ public class StageListener extends IStageListener {
     }
 
     @Override
-    public void registerTimers() {
+    public void registerTimer() {
         registerMainTimer();
         registerGravityTimer();
     }

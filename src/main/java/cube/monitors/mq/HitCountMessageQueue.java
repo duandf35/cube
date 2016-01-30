@@ -15,14 +15,8 @@ public final class HitCountMessageQueue implements MessageQueue<String> {
 
     private static final Queue<String> Q = new LinkedList<>();
 
-    private static final HitCountMessageQueue MESSAGE_QUEUE = new HitCountMessageQueue();
+    public HitCountMessageQueue() {
 
-    private HitCountMessageQueue() {
-
-    }
-
-    public static HitCountMessageQueue getInstance() {
-        return MESSAGE_QUEUE;
     }
 
     @Override

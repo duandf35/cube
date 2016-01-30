@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
 import cube.configs.ListenerConfig;
 import cube.monitors.TimerMonitor;
+import cube.monitors.timers.TimerRegister;
 import cube.monitors.timers.TimerTaskBuilder;
 import cube.monitors.timers.TimerWrapper;
 import cube.services.IHitCountService;
@@ -20,7 +21,7 @@ import java.util.TimerTask;
  * @author wenyu
  * @since 12/19/15
  */
-privileged aspect ScoreMonitor {
+privileged aspect ScoreMonitor implements TimerRegister {
     private static final Logger LOG = LogManager.getLogger(ScoreMonitor.class);
 
     private IScoreService scoreService;
@@ -56,6 +57,7 @@ privileged aspect ScoreMonitor {
     /**
      * Register timer.
      */
+    @Override
     public void registerTimer() {
         ListenerConfig config = ListenerConfig.getInstance();
 
