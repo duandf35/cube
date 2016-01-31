@@ -59,6 +59,6 @@ public class App extends JFrame {
      * @param args the args
      */
     public static void main(String... args) {
-        EventQueue.invokeLater(() -> new App());
+        EventQueue.invokeLater(App::new);
     }
 }

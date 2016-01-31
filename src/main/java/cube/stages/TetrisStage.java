@@ -1,5 +1,6 @@
 package cube.stages;
 
+import cube.aop.trace.TracePerformance;
 import cube.configs.StageConfig;
 import cube.listeners.KeyboardListener;
 import cube.models.Command;
@@ -180,7 +181,7 @@ public class TetrisStage extends ContainerStage {
         initDisplay();
     }
 
-    // TODO: Extract out ?
+    @TracePerformance
     private void initDisplay() {
         JPanel scoreAndPlayerDisplay = new JPanel();
         scoreAndPlayerDisplay.setBackground(config.getBackgroundColor());
@@ -190,7 +191,7 @@ public class TetrisStage extends ContainerStage {
         initPlayerDisplay(scoreAndPlayerDisplay);
     }
 
-    // TODO: How put scores display on the top of Graphics. Note: JLayeredPanel doesn't work.
+    @TracePerformance
     private void initScoreDisplay(final JPanel scoreAndPlayerDisplay) {
         scoreDisplay = new JLabel();
         scoreDisplay.setForeground(config.getScoreDisplayColor());
@@ -211,6 +212,8 @@ public class TetrisStage extends ContainerStage {
         scoreAndPlayerDisplay.add(bestHitCountDisplay);
     }
 
+    // TODO: Why it is slow ?
+    @TracePerformance
     private void initPlayerDisplay(final JPanel scoreAndPlayerDisplay) {
         JTextField playerInput = new JTextField("player1");
         JLabel player = new JLabel("Player Name:");

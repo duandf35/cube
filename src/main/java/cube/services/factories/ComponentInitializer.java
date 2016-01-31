@@ -2,6 +2,7 @@ package cube.services.factories;
 
 import com.google.common.base.Preconditions;
 import cube.aop.score.ScoreMonitorHelper;
+import cube.aop.trace.TracePerformance;
 import cube.listeners.IStageListener;
 import cube.listeners.KeyboardListener;
 import cube.listeners.StageListener;
@@ -52,14 +53,15 @@ public final class ComponentInitializer implements Factory<ContainerStage> {
         return container;
     }
 
+    @TracePerformance
     private ContainerStage buildContainer() {
         KeyboardListener keyboardListener = new KeyboardListener();
-        IStageMonitor IStageMonitor = new StageMonitor();
+        IStageMonitor stageMonitor = new StageMonitor();
         IHitCountService hitCountService = new HitCountService();
         ScoreMonitorHelper.inject(scoreService);
         ScoreMonitorHelper.inject(hitCountService);
 
-        ContainerStage containerStage = new TetrisStage(keyboardListener, IStageMonitor, scoreService, hitCountService);
+        ContainerStage containerStage = new TetrisStage(keyboardListener, stageMonitor, scoreService, hitCountService);
         containerStage.registerTimer();
 
         return containerStage;

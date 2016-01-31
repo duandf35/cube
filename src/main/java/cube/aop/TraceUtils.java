@@ -5,9 +5,9 @@ package cube.aop;
  * @since 11/17/15
  */
 public abstract class TraceUtils {
-
     public static final String POSITION_LOGGER = "PositionLogger";
     public static final String ACTION_LOGGER = "ActionLogger";
+    public static final String PERFORMANCE_LOGGER = "PerformanceLogger";
 
     /**
      * Tetris actions.

@@ -42,6 +42,9 @@
         <Logger name="PositionLogger" level="debug" additivity="false">
             <AppenderRef ref="tp_rolling_file"/>
         </Logger>
+        <Logger name="PerformanceLogger" level="debug" additivity="false">
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
         <Logger name="cube" level="debug" additivity="false">
             <AppenderRef ref="STDOUT"/>
         </Logger>

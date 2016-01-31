@@ -33,6 +33,9 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-api:2.4.+'
     compile 'org.apache.logging.log4j:log4j-core:2.4.+'
 
+    // apache commons
+    compile 'org.apache.commons:commons-lang3:3.+'
+
     // junit
     testCompile 'junit:junit:4.11'
 
