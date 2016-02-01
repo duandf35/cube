@@ -60,6 +60,7 @@ public final class ComponentInitializer implements Factory<ContainerStage> {
         IHitCountService hitCountService = new HitCountService();
         ScoreMonitorHelper.inject(scoreService);
         ScoreMonitorHelper.inject(hitCountService);
+        ScoreMonitorHelper.registerTimer();
 
         ContainerStage containerStage = new TetrisStage(keyboardListener, stageMonitor, scoreService, hitCountService);
         containerStage.registerTimer();

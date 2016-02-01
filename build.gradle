@@ -43,6 +43,12 @@ dependencies {
     testCompile 'org.spockframework:spock-maven:0.7-groovy-2.0'
 }
 
+jar {
+    from('resources') {
+        include 'META-INF/services/*.*'
+    }
+}
+
 // Gradle Aspectj plugin
 // See also: https://github.com/eveoh/gradle-aspectj
 buildscript {

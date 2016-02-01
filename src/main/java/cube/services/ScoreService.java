@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 import cube.daos.IScoreDAO;
 import cube.daos.ScoreDAO;
 import cube.models.Score;
-import cube.monitors.mq.HitCountMessageQueue;
+import cube.monitors.mq.ScoreUpdateMessageQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,13 +45,13 @@ public class ScoreService implements IScoreService {
      */
     private IScoreDAO scoreDAO;
 
-    private HitCountMessageQueue messageQueue;
+    private ScoreUpdateMessageQueue messageQueue;
 
     public ScoreService() {
         scoreCache = 0;
         currentScore = new Score(scoreCache);
         scoreDAO = new ScoreDAO();
-        messageQueue = new HitCountMessageQueue();
+        messageQueue = new ScoreUpdateMessageQueue();
     }
 
     @Override

@@ -6,16 +6,16 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Message queue to contain hit count information.
+ * Message queue for containing score updating information.
  *
  * @author Wenyu
  * @since 1/28/16
  */
-public final class HitCountMessageQueue implements MessageQueue<String> {
+public final class ScoreUpdateMessageQueue implements MessageQueue<String> {
 
     private static final Queue<String> Q = new LinkedList<>();
 
-    public HitCountMessageQueue() {
+    public ScoreUpdateMessageQueue() {
 
     }
 

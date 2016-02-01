@@ -84,12 +84,18 @@ privileged aspect TraceMonitor {
         try {
             MethodSignature method = (MethodSignature) thisJoinPoint.getSignature();
             String methodName = thisJoinPoint.getTarget().toString().split("[@\\[]")[0] + "." + method.getName();
-            String args = String.join(",", method.getParameterNames());
+
+            Class[] args = method.getParameterTypes();
+            String[] argNames = method.getParameterNames();
+            String[] argDecs = new String[args.length];
+            for (int i = 0; i < args.length; i++) {
+                argDecs[i] = args[i].getSimpleName() + " " + argNames[i];
+            }
 
             stopWatch.start();
             retVal = proceed();
             stopWatch.stop();
-            PERF_LOGGER.debug("Time[" + stopWatch + "]" + " method: '" + methodName + "' invoking with args: [" + args + "].");
+            PERF_LOGGER.debug("Time[" + stopWatch + "], Method: " + methodName + "(" + String.join(", ", argDecs) + ").");
             stopWatch.reset();
         }  catch (Throwable t) {
             PERF_LOGGER.error("Error happen during method performance monitoring invoking.", t);

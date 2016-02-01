@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
 import cube.aop.control.ControlStatus;
 import cube.aop.score.ScoreOperationRequired;
+import cube.aop.trace.TracePerformance;
 import cube.configs.ListenerConfig;
 import cube.models.Command;
 import cube.models.ICube;
@@ -136,6 +137,7 @@ public class StageListener extends IStageListener {
      * @param tetris  the active tetris on the tetrisStage
      * @throws InterruptedException
      */
+    @TracePerformance
     private synchronized void applyAction(Command command, ITetris tetris) throws InterruptedException {
         if (isRotatable(command, tetris)) {
             tetris.rotate();
