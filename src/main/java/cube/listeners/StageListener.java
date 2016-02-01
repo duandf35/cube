@@ -137,7 +137,6 @@ public class StageListener extends IStageListener {
      * @param tetris  the active tetris on the tetrisStage
      * @throws InterruptedException
      */
-    @TracePerformance
     private synchronized void applyAction(Command command, ITetris tetris) throws InterruptedException {
         if (isRotatable(command, tetris)) {
             tetris.rotate();

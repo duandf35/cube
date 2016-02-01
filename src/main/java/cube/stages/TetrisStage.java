@@ -71,7 +71,6 @@ public class TetrisStage extends ContainerStage {
         }
 
         stageMonitor.refresh(g);
-//        updateScore();
         updateHitCount();
     }
 
@@ -212,7 +211,6 @@ public class TetrisStage extends ContainerStage {
         scoreAndPlayerDisplay.add(bestHitCountDisplay);
     }
 
-    // TODO: Why it is slow ?
     @TracePerformance
     private void initPlayerDisplay(final JPanel scoreAndPlayerDisplay) {
         JTextField playerInput = new JTextField("player1");
