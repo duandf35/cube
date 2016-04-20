@@ -113,7 +113,7 @@ public class StageMonitor implements IStageMonitor {
                                        .sorted((k1, k2) -> Integer.compare(k2, k1))
                                        .collect(Collectors.toList());
 
-        removedLines.stream().forEach(l -> removeLine(l));
+        removedLines.stream().forEach(this::removeLine);
 
         LOG.debug("Relocating lines, removed lines: {}, rest lines: {}.", removedLines, restLines);
 

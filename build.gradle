@@ -66,3 +66,17 @@ apply plugin: 'aspectj'
 compileAspect {
     xlint = 'warning'
 }
+
+// Create jar file with all the dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Version': version, 'Main-Class': mainClassName
+    }
+    baseName = project.name
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}

@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import cube.aop.TraceUtils;
 import cube.aop.control.ControlStatus;
 import cube.aop.score.ScoreOperationRequired;
-import cube.aop.trace.TracePerformance;
 import cube.configs.ListenerConfig;
 import cube.models.Command;
 import cube.models.ICube;
