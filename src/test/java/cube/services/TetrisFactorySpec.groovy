@@ -1,4 +1,4 @@
-package services
+package cube.services
 
 import cube.models.ITetris
 import cube.models.TetrisType
