@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" strict="true" name="XMLConfigTest">
+<Configuration status="warn" strict="true" name="XMLConfigTest">
     <Properties>
         <Property name="log_path">./tmp/logs</Property>
         <Property name="trace_action_file">cube_action</Property>
