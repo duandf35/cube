@@ -1,11 +1,12 @@
 package cube.monitors;
 
-import cube.monitors.timers.Activable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cube.monitors.timers.Activable;
 
 /**
  * Monitor that holds all timer references for controlling.
@@ -43,7 +44,7 @@ public final class TimerMonitor implements ITimerMonitor {
 
     @Override
     public void activateAll() {
-        timers.stream().forEach(Activable::activate);
+        timers.forEach(Activable::activate);
     }
 
     @Override
@@ -53,6 +54,6 @@ public final class TimerMonitor implements ITimerMonitor {
 
     @Override
     public void deactivateAll() {
-        timers.stream().forEach(Activable::deactivate);
+        timers.forEach(Activable::deactivate);
     }
 }
