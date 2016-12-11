@@ -2,12 +2,13 @@ package cube.services.factories;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+
+import java.util.List;
+
 import cube.configs.StageConfig;
 import cube.models.Score;
 import cube.services.IScoreService;
 import cube.stages.ScoreRecordStage;
-
-import java.util.List;
 
 /**
  * @author Wenyu

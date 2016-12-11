@@ -1,12 +1,13 @@
 package cube;
 
+import javax.swing.*;
+
+import java.awt.*;
+
 import cube.configs.ConfigLoader;
 import cube.configs.FrameConfig;
 import cube.exceptions.ConfigLoaderException;
 import cube.services.factories.ComponentInitializer;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * @author wenyu

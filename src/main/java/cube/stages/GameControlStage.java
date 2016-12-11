@@ -1,10 +1,10 @@
 package cube.stages;
 
+import javax.swing.*;
+
 import cube.aop.TraceUtils;
 import cube.aop.control.ControlStatus;
 import cube.configs.StageConfig;
-
-import javax.swing.*;
 
 /**
  * @author Wenyu

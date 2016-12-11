@@ -1,12 +1,13 @@
 package cube.stages;
 
+import javax.swing.*;
+
+import java.util.Map;
+
 import cube.models.Command;
 import cube.models.ICube;
 import cube.models.ITetris;
 import cube.monitors.timers.TimerRegister;
-
-import javax.swing.*;
-import java.util.Map;
 
 /**
  * @author wenyu

@@ -1,8 +1,8 @@
 package cube.models;
 
-import cube.configs.CubeConfig;
-
 import java.util.List;
+
+import cube.configs.CubeConfig;
 
 /**
  * Provide rotating mechanism.

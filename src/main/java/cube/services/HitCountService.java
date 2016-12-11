@@ -1,8 +1,9 @@
 package cube.services;
 
-import cube.models.HitCount;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import cube.models.HitCount;
 
 /**
  * @author Wenyu

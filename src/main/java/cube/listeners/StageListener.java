@@ -1,6 +1,13 @@
 package cube.listeners;
 
 import com.google.common.base.Preconditions;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.awt.event.ActionEvent;
+import java.util.TimerTask;
+
 import cube.aop.TraceUtils;
 import cube.aop.control.ControlStatus;
 import cube.aop.score.ScoreOperationRequired;
@@ -17,12 +24,6 @@ import cube.monitors.timers.TimerWrapper;
 import cube.services.factories.Factory;
 import cube.services.factories.TetrisFactory;
 import cube.stages.ContainerStage;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.awt.event.ActionEvent;
-import java.util.TimerTask;
 
 /**
  * @author wenyu

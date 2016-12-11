@@ -1,6 +1,13 @@
 package cube.aop.score;
 
 import com.google.common.base.Preconditions;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.aspectj.lang.reflect.MethodSignature;
+
+import java.util.TimerTask;
+
 import cube.aop.TraceUtils;
 import cube.configs.ListenerConfig;
 import cube.monitors.TimerMonitor;
@@ -9,11 +16,6 @@ import cube.monitors.timers.TimerTaskBuilder;
 import cube.monitors.timers.TimerWrapper;
 import cube.services.IHitCountService;
 import cube.services.IScoreService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.aspectj.lang.reflect.MethodSignature;
-
-import java.util.TimerTask;
 
 /**
  * Aspect to handle score update/save operations.

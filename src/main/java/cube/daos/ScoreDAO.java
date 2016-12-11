@@ -2,8 +2,7 @@ package cube.daos;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cube.models.Score;
-import cube.services.factories.HibernateSessionFactory;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -13,6 +12,9 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
 
 import java.util.List;
+
+import cube.models.Score;
+import cube.services.factories.HibernateSessionFactory;
 
 /**
  * @author wenyu

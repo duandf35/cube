@@ -1,9 +1,9 @@
 package cube.monitors;
 
-import cube.models.ICube;
-
 import java.awt.*;
 import java.util.Map;
+
+import cube.models.ICube;
 
 /**
  * @author wenyu

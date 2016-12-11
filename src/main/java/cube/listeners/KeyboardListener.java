@@ -1,11 +1,11 @@
 package cube.listeners;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import cube.configs.ListenerConfig;
 import cube.models.Command;
 import cube.models.TetrisCommand;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 /**
  * @author wenyu

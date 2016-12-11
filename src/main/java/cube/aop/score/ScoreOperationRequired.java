@@ -1,11 +1,11 @@
 package cube.aop.score;
 
-import cube.aop.TraceUtils;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import cube.aop.TraceUtils;
 
 /**
  * @author wenyu

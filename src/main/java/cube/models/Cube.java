@@ -1,11 +1,9 @@
 package cube.models;
 
-import cube.configs.CubeConfig;
-
 import java.awt.*;
-import java.awt.BasicStroke;
-import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
+
+import cube.configs.CubeConfig;
 
 /**
  * @author wenyu

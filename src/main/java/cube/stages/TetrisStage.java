@@ -1,5 +1,11 @@
 package cube.stages;
 
+import javax.swing.*;
+
+import java.awt.*;
+import java.util.Map;
+import java.util.TimerTask;
+
 import cube.aop.trace.TracePerformance;
 import cube.configs.StageConfig;
 import cube.listeners.KeyboardListener;
@@ -12,11 +18,6 @@ import cube.monitors.timers.TimerTaskBuilder;
 import cube.monitors.timers.TimerWrapper;
 import cube.services.IHitCountService;
 import cube.services.IScoreService;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Map;
-import java.util.TimerTask;
 
 /**
  * @author wenyu

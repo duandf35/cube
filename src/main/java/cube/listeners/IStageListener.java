@@ -1,9 +1,9 @@
 package cube.listeners;
 
-import cube.monitors.timers.TimerRegister;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import cube.monitors.timers.TimerRegister;
 
 /**
  * @author wenyu

@@ -1,9 +1,10 @@
 package cube.stages;
 
-import cube.configs.StageConfig;
-
 import javax.swing.*;
+
 import java.util.Date;
+
+import cube.configs.StageConfig;
 
 /**
  * A stage contains one score record.

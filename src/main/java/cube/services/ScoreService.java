@@ -2,15 +2,17 @@ package cube.services;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import cube.daos.IScoreDAO;
-import cube.daos.ScoreDAO;
-import cube.models.Score;
-import cube.monitors.mq.ScoreUpdateMessageQueue;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 import java.util.List;
+
+import cube.daos.IScoreDAO;
+import cube.daos.ScoreDAO;
+import cube.models.Score;
+import cube.monitors.mq.ScoreUpdateMessageQueue;
 
 /**
  * @author wenyu

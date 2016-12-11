@@ -1,8 +1,8 @@
 package cube.daos;
 
-import cube.models.Score;
-
 import java.util.List;
+
+import cube.models.Score;
 
 /**
  * @author wenyu

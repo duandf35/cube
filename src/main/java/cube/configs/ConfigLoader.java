@@ -1,9 +1,9 @@
 package cube.configs;
 
-import cube.exceptions.ConfigLoaderException;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import cube.exceptions.ConfigLoaderException;
 
 /**
  * @author wenyu

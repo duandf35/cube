@@ -1,18 +1,7 @@
 package cube.services.factories;
 
-import cube.aop.TraceUtils;
-import cube.configs.CubeConfig;
-import cube.configs.StageConfig;
-import cube.models.Cube;
-import cube.models.ICube;
-import cube.models.ITetris;
-import cube.models.Position;
-import cube.models.Rotator;
-import cube.models.TetrisRotator;
-import cube.models.Tetris;
-import cube.models.TetrisType;
-
 import com.google.common.collect.ImmutableList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import cube.aop.TraceUtils;
+import cube.configs.CubeConfig;
+import cube.configs.StageConfig;
+import cube.models.Cube;
+import cube.models.ICube;
+import cube.models.ITetris;
+import cube.models.Position;
+import cube.models.Rotator;
+import cube.models.Tetris;
+import cube.models.TetrisRotator;
+import cube.models.TetrisType;
 
 /**
  * @author wenyu

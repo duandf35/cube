@@ -1,9 +1,10 @@
 package cube.stages;
 
-import cube.configs.StageConfig;
-
 import javax.swing.*;
+
 import java.awt.*;
+
+import cube.configs.StageConfig;
 
 /**
  * @author Wenyu

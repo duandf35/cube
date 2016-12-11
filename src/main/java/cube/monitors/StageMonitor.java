@@ -1,21 +1,22 @@
 package cube.monitors;
 
-import cube.aop.score.ScoreOperationRequired;
-import cube.aop.trace.TraceAction;
-import cube.aop.TraceUtils;
-import cube.aop.trace.TracePerformance;
-import cube.configs.CubeConfig;
-import cube.configs.StageConfig;
-import cube.models.ICube;
-import cube.models.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import cube.aop.TraceUtils;
+import cube.aop.score.ScoreOperationRequired;
+import cube.aop.trace.TraceAction;
+import cube.configs.CubeConfig;
+import cube.configs.StageConfig;
+import cube.models.ICube;
+import cube.models.Position;
 
 /**
  * @author wenyu
