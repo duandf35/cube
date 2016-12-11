@@ -1,11 +1,12 @@
 package cube.services.factories;
 
 import com.google.common.base.Preconditions;
+
+import javax.swing.*;
+
 import cube.stages.ContainerStage;
 import cube.stages.ScoreRecordStage;
 import cube.stages.SubStage;
-
-import javax.swing.*;
 
 /**
  * Singleton class for managing components.
@@ -17,7 +18,7 @@ public class ComponentManager {
 
     private static final ComponentManager MANAGER = new ComponentManager();
 
-    private ContainerStage containerContainerStage;
+    private ContainerStage containerStage;
     private SubStage[] subStages;
 
     private ScoreRecordStageManager scoreRecordStageManager;
@@ -33,11 +34,11 @@ public class ComponentManager {
 
     /**
      * Register container stage.
-     * @param  containerContainerStage the container stage
+     * @param  containerStage the container stage
      * @return the manager itself for method chaining
      */
-    public ComponentManager register(final ContainerStage containerContainerStage) {
-        this.containerContainerStage = Preconditions.checkNotNull(containerContainerStage, "containerContainerStage must not be null.");
+    public ComponentManager register(final ContainerStage containerStage) {
+        this.containerStage = Preconditions.checkNotNull(containerStage, "containerStage must not be null.");
 
         return this;
     }
@@ -68,10 +69,10 @@ public class ComponentManager {
      * Add all sub stages to container stage.
      */
     public void addAllSubStages() {
-        Preconditions.checkNotNull(containerContainerStage, "containerContainerStage has not been registered.");
+        Preconditions.checkNotNull(containerStage, "containerStage has not been registered.");
 
         for (SubStage subStage : subStages) {
-            containerContainerStage.add(subStage);
+            containerStage.add(subStage);
         }
 
         validateEDT();
@@ -81,10 +82,10 @@ public class ComponentManager {
      * Remove all sub stages from container stage.
      */
     public void removeAllSubStages() {
-        Preconditions.checkNotNull(containerContainerStage, "containerContainerStage has not been registered.");
+        Preconditions.checkNotNull(containerStage, "containerStage has not been registered.");
 
         for (SubStage subStage : subStages) {
-            containerContainerStage.remove(subStage);
+            containerStage.remove(subStage);
         }
 
         validateEDT();
@@ -94,9 +95,12 @@ public class ComponentManager {
      * Add all score record stages to container stage.
      */
     public void addRecords() {
+        removeRecords();
+
         scoreRecordStages = scoreRecordStageManager.buildStages().getStages();
+
         for (ScoreRecordStage stage : scoreRecordStages) {
-            containerContainerStage.add(stage);
+            containerStage.add(stage);
         }
 
         validateEDT();
@@ -108,7 +112,7 @@ public class ComponentManager {
     public void removeRecords() {
         if (null != scoreRecordStages) {
             for (ScoreRecordStage stage: scoreRecordStages) {
-                containerContainerStage.remove(stage);
+                containerStage.remove(stage);
             }
 
             validateEDT();
@@ -119,28 +123,28 @@ public class ComponentManager {
      * Pops out final score dialog.
      */
     public void showFinalScore() {
-        containerContainerStage.showFinalScore();
+        containerStage.showFinalScore();
     }
 
     /**
      * Hide final score dialog.
      */
     public void hideFinalScore() {
-        containerContainerStage.hideFinalScore();
+        containerStage.hideFinalScore();
     }
 
     /**
      * Rest container stage.
      */
     public void reset() {
-        containerContainerStage.reset();
+        containerStage.reset();
     }
 
     /**
      * Notify Swing EDT to validate container changes.
      */
     private void validateEDT() {
-        SwingUtilities.getWindowAncestor(containerContainerStage).revalidate();
-        SwingUtilities.getWindowAncestor(containerContainerStage).repaint();
+        SwingUtilities.getWindowAncestor(containerStage).revalidate();
+        SwingUtilities.getWindowAncestor(containerStage).repaint();
     }
 }
