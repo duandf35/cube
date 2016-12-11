@@ -42,18 +42,14 @@ public class TetrisRotator implements Rotator {
     @Override
     public void rotate(Position p) {
         if (null != center) {
-            if (null != p) {
-                doRotate(p);
-            } else {
-                doRotate();
-            }
+            doRotate(p);
         } else {
             // Not rotatable
         }
     }
 
     private void doRotate() {
-        rim.stream().forEach(r -> doRotate(r.getPosition()));
+        rim.forEach(r -> doRotate(r.getPosition()));
     }
 
     /**

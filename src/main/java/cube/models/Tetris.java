@@ -85,7 +85,7 @@ public class Tetris implements ITetris {
     @Override
     @TracePosition(action = TraceUtils.Action.MOVING)
     public void moveX(Command command) {
-        cubes.stream().forEach(cube -> {
+        cubes.forEach(cube -> {
             cube.moveX(command.moveX());
         });
     }
@@ -93,7 +93,7 @@ public class Tetris implements ITetris {
     @Override
     @TracePosition(action = TraceUtils.Action.MOVING)
     public void moveY(Command command) {
-        cubes.stream().forEach(cube -> {
+        cubes.forEach(cube -> {
             cube.moveY(command.moveY());
         });
     }
@@ -124,12 +124,12 @@ public class Tetris implements ITetris {
 
     @Override
     public void paint(Graphics g) {
-        cubes.stream().forEach(c -> c.paint(g));
+        cubes.forEach(c -> c.paint(g));
     }
 
     @Override
     public void setColor(Color color) {
-        cubes.stream().forEach(c -> c.setColor(color));
+        cubes.forEach(c -> c.setColor(color));
     }
 
     @Override

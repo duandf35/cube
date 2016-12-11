@@ -10,6 +10,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
+import org.hibernate.criterion.Restrictions;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import java.util.List;
 
@@ -54,13 +59,10 @@ public final class ScoreDAO implements IScoreDAO {
         Session session = FACTORY.openSession();
 
         try {
-            session.beginTransaction();
+            List<Score> scores = session.createQuery("FROM Score s ORDER BY s.value DESC", Score.class)
+                                        .setMaxResults(MAX_RESULTS)
+                                        .list();
 
-            List<Score> scores = (List<Score>) session.createCriteria(Score.class)
-                                                      .addOrder(Property.forName("value").desc())
-                                                      .setMaxResults(MAX_RESULTS).list();
-
-            session.getTransaction().commit();
             session.close();
 
             return scores;
@@ -79,16 +81,9 @@ public final class ScoreDAO implements IScoreDAO {
         Session session = FACTORY.openSession();
 
         try {
-            session.beginTransaction();
-
-            DetachedCriteria maxValue = DetachedCriteria.forClass(Score.class)
-                                                        .setProjection(Projections.max("value"));
-
-            List<Score> bestScores = session.createCriteria(Score.class)
-                                            .add(Property.forName("value").eq(maxValue))
+            List<Score> bestScores = session.createQuery("FROM Score s WHERE s.value = (SELECT max(s.value) FROM Score s)", Score.class)
                                             .list();
 
-            session.getTransaction().commit();
             session.close();
 
             return bestScores.isEmpty() ? new Score(0L) : bestScores.get(0);
