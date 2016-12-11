@@ -5,7 +5,11 @@ apply plugin: 'application'
 mainClassName = 'cube.App'
 
 sourceCompatibility = 1.8
-version = '1.0'
+version = '1.0-' + genVersion()
+
+def static genVersion() {
+    return new Date().getTime()
+}
 
 repositories {
     mavenCentral()
