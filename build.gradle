@@ -67,6 +67,12 @@ dependencies {
     )
 }
 
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 // Gradle Aspectj plugin
 // See also: https://github.com/eveoh/gradle-aspectj
 buildscript {
