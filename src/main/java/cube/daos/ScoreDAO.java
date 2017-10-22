@@ -2,24 +2,14 @@ package cube.daos;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-
+import cube.models.Score;
+import cube.services.factories.HibernateSessionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 
 import java.util.List;
-
-import cube.models.Score;
-import cube.services.factories.HibernateSessionFactory;
 
 /**
  * @author wenyu
@@ -33,6 +23,7 @@ public final class ScoreDAO implements IScoreDAO {
 
     /**
      * Save score of current game to database.
+     *
      * @param score the score of current game
      */
     @Override
@@ -52,6 +43,7 @@ public final class ScoreDAO implements IScoreDAO {
 
     /**
      * Get records up to maximum records limitation sorted in descending order.
+     *
      * @return the sorted records
      */
     @Override
@@ -60,8 +52,8 @@ public final class ScoreDAO implements IScoreDAO {
 
         try {
             List<Score> scores = session.createQuery("FROM Score s ORDER BY s.value DESC", Score.class)
-                                        .setMaxResults(MAX_RESULTS)
-                                        .list();
+                    .setMaxResults(MAX_RESULTS)
+                    .list();
 
             session.close();
 
@@ -74,6 +66,7 @@ public final class ScoreDAO implements IScoreDAO {
 
     /**
      * The the highest score.
+     *
      * @return the highest score
      */
     @Override
@@ -82,7 +75,7 @@ public final class ScoreDAO implements IScoreDAO {
 
         try {
             List<Score> bestScores = session.createQuery("FROM Score s WHERE s.value = (SELECT max(s.value) FROM Score s)", Score.class)
-                                            .list();
+                    .list();
 
             session.close();
 
